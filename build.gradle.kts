@@ -22,7 +22,7 @@ subprojects {
 
     detekt {
         toolVersion = Plugins.Versions.detekt
-        config.setFrom(file("../detekt/detekt.yml"))
+        config.setFrom(file("../tools/detekt/detekt.yml"))
         buildUponDefaultConfig = true
 
         dependencies {

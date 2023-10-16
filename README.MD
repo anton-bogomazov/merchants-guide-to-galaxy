@@ -4,10 +4,10 @@
 [Check problem definition in PROBLEM.MD](PROBLEM.MD)
 
 ### How to run:
-Use scripts/run.sh to start the application.
+Use ./tools/scripts/run.sh to start the application.
 
 ### How to set up:
-Run ./scripts/install-hooks.sh
+Run ./tools/scripts/install-hooks.sh
 
 ## Technical description:
 - Test runner and assertions library: Kotest
