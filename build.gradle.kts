@@ -3,6 +3,7 @@ plugins {
     application
 
     id("io.gitlab.arturbosch.detekt") version("1.23.1")
+    jacoco
 }
 
 group = "com.abogomazov"
@@ -27,8 +28,11 @@ dependencies {
     testImplementation("io.kotest:kotest-assertions-core:5.7.2")
 }
 
-tasks.test {
-    useJUnitPlatform()
+tasks {
+    test {
+        useJUnitPlatform()
+        finalizedBy(jacocoTestReport)
+    }
 }
 
 kotlin {
