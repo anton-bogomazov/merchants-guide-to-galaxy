@@ -1,10 +1,22 @@
 plugins {
     kotlin("jvm") version "1.9.0"
     application
+
+    id("io.gitlab.arturbosch.detekt") version("1.23.1")
 }
 
 group = "com.abogomazov"
 version = "1.0-SNAPSHOT"
+
+detekt {
+    toolVersion = "1.23.1"
+    config.setFrom(file("detekt/detekt.yml"))
+    buildUponDefaultConfig = true
+
+    dependencies {
+        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+    }
+}
 
 repositories {
     mavenCentral()
