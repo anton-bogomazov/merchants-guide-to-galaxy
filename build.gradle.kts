@@ -24,5 +24,5 @@ kotlin {
 }
 
 application {
-    mainClass.set("MainKt")
+    mainClass.set("com.abogomazov.merchant.guide.MainKt")
 }
