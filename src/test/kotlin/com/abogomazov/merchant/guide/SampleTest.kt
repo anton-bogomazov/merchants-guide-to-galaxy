@@ -1,3 +1,5 @@
+package com.abogomazov.merchant.guide
+
 import io.kotest.core.spec.style.StringSpec
 import io.kotest.inspectors.forExactly
 import io.kotest.matchers.collections.shouldBeIn
