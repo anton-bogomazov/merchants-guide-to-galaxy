@@ -17,11 +17,9 @@ Run ./tools/scripts/install-hooks.sh
 - Code coverage analyzer: Jacoco
 
 ## How I did it:
-#### Before
-DX is one of the most important things to me, so I started with configuring reliable and friendly environment:
-   - Linter, static and coverage analyzer to have consistent codebase and some basic numbers from reports.
-   - Scripts and hooks will save me some time on remembering the right Gradle command.
-   - And finally safe test scope to encourage writing tests and make it as easy as possible.
+### Before
+[Setup and configuration](./tools/adr/ADR-001.md)
 
-I hate to be distracted on such things in the heat of the work.
-(I've done it 3 times now, maybe I need some kind of starter script)
+### Analysis
+Now it's time to understand the problem:
+[Analysis](./tools/adr/ADR-002.md)
