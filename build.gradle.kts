@@ -1,44 +1,53 @@
-plugins {
-    kotlin("jvm") version "1.9.0"
-    application
+import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-    id("io.gitlab.arturbosch.detekt") version("1.23.1")
-    jacoco
+plugins {
+    id("org.jetbrains.kotlin.jvm") version "1.9.0" apply false
+    id(Plugins.detekt) version(Plugins.Versions.detekt)
 }
 
 group = "com.abogomazov"
 version = "1.0-SNAPSHOT"
 
-detekt {
-    toolVersion = "1.23.1"
-    config.setFrom(file("detekt/detekt.yml"))
-    buildUponDefaultConfig = true
-
-    dependencies {
-        detektPlugins("io.gitlab.arturbosch.detekt:detekt-formatting:1.23.1")
+subprojects {
+    repositories {
+        mavenCentral()
     }
-}
 
-repositories {
-    mavenCentral()
-}
+    apply {
+        plugin("org.jetbrains.kotlin.jvm")
 
-dependencies {
-    testImplementation("io.kotest:kotest-runner-junit5:5.7.2")
-    testImplementation("io.kotest:kotest-assertions-core:5.7.2")
-}
-
-tasks {
-    test {
-        useJUnitPlatform()
-        finalizedBy(jacocoTestReport)
+        plugin(Plugins.detekt)
+        plugin("jacoco")
     }
-}
 
-kotlin {
-    jvmToolchain(8)
-}
+    detekt {
+        toolVersion = Plugins.Versions.detekt
+        config.setFrom(file("../detekt/detekt.yml"))
+        buildUponDefaultConfig = true
 
-application {
-    mainClass.set("com.abogomazov.merchant.guide.MainKt")
+        dependencies {
+            detektPlugins(Plugins.detekt_formatting)
+        }
+    }
+
+    tasks {
+        withType<KotlinCompile> {
+            val failOnWarning = project.properties["allWarningsAsErrors"] != null
+                    && project.properties["allWarningsAsErrors"] == "true"
+            kotlinOptions {
+                jvmTarget = JavaVersion.VERSION_17.toString()
+                allWarningsAsErrors = failOnWarning
+                freeCompilerArgs = listOf("-Xjvm-default=all")
+            }
+        }
+
+        withType<JavaCompile> {
+            options.compilerArgs.add("-Xlint:all")
+        }
+
+        withType<Test> {
+            useJUnitPlatform()
+            finalizedBy(named<JacocoReport>("jacocoTestReport"))
+        }
+    }
 }
