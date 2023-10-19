@@ -6,11 +6,14 @@ import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 
 class InMemoryMarket : MarketPriceProvider, MarketPricePersister {
+
+    private val prices = mutableMapOf<Resource, UnitPrice>()
+
     override fun getUnitPrice(resource: Resource): UnitPrice? {
-        TODO("Not yet implemented")
+        return prices[resource]
     }
 
     override fun setPrice(resource: Resource, price: UnitPrice) {
-        TODO("Not yet implemented")
+        prices[resource] = price
     }
 }

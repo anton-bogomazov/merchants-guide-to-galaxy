@@ -1,18 +1,23 @@
 package com.abogomazov.merchant.guide.application.inmemory
 
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
+import com.abogomazov.merchant.guide.domain.market.Resource
+import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 
 
 class InMemoryTranslationRegistry : TranslationProvider, TranslationPersister {
-    override fun getTranslation(digit: LocalDigit): RomanDigit {
-        TODO("Not yet implemented")
+
+    private val dictionary = mutableMapOf<LocalDigit, RomanDigit>()
+
+    override fun getTranslation(digit: LocalDigit): RomanDigit? {
+        return dictionary[digit]
     }
 
-    override fun associate(localNum: LocalDigit, romanNum: RomanDigit) {
-        TODO("Not yet implemented")
+    override fun associate(localDigit: LocalDigit, romanDigit: RomanDigit) {
+        dictionary[localDigit] = romanDigit
     }
 
 }
