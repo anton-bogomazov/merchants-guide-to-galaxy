@@ -1,9 +1,14 @@
 package com.abogomazov.merchant.guide.domain
 
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
+import com.abogomazov.merchant.guide.domain.market.Credits
+import com.abogomazov.merchant.guide.domain.market.UnitPrice
+import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
+import java.math.BigDecimal
+import java.math.BigInteger
 
 class PreconfiguredTranslationProvider(
     private val dictionary: Map<LocalDigit, RomanDigit>
@@ -53,3 +58,11 @@ fun five() = localDigit("five")
 fun ten() = localDigit("ten")
 fun fifty() = localDigit("fifty")
 fun one() = localDigit("one")
+
+
+fun amount(int: Int) = Amount(int)
+fun price(float: Float) = UnitPrice(float.toBigDecimal())
+fun credits(int: Int) = Credits(bigInt(int))
+
+fun bigInt(value: Int) = BigInteger.valueOf(value.toLong())
+fun bigDec(value: Double) = BigDecimal.valueOf(value)
