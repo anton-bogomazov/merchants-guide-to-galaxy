@@ -12,18 +12,18 @@ import com.abogomazov.merchant.guide.parser.ParserError
 class ApplicationShell(
     private val commandParserFactory: CommandParserFactory,
     private val commandExecutor: CommandExecutor,
-    private val reader: InputReader,
-    private val printer: Printer,
+    private val commandSource: CommandSource,
+    private val resultCollector: ResultCollector,
 ) {
     fun run() {
         do {
-            val userInput = reader.read()
+            val userInput = commandSource.read()
             val command = commandParserFactory.create(userInput).parse()
                 .fold({ UnknownCommand }, { it })
 
             when (command) {
                 is ExitCommand -> break
-                is BusinessCommand -> printer.print(commandExecutor.execute(command))
+                is BusinessCommand -> resultCollector.push(commandExecutor.execute(command))
             }
         } while (true)
     }
@@ -37,10 +37,10 @@ fun interface CommandParser {
     fun parse(): Either<ParserError, Command>
 }
 
-fun interface InputReader {
+fun interface CommandSource {
     fun read(): String
 }
 
-fun interface Printer {
-    fun print(data: String)
+fun interface ResultCollector {
+    fun push(data: String)
 }

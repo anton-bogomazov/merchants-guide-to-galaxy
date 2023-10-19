@@ -1,12 +1,12 @@
 package com.abogomazov.merchant.guide.application
 
-class ConsoleIO : InputReader, Printer {
+class ConsoleIO : CommandSource, ResultCollector {
     override fun read(): String {
         kotlin.io.print("> ")
         return readln()
     }
 
-    override fun print(data: String) {
+    override fun push(data: String) {
         println(data)
     }
 }

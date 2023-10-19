@@ -1,16 +1,16 @@
 package com.abogomazov.merchant.guide.integration
 
 import com.abogomazov.merchant.guide.application.Application
-import com.abogomazov.merchant.guide.application.InputReader
+import com.abogomazov.merchant.guide.application.CommandSource
 import com.abogomazov.merchant.guide.application.ParserFactory
-import com.abogomazov.merchant.guide.application.Printer
+import com.abogomazov.merchant.guide.application.ResultCollector
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryTranslationRegistry
 import io.kotest.matchers.shouldBe
 
 object ApplicationDriver {
 
-    fun run(commandProvider: UserInputStream, asserter: Printer) {
+    fun run(commandProvider: UserInputStream, asserter: ResultCollector) {
         val dictionary = InMemoryTranslationRegistry()
         val market = InMemoryMarket()
         val parserFactory = ParserFactory()
@@ -20,8 +20,8 @@ object ApplicationDriver {
             translationProvider = dictionary,
             marketPricePersister = market,
             marketPriceProvider = market,
-            printer = asserter,
-            inputReader = commandProvider,
+            resultCollector = asserter,
+            commandSource = commandProvider,
             parserFactory = parserFactory
         ).build().run()
     }
@@ -37,7 +37,7 @@ fun runTest(inputs: List<String>, expectedOutputs: List<String>) {
 
 class UserInputStream(
     commands: List<String>
-) : InputReader {
+) : CommandSource {
 
     private val inputs = commands.toMutableList()
 
@@ -49,11 +49,11 @@ class UserInputStream(
 
 class Asserter(
     outputs: List<String>
-) : Printer {
+) : ResultCollector {
 
     private val outputs = outputs.toMutableList()
 
-    override fun print(data: String) {
+    override fun push(data: String) {
         data shouldBe outputs.removeFirstOrNull()
     }
 }

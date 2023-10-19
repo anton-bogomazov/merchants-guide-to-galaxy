@@ -18,16 +18,16 @@ class Application(
     private val translationPersister: TranslationPersister,
     private val marketPriceProvider: MarketPriceProvider,
     private val marketPricePersister: MarketPricePersister,
-    private val inputReader: InputReader,
-    private val printer: Printer,
+    private val commandSource: CommandSource,
+    private val resultCollector: ResultCollector,
     private val parserFactory: ParserFactory,
 ) {
     fun build(): ApplicationShell {
         val evaluator = LocalNumberEvaluator(translationProvider)
 
         return ApplicationShell(
-            reader = inputReader,
-            printer = printer,
+            commandSource = commandSource,
+            resultCollector = resultCollector,
             commandParserFactory = parserFactory,
             commandExecutor = CommandExecutor(
                 getTranslation = GetTranslationUseCase(evaluator),
@@ -50,8 +50,8 @@ fun main() {
         translationProvider = dictionary,
         marketPricePersister = market,
         marketPriceProvider = market,
-        printer = io,
-        inputReader = io,
+        resultCollector = io,
+        commandSource = io,
         parserFactory = parserFactory
     ).build().run()
 }
