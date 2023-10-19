@@ -1,7 +1,10 @@
 package com.abogomazov.merchant.guide.application
 
+import arrow.core.Either
 import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.commands.Command
+import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
+import com.abogomazov.merchant.guide.parser.ParserError
 
 
 class ApplicationShell(
@@ -14,6 +17,7 @@ class ApplicationShell(
         do {
             val userInput = reader.read()
             val command = commandParserFactory.create(userInput).parse()
+                .fold({ UnknownCommand }, { it })
             val response = commandExecutor.execute(command)
             printer.print(response)
         } while (true)
@@ -25,7 +29,7 @@ fun interface CommandParserFactory {
 }
 
 fun interface CommandParser {
-    fun parse(): Command
+    fun parse(): Either<ParserError, Command>
 }
 
 fun interface InputReader {
