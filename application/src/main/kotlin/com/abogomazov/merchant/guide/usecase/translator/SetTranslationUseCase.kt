@@ -5,6 +5,7 @@ import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
+import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 
 sealed interface SetTranslationUseCaseError {
     data object LocalDigitAlreadyAssociatedWithRoman : SetTranslationUseCaseError

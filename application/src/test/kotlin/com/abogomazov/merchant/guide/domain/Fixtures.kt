@@ -3,7 +3,7 @@ package com.abogomazov.merchant.guide.domain
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
-import com.abogomazov.merchant.guide.usecase.translator.TranslationProvider
+import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 
 class PreconfiguredTranslationProvider(
     private val dictionary: Map<LocalDigit, RomanDigit>
