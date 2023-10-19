@@ -1,5 +1,8 @@
 package com.abogomazov.merchant.guide.domain
 
+import arrow.core.left
+import arrow.core.raise.either
+import arrow.core.right
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
@@ -10,7 +13,11 @@ import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCaseError
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCaseError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseError
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -93,3 +100,24 @@ fun credits(int: Int) = Credits(bigInt(int))
 
 fun bigInt(value: Int) = BigInteger.valueOf(value.toLong())
 fun bigDec(value: Double) = BigDecimal.valueOf(value)
+
+
+fun getResourceResult(credits: Credits) =
+    either<GetResourceMarketPriceUseCaseError, Credits> { return credits.right() }
+fun getResourceError(error: GetResourceMarketPriceUseCaseError) =
+    either<GetResourceMarketPriceUseCaseError, Credits> { return error.left() }
+
+fun getTranslationResult(amount: Amount) =
+    either<GetTranslationUseCaseError, Amount> { return amount.right() }
+fun getTranslationError(error: GetTranslationUseCaseError) =
+    either<GetTranslationUseCaseError, Amount> { return error.left() }
+
+fun setResourceResult() =
+    either<SetResourceMarketPriceUseCaseError, Unit> { return Unit.right() }
+fun setResourceError(error: SetResourceMarketPriceUseCaseError) =
+    either<SetResourceMarketPriceUseCaseError, Unit> { return error.left() }
+
+fun setTranslationResult() =
+    either<SetTranslationUseCaseError, Unit> { return Unit.right() }
+fun setTranslationError(error: SetTranslationUseCaseError) =
+    either<SetTranslationUseCaseError, Unit> { return error.left() }
