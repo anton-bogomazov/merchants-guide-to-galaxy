@@ -6,7 +6,7 @@ import com.abogomazov.merchant.guide.parser.translator.GetTranslationCommandPars
 import com.abogomazov.merchant.guide.parser.translator.SetTranslationCommandParser
 import com.abogomazov.merchant.guide.parser.UnknownCommandExtractor
 
-class ExtractorFactory : CommandParserFactory {
+class ParserFactory : CommandParserFactory {
     override fun create(command: String): CommandParser {
         return when {
             SetResourceMarketPriceCommandParser.match(command) -> {
