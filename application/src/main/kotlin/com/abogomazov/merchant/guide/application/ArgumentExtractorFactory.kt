@@ -1,11 +1,11 @@
 package com.abogomazov.merchant.guide.application
 
-import com.abogomazov.merchant.guide.parser.ExitCommandExtractor
-import com.abogomazov.merchant.guide.parser.market.GetResourceMarketPriceCommandParser
-import com.abogomazov.merchant.guide.parser.market.SetResourceMarketPriceCommandParser
-import com.abogomazov.merchant.guide.parser.translator.GetTranslationCommandParser
-import com.abogomazov.merchant.guide.parser.translator.SetTranslationCommandParser
-import com.abogomazov.merchant.guide.parser.UnknownCommandParser
+import com.abogomazov.merchant.guide.cli.parser.ExitCommandExtractor
+import com.abogomazov.merchant.guide.cli.parser.market.GetResourceMarketPriceCommandParser
+import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCommandParser
+import com.abogomazov.merchant.guide.cli.parser.translator.GetTranslationCommandParser
+import com.abogomazov.merchant.guide.cli.parser.translator.SetTranslationCommandParser
+import com.abogomazov.merchant.guide.cli.parser.UnknownCommandParser
 
 class ParserFactory : CommandParserFactory {
     override fun create(command: String): CommandParser {

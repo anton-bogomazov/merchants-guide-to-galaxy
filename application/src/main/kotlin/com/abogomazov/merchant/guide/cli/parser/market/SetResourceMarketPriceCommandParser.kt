@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.parser.market
+package com.abogomazov.merchant.guide.cli.parser.market
 
 import arrow.core.Either
 import arrow.core.left
@@ -8,11 +8,11 @@ import com.abogomazov.merchant.guide.application.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.domain.market.Credits
-import com.abogomazov.merchant.guide.parser.CommandArguments
-import com.abogomazov.merchant.guide.parser.CommandRegexBuilder
-import com.abogomazov.merchant.guide.parser.ParserError
-import com.abogomazov.merchant.guide.parser.toLocalNumber
-import com.abogomazov.merchant.guide.parser.toResource
+import com.abogomazov.merchant.guide.cli.parser.CommandArguments
+import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
+import com.abogomazov.merchant.guide.cli.parser.ParserError
+import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
+import com.abogomazov.merchant.guide.cli.parser.toResource
 import java.math.BigInteger
 
 class SetResourceMarketPriceCommandParser(

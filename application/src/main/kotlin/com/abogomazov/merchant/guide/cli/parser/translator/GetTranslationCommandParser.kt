@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.parser.translator
+package com.abogomazov.merchant.guide.cli.parser.translator
 
 import arrow.core.Either
 import arrow.core.left
@@ -7,10 +7,10 @@ import arrow.core.right
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
 import com.abogomazov.merchant.guide.application.CommandParser
-import com.abogomazov.merchant.guide.parser.CommandArguments
-import com.abogomazov.merchant.guide.parser.CommandRegexBuilder
-import com.abogomazov.merchant.guide.parser.ParserError
-import com.abogomazov.merchant.guide.parser.toLocalNumber
+import com.abogomazov.merchant.guide.cli.parser.CommandArguments
+import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
+import com.abogomazov.merchant.guide.cli.parser.ParserError
+import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
 
 class GetTranslationCommandParser(
     private val command: String

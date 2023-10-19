@@ -54,6 +54,8 @@ class ApplicationIntegrationTest : FreeSpec({
         runTest(commands.unzip().first, commands.unzip().second)
     }
 
+    // TODO add test case with complex parsing
+
     "monkey test" {
         val commands = mutableListOf<String>()
         forAll<String> { commands.add(it) }

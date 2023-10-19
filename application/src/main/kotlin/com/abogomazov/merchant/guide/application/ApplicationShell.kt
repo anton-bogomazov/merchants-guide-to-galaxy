@@ -6,7 +6,7 @@ import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
-import com.abogomazov.merchant.guide.parser.ParserError
+import com.abogomazov.merchant.guide.cli.parser.ParserError
 
 
 class ApplicationShell(
