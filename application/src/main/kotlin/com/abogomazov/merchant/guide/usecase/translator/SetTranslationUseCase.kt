@@ -14,19 +14,31 @@ sealed interface SetTranslationUseCaseError {
 class SetTranslationUseCase(
     private val translationProvider: TranslationProvider,
     private val translationPersister: TranslationPersister,
+    private val translationRemover: TranslationRemover,
 ) {
     fun execute(localDigit: LocalDigit, romanDigit: RomanDigit) = either<SetTranslationUseCaseError, Unit> {
-        translationProvider.getTranslation(localDigit)?.let { persistedDigit ->
-            return if (romanDigit != persistedDigit) {
-                SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman.left()
-            } else {
-                // do not overwrite record with the same values
-                Unit.right()
-            }
-        } ?: translationPersister.associate(localDigit, romanDigit)
+        val associatedRomanDigit = translationProvider.getTranslation(localDigit)
+        if (associatedRomanDigit != null) {
+            // ignore trying to overwrite with the same value
+            if (associatedRomanDigit == romanDigit) return Unit.right()
+            // impossible to associate with non-unique LocalDigit
+            return SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman.left()
+        }
+
+        val associatedLocalDigit = translationProvider.getTranslation(romanDigit)
+        if (associatedLocalDigit != null) {
+            // remove old association
+            translationRemover.remove(associatedLocalDigit, romanDigit)
+        }
+
+        translationPersister.associate(localDigit, romanDigit)
     }
 }
 
 fun interface TranslationPersister {
     fun associate(localDigit: LocalDigit, romanDigit: RomanDigit)
+}
+
+fun interface TranslationRemover {
+    fun remove(localDigit: LocalDigit, romanDigit: RomanDigit)
 }

@@ -12,10 +12,12 @@ import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
+import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
 class Application(
     private val translationProvider: TranslationProvider,
     private val translationPersister: TranslationPersister,
+    private val translationRemover: TranslationRemover,
     private val marketPriceProvider: MarketPriceProvider,
     private val marketPricePersister: MarketPricePersister,
     private val commandSource: CommandSource,
@@ -31,7 +33,7 @@ class Application(
             commandParserFactory = parserFactory,
             commandExecutor = CommandExecutor(
                 getTranslation = GetTranslationUseCase(evaluator),
-                setTranslation = SetTranslationUseCase(translationProvider, translationPersister),
+                setTranslation = SetTranslationUseCase(translationProvider, translationPersister, translationRemover),
                 getPrice = GetResourceMarketPriceUseCase(evaluator, marketPriceProvider),
                 setPrice = SetResourceMarketPriceUseCase(evaluator, marketPricePersister)
             )
@@ -48,6 +50,7 @@ fun main() {
     Application(
         translationPersister = dictionary,
         translationProvider = dictionary,
+        translationRemover = dictionary,
         marketPricePersister = market,
         marketPriceProvider = market,
         resultCollector = io,

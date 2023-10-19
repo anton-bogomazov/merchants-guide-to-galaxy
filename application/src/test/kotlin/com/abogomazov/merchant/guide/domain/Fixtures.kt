@@ -18,6 +18,7 @@ import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCaseError
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseError
+import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -27,11 +28,14 @@ class PreconfiguredTranslationProvider(
     override fun getTranslation(digit: LocalDigit): RomanDigit? {
         return dictionary[digit]
     }
+    override fun getTranslation(digit: RomanDigit): LocalDigit? {
+        return dictionary.entries.singleOrNull { it.value == digit }?.key
+    }
 }
 
 class InMemoryTranslationStorage(
     translations: List<Pair<LocalDigit, RomanDigit>>
-) : TranslationPersister, TranslationProvider {
+) : TranslationPersister, TranslationProvider, TranslationRemover {
 
     private val dictionary = mutableMapOf<LocalDigit, RomanDigit>()
 
@@ -43,6 +47,14 @@ class InMemoryTranslationStorage(
 
     override fun getTranslation(digit: LocalDigit): RomanDigit? {
         return dictionary[digit]
+    }
+
+    override fun getTranslation(digit: RomanDigit): LocalDigit? {
+        return dictionary.entries.singleOrNull { it.value == digit }?.key
+    }
+
+    override fun remove(localDigit: LocalDigit, romanDigit: RomanDigit) {
+        dictionary.remove(localDigit)
     }
 
 }

@@ -18,6 +18,7 @@ object ApplicationDriver {
         Application(
             translationPersister = dictionary,
             translationProvider = dictionary,
+            translationRemover = dictionary,
             marketPricePersister = market,
             marketPriceProvider = market,
             resultCollector = asserter,

@@ -11,7 +11,8 @@ import io.kotest.core.spec.style.FreeSpec
 class SetTranslationUseCaseTest : FreeSpec({
 
     "uses provided dictionary to translate to amount" {
-        val sut = SetTranslationUseCase(englishDictionary(), inMemoryTranslationStorage())
+        val dictionary = inMemoryTranslationStorage()
+        val sut = SetTranslationUseCase(englishDictionary(), dictionary, dictionary)
 
         sut.execute(one(), RomanDigit.I)
             .shouldBeRight()
@@ -19,7 +20,7 @@ class SetTranslationUseCaseTest : FreeSpec({
 
     "local duplicated numerals are not allowed" {
         val dictionary = inMemoryTranslationStorage(one() to RomanDigit.V)
-        val sut = SetTranslationUseCase(dictionary, dictionary)
+        val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
         sut.execute(one(), RomanDigit.I)
             .shouldBeLeft(SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman)
@@ -27,7 +28,7 @@ class SetTranslationUseCaseTest : FreeSpec({
 
     "it safe to try to overwrite association with the same value" {
         val dictionary = inMemoryTranslationStorage(one() to RomanDigit.I)
-        val sut = SetTranslationUseCase(dictionary, dictionary)
+        val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
         sut.execute(one(), RomanDigit.I)
             .shouldBeRight()
