@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.application
 
+import com.abogomazov.merchant.guide.parser.ExitCommandExtractor
 import com.abogomazov.merchant.guide.parser.market.GetResourceMarketPriceCommandParser
 import com.abogomazov.merchant.guide.parser.market.SetResourceMarketPriceCommandParser
 import com.abogomazov.merchant.guide.parser.translator.GetTranslationCommandParser
@@ -20,6 +21,9 @@ class ParserFactory : CommandParserFactory {
             }
             SetTranslationCommandParser.match(command) -> {
                 SetTranslationCommandParser(command)
+            }
+            ExitCommandExtractor.match(command) -> {
+                ExitCommandExtractor(command)
             }
             else -> UnknownCommandParser
         }
