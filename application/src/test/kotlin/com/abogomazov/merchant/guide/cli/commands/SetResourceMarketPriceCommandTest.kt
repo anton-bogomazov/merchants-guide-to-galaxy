@@ -20,7 +20,7 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
         every { usecase.execute(localFour(), dirt(), credits(43)) } returns setResourceResult()
         val sut = SetResourceMarketPriceCommand(localFour(), dirt(), credits(43))
 
-        sut.execute(usecase) shouldBe ""
+        sut.execute(usecase) shouldBe "Set"
     }
 
     "executed with error usecase leads to error response" {

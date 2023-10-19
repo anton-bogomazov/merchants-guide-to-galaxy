@@ -19,4 +19,4 @@ fun String.toResource(): Either<ParserError.InvalidArguments, Resource> =
         .mapLeft { ParserError.InvalidArguments }
 
 
-fun String.sanitized() = this.replace("\\s+".toRegex(), " ").trim()
+private fun String.sanitized() = this.replace("\\s+".toRegex(), " ").trim()

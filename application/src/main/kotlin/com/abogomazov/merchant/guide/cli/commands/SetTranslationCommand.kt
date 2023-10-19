@@ -14,7 +14,7 @@ data class SetTranslationCommand(
         usecase.execute(localDigit, romanDigit)
             .fold({ it.toError() }, { response() })
 
-    private fun response() = ""
+    private fun response() = "Set"
 
 }
 

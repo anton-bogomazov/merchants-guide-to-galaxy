@@ -16,7 +16,7 @@ data class SetResourceMarketPriceCommand(
         usecase.execute(resourceAmount, resource, total)
             .fold({ it.toError() }, { response() })
 
-    private fun response() = ""
+    private fun response() = "Set"
 
 }
 

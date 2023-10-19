@@ -19,7 +19,7 @@ class SetTranslationCommandTest : FreeSpec({
         every { usecase.execute(five(), RomanDigit.V) } returns setTranslationResult()
         val sut = SetTranslationCommand(five(), RomanDigit.V)
 
-        sut.execute(usecase) shouldBe ""
+        sut.execute(usecase) shouldBe "Set"
     }
 
     "executed with error usecase leads to error response" {
