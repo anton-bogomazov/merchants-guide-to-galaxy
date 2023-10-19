@@ -7,7 +7,7 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCaseErr
 
 data class GetTranslationCommand(
     private val localNum: LocalNumber,
-) : Command {
+) : BusinessCommand {
 
     fun execute(usecase: GetTranslationUseCase) =
         usecase.execute(localNum)

@@ -10,7 +10,7 @@ data class SetResourceMarketPriceCommand(
     private val resourceAmount: LocalNumber,
     private val resource: Resource,
     private val total: Credits,
-) : Command {
+) : BusinessCommand {
 
     fun execute(usecase: SetResourceMarketPriceUseCase) =
         usecase.execute(resourceAmount, resource, total)

@@ -1,6 +1,6 @@
 package com.abogomazov.merchant.guide.cli
 
-import com.abogomazov.merchant.guide.cli.commands.Command
+import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
@@ -18,13 +18,13 @@ class CommandExecutor(
     private val getPrice: GetResourceMarketPriceUseCase,
 ) {
 
-    fun execute(command: Command): String =
-        when (command) {
-            is GetTranslationCommand -> command.execute(getTranslation)
-            is SetTranslationCommand -> command.execute(setTranslation)
-            is GetResourceMarketPriceCommand -> command.execute(getPrice)
-            is SetResourceMarketPriceCommand -> command.execute(setPrice)
-            is UnknownCommand -> command.ERROR_MESSAGE
+    fun execute(businessCommand: BusinessCommand): String =
+        when (businessCommand) {
+            is GetTranslationCommand -> businessCommand.execute(getTranslation)
+            is SetTranslationCommand -> businessCommand.execute(setTranslation)
+            is GetResourceMarketPriceCommand -> businessCommand.execute(getPrice)
+            is SetResourceMarketPriceCommand -> businessCommand.execute(setPrice)
+            is UnknownCommand -> businessCommand.ERROR_MESSAGE
         }
 
 }

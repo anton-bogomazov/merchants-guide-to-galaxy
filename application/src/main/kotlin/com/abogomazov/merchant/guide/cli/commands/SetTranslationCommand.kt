@@ -8,7 +8,7 @@ import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseErr
 data class SetTranslationCommand(
     private val localDigit: LocalDigit,
     private val romanDigit: RomanDigit,
-) : Command {
+) : BusinessCommand {
 
     fun execute(usecase: SetTranslationUseCase) =
         usecase.execute(localDigit, romanDigit)

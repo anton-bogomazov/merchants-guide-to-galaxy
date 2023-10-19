@@ -2,7 +2,7 @@ package com.abogomazov.merchant.guide.application
 
 import arrow.core.Either
 import com.abogomazov.merchant.guide.cli.CommandExecutor
-import com.abogomazov.merchant.guide.cli.commands.Command
+import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
 import com.abogomazov.merchant.guide.parser.ParserError
 
@@ -29,7 +29,7 @@ fun interface CommandParserFactory {
 }
 
 fun interface CommandParser {
-    fun parse(): Either<ParserError, Command>
+    fun parse(): Either<ParserError, BusinessCommand>
 }
 
 fun interface InputReader {

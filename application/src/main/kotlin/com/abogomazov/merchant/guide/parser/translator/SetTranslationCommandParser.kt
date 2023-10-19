@@ -5,7 +5,7 @@ import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.application.CommandParser
-import com.abogomazov.merchant.guide.cli.commands.Command
+import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
 import com.abogomazov.merchant.guide.parser.CommandArguments
 import com.abogomazov.merchant.guide.parser.CommandRegexBuilder
@@ -24,7 +24,7 @@ class SetTranslationCommandParser(
         fun match(command: String) = command.matches(COMMAND_REGEX)
     }
 
-    override fun parse(): Either<ParserError, Command> =
+    override fun parse(): Either<ParserError, BusinessCommand> =
         extractArguments().map { (localNum, romanNum) ->
             return SetTranslationArguments(localNum, romanNum).toCommand()
         }
@@ -42,7 +42,7 @@ data class SetTranslationArguments(
     private val localDigit: String,
     private val romanDigit: String,
 ): CommandArguments {
-    override fun toCommand() = either<ParserError.InvalidArguments, Command> {
+    override fun toCommand() = either<ParserError.InvalidArguments, BusinessCommand> {
         SetTranslationCommand(
             localDigit = localDigit.toLocalDigit(),
             romanDigit = romanDigit.toRomanDigit(),

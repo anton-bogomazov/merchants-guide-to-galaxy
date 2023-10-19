@@ -9,7 +9,7 @@ import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCas
 data class GetResourceMarketPriceCommand(
     private val localNum: LocalNumber,
     private val resource: Resource,
-) : Command {
+) : BusinessCommand {
 
     fun execute(usecase: GetResourceMarketPriceUseCase) =
         usecase.execute(localNum, resource)

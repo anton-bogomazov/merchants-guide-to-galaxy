@@ -1,7 +1,9 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-sealed interface Command
+interface Command
 
-data object UnknownCommand : Command {
+sealed interface BusinessCommand : Command
+
+data object UnknownCommand : BusinessCommand {
     const val ERROR_MESSAGE = "I have no idea what you are talking about"
 }

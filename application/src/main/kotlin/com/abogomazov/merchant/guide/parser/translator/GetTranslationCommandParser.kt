@@ -4,7 +4,7 @@ import arrow.core.Either
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
-import com.abogomazov.merchant.guide.cli.commands.Command
+import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
 import com.abogomazov.merchant.guide.application.CommandParser
 import com.abogomazov.merchant.guide.parser.CommandArguments
@@ -23,7 +23,7 @@ class GetTranslationCommandParser(
         fun match(command: String) = command.matches(COMMAND_REGEX)
     }
 
-    override fun parse(): Either<ParserError, Command> =
+    override fun parse(): Either<ParserError, BusinessCommand> =
         extractArguments().map { localNum ->
             return GetTranslationArguments(localNum).toCommand()
         }
@@ -39,7 +39,7 @@ class GetTranslationCommandParser(
 data class GetTranslationArguments(
     private val localNum: String,
 ): CommandArguments {
-    override fun toCommand() = either<ParserError.InvalidArguments, Command> {
+    override fun toCommand() = either<ParserError.InvalidArguments, BusinessCommand> {
         GetTranslationCommand(
             localNum = localNum.toLocalNumber(),
         )
