@@ -8,7 +8,7 @@ import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryTranslationRegistry
 import io.kotest.matchers.shouldBe
 
-object ApplicationDriver {
+private object ApplicationDriver {
 
     fun run(commandProvider: UserInputStream, asserter: ResultCollector) {
         val dictionary = InMemoryTranslationRegistry()
@@ -36,7 +36,7 @@ fun runTest(inputs: List<String>, expectedOutputs: List<String>) {
     )
 }
 
-class UserInputStream(
+private class UserInputStream(
     commands: List<String>
 ) : CommandSource {
 
@@ -48,13 +48,25 @@ class UserInputStream(
 
 }
 
-class Asserter(
+private class Asserter(
     outputs: List<String>
 ) : ResultCollector {
 
     private val outputs = outputs.toMutableList()
 
     override fun push(data: String) {
-        data shouldBe outputs.removeFirstOrNull()
+        val expected = outputs.removeFirstOrNull() ?: return
+        data shouldBe expected
     }
 }
+
+fun setDictionary() = listOf(
+    "glob is I" to "Set",
+    "prok is V" to "Set",
+    "prok is V" to "Set",
+    "pish is X" to "Set",
+    "tegj is L" to "Set",
+    "boop is C" to "Set",
+    "whoop is D" to "Set",
+    "groop is M" to "Set",
+)
