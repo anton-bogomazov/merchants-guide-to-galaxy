@@ -1,25 +1,25 @@
 package com.abogomazov.merchant.guide.application
 
-import com.abogomazov.merchant.guide.parser.extractors.market.GetResourceMarketPriceArgExtractor
-import com.abogomazov.merchant.guide.parser.extractors.market.SetResourceMarketPriceArgExtractor
-import com.abogomazov.merchant.guide.parser.extractors.translator.GetTranslationArgExtractor
-import com.abogomazov.merchant.guide.parser.extractors.translator.SetTranslationArgExtractor
-import com.abogomazov.merchant.guide.parser.extractors.UnknownCommandExtractor
+import com.abogomazov.merchant.guide.parser.market.GetResourceMarketPriceCommandParser
+import com.abogomazov.merchant.guide.parser.market.SetResourceMarketPriceCommandParser
+import com.abogomazov.merchant.guide.parser.translator.GetTranslationCommandParser
+import com.abogomazov.merchant.guide.parser.translator.SetTranslationCommandParser
+import com.abogomazov.merchant.guide.parser.UnknownCommandExtractor
 
-class ExtractorFactory : ArgumentExtractorFactory {
-    override fun create(command: String): ArgumentExtractor {
+class ExtractorFactory : CommandParserFactory {
+    override fun create(command: String): CommandParser {
         return when {
-            SetResourceMarketPriceArgExtractor.match(command) -> {
-                SetResourceMarketPriceArgExtractor(command)
+            SetResourceMarketPriceCommandParser.match(command) -> {
+                SetResourceMarketPriceCommandParser(command)
             }
-            GetResourceMarketPriceArgExtractor.match(command) -> {
-                GetResourceMarketPriceArgExtractor(command)
+            GetResourceMarketPriceCommandParser.match(command) -> {
+                GetResourceMarketPriceCommandParser(command)
             }
-            GetTranslationArgExtractor.match(command) -> {
-                GetTranslationArgExtractor(command)
+            GetTranslationCommandParser.match(command) -> {
+                GetTranslationCommandParser(command)
             }
-            SetTranslationArgExtractor.match(command) -> {
-                SetTranslationArgExtractor(command)
+            SetTranslationCommandParser.match(command) -> {
+                SetTranslationCommandParser(command)
             }
             else -> UnknownCommandExtractor
         }

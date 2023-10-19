@@ -5,7 +5,7 @@ import com.abogomazov.merchant.guide.cli.commands.Command
 
 
 class ApplicationShell(
-    private val argumentExtractorFactory: ArgumentExtractorFactory,
+    private val commandParserFactory: CommandParserFactory,
     private val commandExecutor: CommandExecutor,
     private val reader: InputReader,
     private val printer: Printer,
@@ -13,23 +13,19 @@ class ApplicationShell(
     fun run() {
         do {
             val userInput = reader.read()
-            val command = argumentExtractorFactory.create(userInput).extract().toCommand()
+            val command = commandParserFactory.create(userInput).parse()
             val response = commandExecutor.execute(command)
             printer.print(response)
         } while (true)
     }
 }
 
-fun interface ArgumentExtractorFactory {
-    fun create(command: String): ArgumentExtractor
+fun interface CommandParserFactory {
+    fun create(command: String): CommandParser
 }
 
-fun interface CommandArguments {
-    fun toCommand(): Command
-}
-
-fun interface ArgumentExtractor {
-    fun extract(): CommandArguments
+fun interface CommandParser {
+    fun parse(): Command
 }
 
 fun interface InputReader {

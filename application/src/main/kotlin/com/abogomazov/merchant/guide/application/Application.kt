@@ -34,7 +34,7 @@ fun Application(): ApplicationShell {
 
     // Compose UI
     val shell = ApplicationShell(
-        argumentExtractorFactory = extractorFactory,
+        commandParserFactory = extractorFactory,
         commandExecutor = commandExecutor,
         reader = io,
         printer = io
