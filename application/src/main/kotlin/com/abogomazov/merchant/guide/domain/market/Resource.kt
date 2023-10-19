@@ -10,6 +10,7 @@ sealed interface ResourceValidationError {
     data object MoreThanOneWord : ResourceValidationError
 }
 
+//TODO RESERVE NAME "CREDITS"
 data class Resource internal constructor(private val value: String) {
 
     companion object {

@@ -7,7 +7,7 @@ import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 
 fun String.toLocalNumber() = LocalNumber(
-    this.split(" ").map { LocalDigit(it) }
+    this.sanitized().split(" ").map { LocalDigit(it) }
 )
 
 fun String.toLocalDigit() = LocalDigit(this)
@@ -17,3 +17,6 @@ fun String.toRomanDigit() = RomanDigit.valueOf(this)
 fun String.toResource(): Either<ParserError.InvalidArguments, Resource> =
     Resource.from(this)
         .mapLeft { ParserError.InvalidArguments }
+
+
+fun String.sanitized() = this.replace("\\s+".toRegex(), " ").trim()

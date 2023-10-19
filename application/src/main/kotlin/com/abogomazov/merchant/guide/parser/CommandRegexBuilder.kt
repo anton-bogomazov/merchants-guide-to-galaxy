@@ -13,6 +13,7 @@ class CommandRegexBuilder {
         private const val RESOURCE = "\\w+"
 
         private const val SPACE = "\\s+"
+        private const val OPTIONAL_SPACE = "\\s*"
         private const val QUESTION = "\\?"
     }
 
@@ -22,6 +23,7 @@ class CommandRegexBuilder {
     fun Resource() = add(captured(RESOURCE))
 
     fun s() = add(SPACE)
+    fun os() = add(OPTIONAL_SPACE)
     fun question() = add(QUESTION)
 
     fun how() = add("how")

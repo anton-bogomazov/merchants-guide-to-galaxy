@@ -16,7 +16,7 @@ class GetResourceMarketPriceCommandParserTest : FreeSpec({
     "matches valid get resource market price command" - {
         withData(
             "how many Credits is glob prok Silver ?",
-            "how many Credits is glob X ?",
+            "how many Credits is glob X ?  ",
             "how many Credits is glob prok glob prok glob prok glob prok glob prok Dirt ?",
             "how many      Credits   is glob    X  ?",
             "how many Credits is \n glob prok     glob prok\t glob prok    Dirt ?",
