@@ -1,5 +1,6 @@
-package com.abogomazov.merchant.guide.cli
+package com.abogomazov.merchant.guide.application
 
+import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.commands.Command
 
 
