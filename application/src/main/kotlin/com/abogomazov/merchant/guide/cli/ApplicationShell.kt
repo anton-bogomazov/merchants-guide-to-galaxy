@@ -7,6 +7,7 @@ import com.abogomazov.merchant.guide.cli.commands.ExitCommand
 import com.abogomazov.merchant.guide.cli.commands.InvalidCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
 import com.abogomazov.merchant.guide.cli.parser.ParserError
+import org.slf4j.LoggerFactory
 
 class ApplicationShell(
     private val commandParserFactory: CommandParserFactory,
@@ -17,14 +18,22 @@ class ApplicationShell(
     fun run() {
         do {
             val userInput = commandSource.read()
+            logger.info("Processing input: \"$userInput\"")
             val command = commandParserFactory.create(userInput).parse()
                 .fold({ resolveErrors(it) }, { it })
 
             when (command) {
                 is ExitCommand -> break
-                is BusinessCommand -> resultCollector.push(commandExecutor.execute(command))
+                is BusinessCommand -> {
+                    logger.info("Running $command")
+                    resultCollector.push(commandExecutor.execute(command))
+                }
             }
         } while (true)
+    }
+
+    companion object {
+        private val logger = LoggerFactory.getLogger(ApplicationShell::class.java)
     }
 }
 

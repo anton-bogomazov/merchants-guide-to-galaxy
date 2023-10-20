@@ -18,6 +18,7 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
+import org.slf4j.LoggerFactory
 
 class Application(
     private val translationProvider: TranslationProvider,
@@ -47,12 +48,15 @@ class Application(
 }
 
 fun main() {
+    val logger = LoggerFactory.getLogger("Main")
+
     val dictionary = InMemoryDictionary()
     val market = InMemoryMarket()
     val io = ConsoleIO()
     val parserFactory = ParserFactory()
 
-    Application(
+    logger.info("Dependencies instantiated, constructing application")
+    val app = Application(
         translationPersister = dictionary,
         translationProvider = dictionary,
         translationRemover = dictionary,
@@ -61,5 +65,8 @@ fun main() {
         resultCollector = io,
         commandSource = io,
         parserFactory = parserFactory
-    ).build().run()
+    ).build()
+    logger.info("Application constructed")
+
+    app.run()
 }
