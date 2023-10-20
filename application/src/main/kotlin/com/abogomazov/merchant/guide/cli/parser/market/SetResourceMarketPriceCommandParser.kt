@@ -2,17 +2,17 @@ package com.abogomazov.merchant.guide.cli.parser.market
 
 import arrow.core.Either
 import arrow.core.left
+import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
-import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.cli.parser.utils.getThreeArguments
+import com.abogomazov.merchant.guide.cli.parser.utils.toCredit
 import com.abogomazov.merchant.guide.cli.parser.utils.toLocalNumber
 import com.abogomazov.merchant.guide.cli.parser.utils.toResource
-import java.math.BigInteger
 
 class SetResourceMarketPriceCommandParser(
     private val command: String
@@ -27,14 +27,14 @@ class SetResourceMarketPriceCommandParser(
 
     override fun parse(): Either<ParserError, BusinessCommand> =
         extractArguments().map { (localNum, resource, totalCredits) ->
-            return resource.toResource().map {
-                SetResourceMarketPriceCommand(
-                    resourceAmount = localNum.toLocalNumber(),
-                    resource = it,
-                    // TODO wrap validation error with Either
-                    total = Credits(BigInteger.valueOf(totalCredits.toLong())),
-                )
-            }
+            return either { Pair(resource.toResource().bind(), totalCredits.toCredit().bind()) }
+                .map { (resource, credits) ->
+                    SetResourceMarketPriceCommand(
+                        resourceAmount = localNum.toLocalNumber(),
+                        resource = resource,
+                        total = credits,
+                    )
+                }
         }
 
     private fun extractArguments() =

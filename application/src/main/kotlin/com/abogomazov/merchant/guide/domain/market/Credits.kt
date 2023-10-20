@@ -1,11 +1,17 @@
 package com.abogomazov.merchant.guide.domain.market
 
+import arrow.core.raise.either
+import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import java.math.BigDecimal
 import java.math.BigInteger
 import java.math.MathContext
 import java.math.RoundingMode
 
+
+sealed interface CreditsValidationError {
+    data object NegativeValue : CreditsValidationError
+}
 
 data class Credits internal constructor(private val value: BigInteger) {
 
@@ -17,6 +23,12 @@ data class Credits internal constructor(private val value: BigInteger) {
                     .floor()
                     .toBigInteger()
             )
+
+        fun from(value: BigInteger) = either<CreditsValidationError, Credits> {
+            ensure(value >= BigInteger.ZERO) { CreditsValidationError.NegativeValue }
+
+            Credits(value)
+        }
     }
 
     fun toBigInteger() = value
