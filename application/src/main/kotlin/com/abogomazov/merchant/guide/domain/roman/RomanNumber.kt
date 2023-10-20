@@ -42,7 +42,6 @@ data class RomanNumber private constructor(
                 }
             }
         )
-
 }
 
 

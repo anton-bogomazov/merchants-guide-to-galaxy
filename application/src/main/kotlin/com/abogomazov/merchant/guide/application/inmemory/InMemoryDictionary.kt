@@ -22,5 +22,4 @@ class InMemoryDictionary : TranslationProvider, TranslationPersister, Translatio
     override fun remove(localDigit: LocalDigit, romanDigit: RomanDigit) {
         dictionary.delete(localDigit)
     }
-
 }

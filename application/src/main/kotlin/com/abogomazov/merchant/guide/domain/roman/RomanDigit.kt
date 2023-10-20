@@ -1,11 +1,11 @@
 package com.abogomazov.merchant.guide.domain.roman
 
 enum class RomanDigit(val value: Int) {
-    I(1),
-    V(5),
-    X(10),
-    L(50),
-    C(100),
-    D(500),
-    M(1000);
+    I(value = 1),
+    V(value = 5),
+    X(value = 10),
+    L(value = 50),
+    C(value = 100),
+    D(value = 500),
+    M(value = 1000);
 }

@@ -4,6 +4,6 @@ import com.abogomazov.merchant.guide.cli.parser.ParserError
 
 data class InvalidCommand(
     private val reason: ParserError
-): BusinessCommand, ErrorCommand {
+) : BusinessCommand, ErrorCommand {
     override fun toError() = parsingFailed(reason)
 }

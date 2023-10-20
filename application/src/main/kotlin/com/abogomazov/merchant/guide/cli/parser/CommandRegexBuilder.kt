@@ -2,6 +2,7 @@ package com.abogomazov.merchant.guide.cli.parser
 
 import java.lang.StringBuilder
 
+@Suppress("TooManyFunctions", "FunctionNaming")
 class CommandRegexBuilder {
 
     private val resultRegex = StringBuilder()

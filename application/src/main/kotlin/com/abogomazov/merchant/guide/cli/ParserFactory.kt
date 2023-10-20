@@ -28,5 +28,4 @@ class ParserFactory : CommandParserFactory {
             else -> UnknownCommandParser
         }
     }
-
 }

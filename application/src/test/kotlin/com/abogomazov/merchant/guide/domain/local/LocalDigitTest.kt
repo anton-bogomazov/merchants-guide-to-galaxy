@@ -9,7 +9,7 @@ class LocalDigitTest : FreeSpec({
     "any one worded string of letters is allowed" - {
         withData(
             nameFn = { "blank string: <$it>" },
-            "peep","BoOp", "x"
+            "peep", "BoOp", "x"
         ) {
             LocalDigit.from(it).shouldBeRight()
         }

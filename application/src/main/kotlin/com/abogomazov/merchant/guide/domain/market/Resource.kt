@@ -28,7 +28,6 @@ data class Resource internal constructor(private val value: String) {
     }
 
     override fun toString() = value
-
 }
 
 private fun String.isNotCredits() = this.lowercase() != "credits"

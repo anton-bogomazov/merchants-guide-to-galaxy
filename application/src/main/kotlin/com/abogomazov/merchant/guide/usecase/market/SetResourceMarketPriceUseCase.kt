@@ -29,7 +29,6 @@ class SetResourceMarketPriceUseCase(
             price = UnitPrice.calculate(totalPrice, quantity)
         )
     }.mapLeft { it.toError() }
-
 }
 
 fun interface MarketPricePersister {

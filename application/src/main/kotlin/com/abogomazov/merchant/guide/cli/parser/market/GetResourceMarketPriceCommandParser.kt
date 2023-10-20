@@ -39,7 +39,6 @@ class GetResourceMarketPriceCommandParser(
 
         return Pair(localNum, resource).right()
     }
-
 }
 
 private data class GetMarketPriceArguments(

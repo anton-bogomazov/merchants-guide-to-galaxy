@@ -10,7 +10,7 @@ class ResourceTest : FreeSpec({
     "any one worded string of letters is allowed" - {
         withData(
             nameFn = { "blank string: <$it>" },
-            "Water","dirt", "X", "BurBon"
+            "Water", "dirt", "X", "BurBon"
         ) {
             Resource.from(it).shouldBeRight()
         }

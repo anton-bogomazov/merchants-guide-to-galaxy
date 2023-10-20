@@ -29,7 +29,6 @@ class GetResourceMarketPriceUseCase(
                     ?: return GetResourceMarketPriceError.PriceNotFound.left()
             )
         }.mapLeft { it.toError() }
-
 }
 
 fun interface MarketPriceProvider {
