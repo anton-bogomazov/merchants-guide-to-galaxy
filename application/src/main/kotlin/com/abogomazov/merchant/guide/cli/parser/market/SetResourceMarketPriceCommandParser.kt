@@ -8,7 +8,6 @@ import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.domain.market.Credits
-import com.abogomazov.merchant.guide.cli.parser.CommandArguments
 import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
@@ -27,8 +26,15 @@ class SetResourceMarketPriceCommandParser(
     }
 
     override fun parse(): Either<ParserError, BusinessCommand> =
-        extractArguments().map { (localNum, resource, resourceAmount) ->
-            return SetMarketPriceArguments(localNum, resource, resourceAmount).toCommand()
+        extractArguments().map { (localNum, resource, totalCredits) ->
+            return resource.toResource().map {
+                SetResourceMarketPriceCommand(
+                    resourceAmount = localNum.toLocalNumber(),
+                    resource = it,
+                    // TODO wrap validation error with Either
+                    total = Credits(BigInteger.valueOf(totalCredits.toLong())),
+                )
+            }
         }
 
     private fun extractArguments() = either<ParserError.FailedToExtractArguments, Triple<String, String, String>> {
@@ -38,20 +44,5 @@ class SetResourceMarketPriceCommandParser(
         val resourceAmount = groups[3]?.value ?: return ParserError.FailedToExtractArguments.left()
 
         return Triple(localNum, resource, resourceAmount).right()
-    }
-}
-
-data class SetMarketPriceArguments(
-    private val localNum: String,
-    private val resource: String,
-    private val totalCredits: String,
-): CommandArguments {
-    override fun toCommand() = resource.toResource().map {
-        SetResourceMarketPriceCommand(
-            resourceAmount = localNum.toLocalNumber(),
-            resource = it,
-            // TODO wrap validation error with Either
-            total = Credits(BigInteger.valueOf(totalCredits.toLong())),
-        )
     }
 }

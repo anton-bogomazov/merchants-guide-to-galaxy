@@ -7,7 +7,6 @@ import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
-import com.abogomazov.merchant.guide.cli.parser.CommandArguments
 import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.cli.parser.toLocalDigit
@@ -25,8 +24,11 @@ class SetTranslationCommandParser(
     }
 
     override fun parse(): Either<ParserError, BusinessCommand> =
-        extractArguments().map { (localNum, romanNum) ->
-            return SetTranslationArguments(localNum, romanNum).toCommand()
+        extractArguments().map { (localDigit, romanDigit) ->
+            return SetTranslationCommand(
+                localDigit = localDigit.toLocalDigit(),
+                romanDigit = romanDigit.toRomanDigit(),
+            ).right()
         }
 
     private fun extractArguments() = either<ParserError.FailedToExtractArguments, Pair<String, String>> {
@@ -35,17 +37,5 @@ class SetTranslationCommandParser(
         val romanNum = groups[2]?.value ?: return ParserError.FailedToExtractArguments.left()
 
         return Pair(localNum, romanNum).right()
-    }
-}
-
-data class SetTranslationArguments(
-    private val localDigit: String,
-    private val romanDigit: String,
-): CommandArguments {
-    override fun toCommand() = either<ParserError.InvalidArguments, BusinessCommand> {
-        SetTranslationCommand(
-            localDigit = localDigit.toLocalDigit(),
-            romanDigit = romanDigit.toRomanDigit(),
-        )
     }
 }

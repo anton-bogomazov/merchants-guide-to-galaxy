@@ -6,9 +6,7 @@ import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
 
-class ExitCommandExtractor(
-    private val command: String
-) : CommandParser {
+class ExitCommandExtractor : CommandParser {
 
     companion object {
         fun match(command: String) = command.trim().lowercase() == "exit"

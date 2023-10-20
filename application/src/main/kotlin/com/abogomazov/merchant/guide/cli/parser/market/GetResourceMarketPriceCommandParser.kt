@@ -7,7 +7,6 @@ import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
-import com.abogomazov.merchant.guide.cli.parser.CommandArguments
 import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
@@ -26,10 +25,12 @@ class GetResourceMarketPriceCommandParser(
 
     override fun parse(): Either<ParserError, BusinessCommand> =
         extractArguments().map { (localNum, resource) ->
-            return GetMarketPriceArguments(
-                localNum,
-                resource
-            ).toCommand()
+            return resource.toResource().map {
+                GetResourceMarketPriceCommand(
+                    localNum = localNum.toLocalNumber(),
+                    resource = it,
+                )
+            }
         }
 
     private fun extractArguments() = either<ParserError.FailedToExtractArguments, Pair<String, String>> {
@@ -38,17 +39,5 @@ class GetResourceMarketPriceCommandParser(
         val resource = groups[2]?.value ?: return ParserError.FailedToExtractArguments.left()
 
         return Pair(localNum, resource).right()
-    }
-}
-
-private data class GetMarketPriceArguments(
-    private val localNum: String,
-    private val resource: String,
-): CommandArguments {
-    override fun toCommand() = resource.toResource().map {
-        GetResourceMarketPriceCommand(
-            localNum = localNum.toLocalNumber(),
-            resource = it,
-        )
     }
 }
