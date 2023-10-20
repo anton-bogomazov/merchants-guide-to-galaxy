@@ -29,17 +29,19 @@ data class RomanNumber private constructor(
     }
 
     fun toAmount() =
-        digits.foldIndexed(0) { i, acc, _ ->
-            val digitValue = digits[i].value
+        Amount(
+            digits.foldIndexed(0) { i, acc, _ ->
+                val digitValue = digits[i].value
 
-            if (i + 1 > digits.lastIndex) {
-                return@foldIndexed acc + digitValue
-            } else if (digitValue < digits[i + 1].value) {
-                acc - digitValue
-            } else {
-                acc + digitValue
+                if (i + 1 > digits.lastIndex) {
+                    return@foldIndexed acc + digitValue
+                } else if (digitValue < digits[i + 1].value) {
+                    acc - digitValue
+                } else {
+                    acc + digitValue
+                }
             }
-        }.toAmount()
+        )
 
 }
 
