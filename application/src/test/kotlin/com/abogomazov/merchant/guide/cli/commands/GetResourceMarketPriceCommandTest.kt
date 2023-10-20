@@ -29,7 +29,7 @@ class GetResourceMarketPriceCommandTest : FreeSpec({
                 getResourceError(GetResourceMarketPriceError.PriceNotFound)
         val sut = GetResourceMarketPriceCommand(localFour(), dirt())
 
-        sut.execute(usecase) shouldBe "[Error] PriceNotFound"
+        sut.execute(usecase) shouldBe "[Error] Price not found for \"Dirt\" resource"
     }
 
 })

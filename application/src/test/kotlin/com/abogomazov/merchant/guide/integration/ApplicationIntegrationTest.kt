@@ -9,7 +9,7 @@ class ApplicationIntegrationTest : FreeSpec({
         val commands = listOf(
             "glob is I" to "Set",
             // cannot associate the same local digit with 2 different roman numbers
-            "glob is V" to "[Error] Digit \"glob\" is already associated with roman digit",
+            "glob is V" to "[Error] Digit \"glob\" is already associated with \"I\"",
             "prok is V" to "Set",
             "prok is V" to "Set",
             "pish is X" to "Set",
@@ -18,7 +18,7 @@ class ApplicationIntegrationTest : FreeSpec({
             "boop is C" to "Set",
             "whoop is D" to "Set",
             // translation for groop is not found
-            "how much is glob groop ?" to "[Error] Translation not found for \"glob groop\"",
+            "how much is glob groop ?" to "[Error] Translation not found for \"groop\"",
             "groop is M" to "Set",
             // local number represents invalid roman number
             "how much is glob groop ?" to "[Error] Number \"glob groop\" violates roman notation rules",
@@ -27,7 +27,7 @@ class ApplicationIntegrationTest : FreeSpec({
             "wtf is I" to "Set",
             "how much is wtf wtf wtf ?" to "wtf wtf wtf is 3",
             // ...old association has been deleted
-            "how much is glob glob glob ?" to "[Error] Translation not found for \"glob glob glob\"",
+            "how much is glob glob glob ?" to "[Error] Translation not found for \"glob\"",
             // re-set old association
             "glob is I" to "Set",
             "how much is glob glob glob ?" to "glob glob glob is 3",

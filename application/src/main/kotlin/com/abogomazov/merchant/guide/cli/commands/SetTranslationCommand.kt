@@ -18,7 +18,7 @@ data class SetTranslationCommand(
 
     private fun SetTranslationError.toError() =
         when (this) {
-            SetTranslationError.LocalDigitAlreadyAssociated ->
-                localDigitAlreadyAssociated(localDigit)
+            is SetTranslationError.LocalDigitAlreadyAssociated ->
+                localDigitAlreadyAssociated(localDigit, this.romanDigit)
         }
 }

@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.usecase.market
 
+import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
@@ -9,7 +10,7 @@ import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
 
 
 sealed interface SetResourceMarketPriceError {
-    data object TranslationNotFound : SetResourceMarketPriceError
+    data class TranslationNotFound(val digit: LocalDigit) : SetResourceMarketPriceError
     data object RomanNotationRulesViolated : SetResourceMarketPriceError
 }
 
@@ -37,6 +38,7 @@ fun interface MarketPricePersister {
 
 private fun LocalNumberEvaluationError.toError() =
     when (this) {
-        LocalNumberEvaluationError.TranslationNotFound -> SetResourceMarketPriceError.TranslationNotFound
+        is LocalNumberEvaluationError.TranslationNotFound ->
+            SetResourceMarketPriceError.TranslationNotFound(this.digit)
         LocalNumberEvaluationError.RomanNotationRulesViolated -> SetResourceMarketPriceError.RomanNotationRulesViolated
     }

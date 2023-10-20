@@ -17,7 +17,7 @@ data class GetTranslationCommand(
 
     private fun GetTranslationError.toError() =
         when (this) {
-            GetTranslationError.TranslationNotFound -> translationNotFound(localNum)
+            is GetTranslationError.TranslationNotFound -> translationNotFound(this.digit)
             GetTranslationError.RomanNotationRulesViolated -> romanNotationRulesViolated(localNum)
         }
 }

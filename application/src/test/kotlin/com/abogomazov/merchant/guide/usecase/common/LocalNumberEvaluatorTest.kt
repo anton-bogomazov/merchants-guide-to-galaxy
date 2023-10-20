@@ -42,7 +42,7 @@ class LocalNumberEvaluatorTest : FreeSpec({
 
         LocalNumberEvaluator(emptyDictionary())
             .evaluate(localNumber)
-            .shouldBeLeft(LocalNumberEvaluationError.TranslationNotFound)
+            .shouldBeLeft(LocalNumberEvaluationError.TranslationNotFound(one()))
     }
 
 })

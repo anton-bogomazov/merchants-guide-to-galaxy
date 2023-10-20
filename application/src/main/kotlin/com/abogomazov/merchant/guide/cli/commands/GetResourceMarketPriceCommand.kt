@@ -19,7 +19,7 @@ data class GetResourceMarketPriceCommand(
 
     private fun GetResourceMarketPriceError.toError() =
         when (this) {
-            GetResourceMarketPriceError.TranslationNotFound -> translationNotFound(localNum)
+            is GetResourceMarketPriceError.TranslationNotFound -> translationNotFound(this.digit)
             GetResourceMarketPriceError.RomanNotationRulesViolated -> romanNotationRulesViolated(localNum)
             GetResourceMarketPriceError.PriceNotFound -> resourcePriceNotFound(resource)
         }

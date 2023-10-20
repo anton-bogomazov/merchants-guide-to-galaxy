@@ -20,7 +20,7 @@ data class SetResourceMarketPriceCommand(
 
     private fun SetResourceMarketPriceError.toError() =
         when (this) {
-            SetResourceMarketPriceError.TranslationNotFound -> translationNotFound(resourceAmount)
+            is SetResourceMarketPriceError.TranslationNotFound -> translationNotFound(this.digit)
             SetResourceMarketPriceError.RomanNotationRulesViolated -> romanNotationRulesViolated(resourceAmount)
         }
 }

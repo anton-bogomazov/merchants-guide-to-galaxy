@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.usecase.translator
 
+import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
@@ -7,7 +8,7 @@ import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 
 sealed interface SetTranslationError {
-    data object LocalDigitAlreadyAssociated : SetTranslationError
+    data class LocalDigitAlreadyAssociated(val romanDigit: RomanDigit) : SetTranslationError
 }
 
 class SetTranslationUseCase(
@@ -16,8 +17,11 @@ class SetTranslationUseCase(
     private val translationRemover: TranslationRemover,
 ) {
     fun execute(localDigit: LocalDigit, romanDigit: RomanDigit) = either<SetTranslationError, Unit> {
-        ensure(!localDigit.isAlreadyAssociated(romanDigit)) { SetTranslationError.LocalDigitAlreadyAssociated }
-
+        translationProvider.getTranslation(localDigit)?.let { associatedRomanDigit ->
+            if (associatedRomanDigit != romanDigit) {
+                return SetTranslationError.LocalDigitAlreadyAssociated(associatedRomanDigit).left()
+            }
+        }
         removePersistedAssociation(romanDigit)
         translationPersister.associate(localDigit, romanDigit)
     }
@@ -26,13 +30,6 @@ class SetTranslationUseCase(
         translationProvider.getTranslation(romanDigit)?.let { associatedLocalDigit ->
             translationRemover.remove(associatedLocalDigit, romanDigit)
         }
-
-    private fun LocalDigit.isAlreadyAssociated(romanDigit: RomanDigit): Boolean {
-        val associatedRomanDigit = translationProvider.getTranslation(this) ?: return false
-        // allowed to overwrite association with the same values
-        val isSameRomanDigit = associatedRomanDigit == romanDigit
-        return !isSameRomanDigit
-    }
 }
 
 fun interface TranslationPersister {

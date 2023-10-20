@@ -4,6 +4,7 @@ import com.abogomazov.merchant.guide.domain.amount
 import com.abogomazov.merchant.guide.domain.getTranslationError
 import com.abogomazov.merchant.guide.domain.getTranslationResult
 import com.abogomazov.merchant.guide.domain.localFour
+import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
 import io.kotest.core.spec.style.FreeSpec
@@ -25,10 +26,10 @@ class GetTranslationCommandTest : FreeSpec({
     "executed with error usecase leads to error response" {
         val usecase = mockk<GetTranslationUseCase>()
         every { usecase.execute(localFour()) } returns
-                getTranslationError(GetTranslationError.TranslationNotFound)
+                getTranslationError(GetTranslationError.TranslationNotFound(one()))
         val sut = GetTranslationCommand(localFour())
 
-        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one five\""
+        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one\""
     }
 
 })

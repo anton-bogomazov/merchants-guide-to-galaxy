@@ -25,10 +25,10 @@ class SetTranslationCommandTest : FreeSpec({
     "executed with error usecase leads to error response" {
         val usecase = mockk<SetTranslationUseCase>()
         every { usecase.execute(five(), RomanDigit.V) } returns
-                setTranslationError(SetTranslationError.LocalDigitAlreadyAssociated)
+                setTranslationError(SetTranslationError.LocalDigitAlreadyAssociated(RomanDigit.I))
         val sut = SetTranslationCommand(five(), RomanDigit.V)
 
-        sut.execute(usecase) shouldBe "Digit \"five\" is already associated with roman digit"
+        sut.execute(usecase) shouldBe "[Error] Digit \"five\" is already associated with \"I\""
     }
 
 })

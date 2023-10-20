@@ -3,6 +3,7 @@ package com.abogomazov.merchant.guide.cli.commands
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.localFour
+import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.setResourceError
 import com.abogomazov.merchant.guide.domain.setResourceResult
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
@@ -26,10 +27,10 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
     "executed with error usecase leads to error response" {
         val usecase = mockk<SetResourceMarketPriceUseCase>()
         every { usecase.execute(localFour(), dirt(), credits(43)) } returns
-                setResourceError(SetResourceMarketPriceError.TranslationNotFound)
+                setResourceError(SetResourceMarketPriceError.TranslationNotFound(one()))
         val sut = SetResourceMarketPriceCommand(localFour(), dirt(), credits(43))
 
-        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one five\""
+        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one\""
     }
 
 })
