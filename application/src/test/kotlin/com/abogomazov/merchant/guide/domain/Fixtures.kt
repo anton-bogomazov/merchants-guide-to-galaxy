@@ -81,8 +81,8 @@ fun englishNumberEvaluator() = LocalNumberEvaluator(englishDictionary())
 class WaterDirtMarketPriceProvider : MarketPriceProvider {
     override fun getUnitPrice(resource: Resource): UnitPrice? {
         return when (resource) {
-            dirt() -> UnitPrice.of(bigDec(1.5))
-            water() -> UnitPrice.of(bigDec(0.9))
+            dirt() -> UnitPrice(bigDec(1.5))
+            water() -> UnitPrice(bigDec(0.9))
             else -> null
         }
     }
