@@ -17,11 +17,10 @@ data class GetResourceMarketPriceCommand(
 
     private fun response(result: Credits) = "$localNum $resource is ${result.toBigInteger()} Credits"
 
+    private fun GetResourceMarketPriceError.toError() =
+        when (this) {
+            GetResourceMarketPriceError.TranslationNotFound -> translationNotFound(localNum)
+            GetResourceMarketPriceError.RomanNotationRulesViolated -> romanNotationRulesViolated(localNum)
+            GetResourceMarketPriceError.PriceNotFound -> resourcePriceNotFound(resource)
+        }
 }
-
-private fun GetResourceMarketPriceError.toError() =
-    when (this) {
-        GetResourceMarketPriceError.TranslationNotFound -> errorMessage(this)
-        GetResourceMarketPriceError.RomanNotationRulesViolated -> errorMessage(this)
-        GetResourceMarketPriceError.PriceNotFound -> errorMessage(this)
-    }

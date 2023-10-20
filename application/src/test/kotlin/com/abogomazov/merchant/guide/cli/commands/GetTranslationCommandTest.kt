@@ -28,7 +28,7 @@ class GetTranslationCommandTest : FreeSpec({
                 getTranslationError(GetTranslationError.TranslationNotFound)
         val sut = GetTranslationCommand(localFour())
 
-        sut.execute(usecase) shouldBe "[Error] TranslationNotFound"
+        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one five\""
     }
 
 })

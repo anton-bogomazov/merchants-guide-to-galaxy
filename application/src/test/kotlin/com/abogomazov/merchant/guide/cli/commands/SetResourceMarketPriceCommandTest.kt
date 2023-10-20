@@ -29,7 +29,7 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
                 setResourceError(SetResourceMarketPriceError.TranslationNotFound)
         val sut = SetResourceMarketPriceCommand(localFour(), dirt(), credits(43))
 
-        sut.execute(usecase) shouldBe "[Error] TranslationNotFound"
+        sut.execute(usecase) shouldBe "[Error] Translation not found for \"one five\""
     }
 
 })

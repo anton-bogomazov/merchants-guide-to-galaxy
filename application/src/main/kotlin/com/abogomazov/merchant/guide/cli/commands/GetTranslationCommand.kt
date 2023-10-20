@@ -2,8 +2,8 @@ package com.abogomazov.merchant.guide.cli.commands
 
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.roman.Amount
-import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 
 data class GetTranslationCommand(
     private val localNum: LocalNumber,
@@ -14,10 +14,10 @@ data class GetTranslationCommand(
             .fold({ it.toError() }, { response(it) })
 
     private fun response(result: Amount) = "$localNum is ${result.toInt()}"
-}
 
-private fun GetTranslationError.toError() =
-    when (this) {
-        GetTranslationError.TranslationNotFound -> errorMessage(this)
-        GetTranslationError.RomanNotationRulesViolated -> errorMessage(this)
-    }
+    private fun GetTranslationError.toError() =
+        when (this) {
+            GetTranslationError.TranslationNotFound -> translationNotFound(localNum)
+            GetTranslationError.RomanNotationRulesViolated -> romanNotationRulesViolated(localNum)
+        }
+}

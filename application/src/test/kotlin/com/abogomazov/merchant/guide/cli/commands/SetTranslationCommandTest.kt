@@ -28,7 +28,7 @@ class SetTranslationCommandTest : FreeSpec({
                 setTranslationError(SetTranslationError.LocalDigitAlreadyAssociated)
         val sut = SetTranslationCommand(five(), RomanDigit.V)
 
-        sut.execute(usecase) shouldBe "[Error] LocalDigitAlreadyAssociated"
+        sut.execute(usecase) shouldBe "Digit \"five\" is already associated with roman digit"
     }
 
 })

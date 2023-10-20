@@ -9,7 +9,7 @@ class ApplicationIntegrationTest : FreeSpec({
         val commands = listOf(
             "glob is I" to "Set",
             // cannot associate the same local digit with 2 different roman numbers
-            "glob is V" to "[Error] LocalDigitAlreadyAssociated",
+            "glob is V" to "[Error] Digit \"glob\" is already associated with roman digit",
             "prok is V" to "Set",
             "prok is V" to "Set",
             "pish is X" to "Set",
@@ -18,16 +18,16 @@ class ApplicationIntegrationTest : FreeSpec({
             "boop is C" to "Set",
             "whoop is D" to "Set",
             // translation for groop is not found
-            "how much is glob groop ?" to "[Error] TranslationNotFound",
+            "how much is glob groop ?" to "[Error] Translation not found for \"glob groop\"",
             "groop is M" to "Set",
             // local number represents invalid roman number
-            "how much is glob groop ?" to "[Error] RomanNotationRulesViolated",
+            "how much is glob groop ?" to "[Error] Number \"glob groop\" violates roman notation rules",
             "how much is boop groop pish boop glob pish ?" to "boop groop pish boop glob pish is 999",
             // association could be overwritten with a new local digit
             "wtf is I" to "Set",
             "how much is wtf wtf wtf ?" to "wtf wtf wtf is 3",
             // ...old association has been deleted
-            "how much is glob glob glob ?" to "[Error] TranslationNotFound",
+            "how much is glob glob glob ?" to "[Error] Translation not found for \"glob glob glob\"",
             // re-set old association
             "glob is I" to "Set",
             "how much is glob glob glob ?" to "glob glob glob is 3",
@@ -50,8 +50,8 @@ class ApplicationIntegrationTest : FreeSpec({
                     "groop groop groop Mud is 1 Credits" to "Set",
                     "how many Credits is glob Mud ?" to "glob Mud is 0 Credits",
                     // Can't create resource 'Credits', the name is reserved
-                    "pish pish Credits is 3910 Credits" to "[Error] InvalidArguments",
-                    "how many Credits is glob prok Credits ?" to "[Error] InvalidArguments",
+                    "pish pish Credits is 3910 Credits" to "[Error] Command cannot be parsed: InvalidArguments",
+                    "how many Credits is glob prok Credits ?" to "[Error] Command cannot be parsed: InvalidArguments",
                 )
 
         runTest(commands.unzip().first, commands.unzip().second)
