@@ -4,6 +4,7 @@ import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
+import com.abogomazov.merchant.guide.cli.commands.InvalidCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
@@ -24,6 +25,7 @@ class CommandExecutor(
             is SetTranslationCommand -> businessCommand.execute(setTranslation)
             is GetResourceMarketPriceCommand -> businessCommand.execute(getPrice)
             is SetResourceMarketPriceCommand -> businessCommand.execute(setPrice)
+            is InvalidCommand -> businessCommand.message()
             is UnknownCommand -> businessCommand.ERROR_MESSAGE
         }
 

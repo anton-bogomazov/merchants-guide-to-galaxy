@@ -5,6 +5,7 @@ import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
+import com.abogomazov.merchant.guide.cli.commands.InvalidCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 
@@ -19,7 +20,7 @@ class ApplicationShell(
         do {
             val userInput = commandSource.read()
             val command = commandParserFactory.create(userInput).parse()
-                .fold({ UnknownCommand }, { it })
+                .fold({ resolveErrors(it) }, { it })
 
             when (command) {
                 is ExitCommand -> break
@@ -28,6 +29,12 @@ class ApplicationShell(
         } while (true)
     }
 }
+
+fun resolveErrors(error: ParserError) =
+    when (error) {
+        is ParserError.InvalidArguments -> InvalidCommand(error)
+        is ParserError.FailedToExtractArguments -> UnknownCommand
+    }
 
 fun interface CommandParserFactory {
     fun create(command: String): CommandParser
