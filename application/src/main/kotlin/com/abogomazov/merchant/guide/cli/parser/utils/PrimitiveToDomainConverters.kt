@@ -1,6 +1,7 @@
-package com.abogomazov.merchant.guide.cli.parser
+package com.abogomazov.merchant.guide.cli.parser.utils
 
 import arrow.core.Either
+import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Resource

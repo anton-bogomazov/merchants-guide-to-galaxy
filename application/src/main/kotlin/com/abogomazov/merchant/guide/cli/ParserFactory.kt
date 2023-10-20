@@ -1,6 +1,6 @@
 package com.abogomazov.merchant.guide.cli
 
-import com.abogomazov.merchant.guide.cli.parser.ExitCommandExtractor
+import com.abogomazov.merchant.guide.cli.parser.ExitCommandParser
 import com.abogomazov.merchant.guide.cli.parser.UnknownCommandParser
 import com.abogomazov.merchant.guide.cli.parser.market.GetResourceMarketPriceCommandParser
 import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCommandParser
@@ -22,8 +22,8 @@ class ParserFactory : CommandParserFactory {
             SetTranslationCommandParser.match(command) -> {
                 SetTranslationCommandParser(command)
             }
-            ExitCommandExtractor.match(command) -> {
-                ExitCommandExtractor(command)
+            ExitCommandParser.match(command) -> {
+                ExitCommandParser
             }
             else -> UnknownCommandParser
         }

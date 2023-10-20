@@ -2,14 +2,14 @@ package com.abogomazov.merchant.guide.cli.parser.translator
 
 import arrow.core.Either
 import arrow.core.left
-import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
 import com.abogomazov.merchant.guide.cli.CommandParser
-import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
+import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
-import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
+import com.abogomazov.merchant.guide.cli.parser.utils.getOneArgument
+import com.abogomazov.merchant.guide.cli.parser.utils.toLocalNumber
 
 class GetTranslationCommandParser(
     private val command: String
@@ -29,10 +29,7 @@ class GetTranslationCommandParser(
             ).right()
         }
 
-    private fun extractArguments() = either<ParserError.FailedToExtractArguments, String> {
-        val groups = COMMAND_REGEX.find(command)?.groups ?: return ParserError.FailedToExtractArguments.left()
-        val localNum = groups[1]?.value ?: return ParserError.FailedToExtractArguments.left()
-
-        return localNum.right()
-    }
+    private fun extractArguments() =
+        COMMAND_REGEX.find(command).getOneArgument()?.right()
+            ?: ParserError.FailedToExtractArguments.left()
 }

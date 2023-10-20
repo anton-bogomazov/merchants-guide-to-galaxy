@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.cli.parser
+package com.abogomazov.merchant.guide.cli.parser.utils
 
 import java.lang.StringBuilder
 

@@ -2,16 +2,16 @@ package com.abogomazov.merchant.guide.cli.parser.market
 
 import arrow.core.Either
 import arrow.core.left
-import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.domain.market.Credits
-import com.abogomazov.merchant.guide.cli.parser.CommandRegexBuilder
+import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
-import com.abogomazov.merchant.guide.cli.parser.toLocalNumber
-import com.abogomazov.merchant.guide.cli.parser.toResource
+import com.abogomazov.merchant.guide.cli.parser.utils.getThreeArguments
+import com.abogomazov.merchant.guide.cli.parser.utils.toLocalNumber
+import com.abogomazov.merchant.guide.cli.parser.utils.toResource
 import java.math.BigInteger
 
 class SetResourceMarketPriceCommandParser(
@@ -37,12 +37,7 @@ class SetResourceMarketPriceCommandParser(
             }
         }
 
-    private fun extractArguments() = either<ParserError.FailedToExtractArguments, Triple<String, String, String>> {
-        val groups = COMMAND_REGEX.find(command)?.groups ?: return ParserError.FailedToExtractArguments.left()
-        val localNum = groups[1]?.value ?: return ParserError.FailedToExtractArguments.left()
-        val resource = groups[2]?.value ?: return ParserError.FailedToExtractArguments.left()
-        val resourceAmount = groups[3]?.value ?: return ParserError.FailedToExtractArguments.left()
-
-        return Triple(localNum, resource, resourceAmount).right()
-    }
+    private fun extractArguments() =
+        COMMAND_REGEX.find(command).getThreeArguments()?.right()
+            ?: ParserError.FailedToExtractArguments.left()
 }
