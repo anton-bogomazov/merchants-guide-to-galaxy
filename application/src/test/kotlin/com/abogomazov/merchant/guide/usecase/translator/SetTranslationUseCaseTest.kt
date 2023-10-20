@@ -33,5 +33,4 @@ class SetTranslationUseCaseTest : FreeSpec({
         sut.execute(one(), RomanDigit.I)
             .shouldBeRight()
     }
-
 })

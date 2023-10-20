@@ -64,5 +64,4 @@ class ApplicationIntegrationTest : FreeSpec({
         forAll<String> { commands.add(it) }
         runTest(commands, List(commands.size) { "I have no idea what you are talking about" })
     }
-
 })

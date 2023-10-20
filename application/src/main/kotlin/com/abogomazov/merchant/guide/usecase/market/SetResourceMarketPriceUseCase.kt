@@ -5,9 +5,8 @@ import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
-
+import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 
 sealed interface SetResourceMarketPriceError {
     data class TranslationNotFound(val digit: LocalDigit) : SetResourceMarketPriceError

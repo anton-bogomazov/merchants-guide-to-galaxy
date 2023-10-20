@@ -8,7 +8,6 @@ import com.abogomazov.merchant.guide.cli.commands.InvalidCommand
 import com.abogomazov.merchant.guide.cli.commands.UnknownCommand
 import com.abogomazov.merchant.guide.cli.parser.ParserError
 
-
 class ApplicationShell(
     private val commandParserFactory: CommandParserFactory,
     private val commandExecutor: CommandExecutor,

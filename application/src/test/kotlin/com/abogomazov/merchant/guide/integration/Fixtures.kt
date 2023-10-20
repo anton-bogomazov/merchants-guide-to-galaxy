@@ -1,11 +1,11 @@
 package com.abogomazov.merchant.guide.integration
 
 import com.abogomazov.merchant.guide.application.Application
+import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
+import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.cli.CommandSource
 import com.abogomazov.merchant.guide.cli.ParserFactory
 import com.abogomazov.merchant.guide.cli.ResultCollector
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
 import io.kotest.matchers.shouldBe
 
 private object ApplicationDriver {
@@ -26,7 +26,6 @@ private object ApplicationDriver {
             parserFactory = parserFactory
         ).build().run()
     }
-
 }
 
 fun runTest(inputs: List<String>, expectedOutputs: List<String>) {
@@ -45,7 +44,6 @@ private class UserInputStream(
     override fun read(): String {
         return inputs.removeFirstOrNull() ?: "exit"
     }
-
 }
 
 private class Asserter(

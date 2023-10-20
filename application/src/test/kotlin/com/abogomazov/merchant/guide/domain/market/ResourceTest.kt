@@ -44,5 +44,4 @@ class ResourceTest : FreeSpec({
             Resource.from(it).shouldBeLeft(ResourceValidationError.CreditsNameIsReserved)
         }
     }
-
 })

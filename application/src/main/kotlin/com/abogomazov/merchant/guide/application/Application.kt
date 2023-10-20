@@ -1,21 +1,21 @@
 package com.abogomazov.merchant.guide.application
 
-import com.abogomazov.merchant.guide.cli.CommandExecutor
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
+import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.application.io.ConsoleIO
 import com.abogomazov.merchant.guide.cli.ApplicationShell
+import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.CommandSource
 import com.abogomazov.merchant.guide.cli.ParserFactory
 import com.abogomazov.merchant.guide.cli.ResultCollector
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
-import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
-import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 

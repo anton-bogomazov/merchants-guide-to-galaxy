@@ -6,8 +6,8 @@ import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
-import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
+import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.utils.getTwoArguments
 import com.abogomazov.merchant.guide.cli.parser.utils.toLocalDigit
 import com.abogomazov.merchant.guide.cli.parser.utils.toRomanDigit

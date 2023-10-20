@@ -12,9 +12,7 @@ data class SetTranslationCommand(
 
     fun execute(usecase: SetTranslationUseCase) =
         usecase.execute(localDigit, romanDigit)
-            .fold({ it.toError() }, { response() })
-
-    private fun response() = "Set"
+            .fold({ it.toError() }, { "Set" })
 
     private fun SetTranslationError.toError() =
         when (this) {

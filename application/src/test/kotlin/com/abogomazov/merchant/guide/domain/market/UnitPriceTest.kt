@@ -14,5 +14,4 @@ class UnitPriceTest : FreeSpec({
         UnitPrice.calculate(credits(87), amount(17))
             .toBigDecimal() shouldBe bigDec(5.117647059)
     }
-
 })

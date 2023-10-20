@@ -1,13 +1,20 @@
+@file:Suppress("WildcardImport")
+
 package com.abogomazov.merchant.guide.domain.roman
 
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.C
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.D
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.I
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.L
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.M
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.V
+import com.abogomazov.merchant.guide.domain.roman.RomanDigit.X
 import io.kotest.assertions.arrow.core.shouldBeLeft
+import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 import io.kotest.matchers.shouldBe
 import io.kotest.property.forAll
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.*
-import io.kotest.assertions.arrow.core.shouldBeRight
-import io.kotest.core.spec.style.FreeSpec
-
 
 class RomanNumberTest : FreeSpec({
 
@@ -121,5 +128,4 @@ class RomanNumberTest : FreeSpec({
                 .toInt() shouldBe expected
         }
     }
-
 })

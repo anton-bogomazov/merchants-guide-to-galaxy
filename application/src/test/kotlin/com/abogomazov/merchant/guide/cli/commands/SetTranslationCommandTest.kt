@@ -4,13 +4,12 @@ import com.abogomazov.merchant.guide.domain.five
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.domain.setTranslationError
 import com.abogomazov.merchant.guide.domain.setTranslationResult
-import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-
 
 class SetTranslationCommandTest : FreeSpec({
 
@@ -30,5 +29,4 @@ class SetTranslationCommandTest : FreeSpec({
 
         sut.execute(usecase) shouldBe "[Error] Digit \"five\" is already associated with \"I\""
     }
-
 })

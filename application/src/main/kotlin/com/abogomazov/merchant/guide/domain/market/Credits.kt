@@ -8,7 +8,6 @@ import java.math.BigInteger
 import java.math.MathContext
 import java.math.RoundingMode
 
-
 sealed interface CreditsValidationError {
     data object NegativeValue : CreditsValidationError
 }

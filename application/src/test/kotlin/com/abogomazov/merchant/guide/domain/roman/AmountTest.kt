@@ -25,5 +25,4 @@ class AmountTest : FreeSpec({
             Amount.from(it).shouldBeLeft(AmountValidationError.NegativeValue)
         }
     }
-
 })

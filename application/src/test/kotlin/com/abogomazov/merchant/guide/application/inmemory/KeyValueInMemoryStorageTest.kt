@@ -8,14 +8,14 @@ class KeyValueInMemoryStorageTest : FreeSpec({
     "should store and retrieve values correctly" {
         val sut = KeyValueInMemoryStorage<String, Int>()
         sut.set("one", 1)
-        
+
         sut.get("one") shouldBe 1
     }
 
     "should retrieve keys by values" {
         val sut = KeyValueInMemoryStorage<String, Int>()
         sut.set("one", 1)
-        
+
         sut.getByValue(1) shouldBe "one"
     }
 

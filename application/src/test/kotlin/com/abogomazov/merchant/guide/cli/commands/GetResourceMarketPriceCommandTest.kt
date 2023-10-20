@@ -5,13 +5,12 @@ import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.getResourceError
 import com.abogomazov.merchant.guide.domain.getResourceResult
 import com.abogomazov.merchant.guide.domain.localFour
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-
 
 class GetResourceMarketPriceCommandTest : FreeSpec({
 
@@ -31,5 +30,4 @@ class GetResourceMarketPriceCommandTest : FreeSpec({
 
         sut.execute(usecase) shouldBe "[Error] Price not found for \"Dirt\" resource"
     }
-
 })

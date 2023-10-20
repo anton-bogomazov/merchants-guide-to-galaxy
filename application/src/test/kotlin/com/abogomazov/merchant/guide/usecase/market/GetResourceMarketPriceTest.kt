@@ -23,5 +23,4 @@ class GetResourceMarketPriceTest : FreeSpec({
 
         sut.execute(localThree(), steamDeck()).shouldBeLeft(GetResourceMarketPriceError.PriceNotFound)
     }
-
 })

@@ -44,5 +44,4 @@ class LocalNumberEvaluatorTest : FreeSpec({
             .evaluate(localNumber)
             .shouldBeLeft(LocalNumberEvaluationError.TranslationNotFound(one()))
     }
-
 })

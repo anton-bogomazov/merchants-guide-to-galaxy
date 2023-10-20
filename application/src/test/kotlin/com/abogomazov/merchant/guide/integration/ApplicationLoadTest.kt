@@ -1,7 +1,6 @@
 package com.abogomazov.merchant.guide.integration
 
 import io.kotest.core.spec.style.FreeSpec
-import io.kotest.property.forAll
 
 class ApplicationLoadTest : FreeSpec({
 
@@ -11,5 +10,4 @@ class ApplicationLoadTest : FreeSpec({
 
         runTest(commands, emptyList())
     }
-
 })

@@ -28,6 +28,4 @@ fun String.toCredit() =
         ParserError.InvalidArguments.left()
     }
 
-
-
 private fun String.sanitized() = this.replace("\\s+".toRegex(), " ").trim()

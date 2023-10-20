@@ -7,7 +7,6 @@ import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanNumber
 
-
 sealed interface LocalNumberEvaluationError {
     data class TranslationNotFound(val digit: LocalDigit) : LocalNumberEvaluationError
     data object RomanNotationRulesViolated : LocalNumberEvaluationError

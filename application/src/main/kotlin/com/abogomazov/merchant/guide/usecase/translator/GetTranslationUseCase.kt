@@ -2,8 +2,8 @@ package com.abogomazov.merchant.guide.usecase.translator
 
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
+import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 
 sealed interface GetTranslationError {
     data class TranslationNotFound(val digit: LocalDigit) : GetTranslationError

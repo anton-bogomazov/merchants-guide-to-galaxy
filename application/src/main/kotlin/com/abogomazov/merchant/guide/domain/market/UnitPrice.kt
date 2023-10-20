@@ -16,4 +16,5 @@ data class UnitPrice internal constructor(private val value: BigDecimal) {
     fun toBigDecimal() = value
 }
 
-private fun roundDownContext() = MathContext(10, RoundingMode.HALF_DOWN)
+private const val TOTAL_DIGITS = 10
+private fun roundDownContext() = MathContext(TOTAL_DIGITS, RoundingMode.HALF_DOWN)

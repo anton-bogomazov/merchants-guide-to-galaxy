@@ -3,8 +3,8 @@ package com.abogomazov.merchant.guide.cli.commands
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 
 data class GetResourceMarketPriceCommand(
     private val localNum: LocalNumber,

@@ -15,5 +15,4 @@ class CreditsTest : FreeSpec({
             amount(17), price(3.8576f)
         ).toBigInteger() shouldBe bigInt(65)
     }
-
 })

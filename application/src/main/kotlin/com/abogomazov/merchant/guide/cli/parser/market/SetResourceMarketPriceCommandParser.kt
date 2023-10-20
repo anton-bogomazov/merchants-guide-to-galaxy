@@ -7,8 +7,8 @@ import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
-import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.ParserError
+import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.utils.getThreeArguments
 import com.abogomazov.merchant.guide.cli.parser.utils.toCredit
 import com.abogomazov.merchant.guide.cli.parser.utils.toLocalNumber

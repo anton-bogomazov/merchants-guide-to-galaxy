@@ -3,9 +3,7 @@ package com.abogomazov.merchant.guide.domain.market
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.containsOnlyLetters
-import com.abogomazov.merchant.guide.domain.market.ResourceValidationError.*
 import com.abogomazov.merchant.guide.domain.singleWord
-
 
 sealed interface ResourceValidationError {
     data object EmptyString : ResourceValidationError
@@ -18,10 +16,10 @@ data class Resource internal constructor(private val value: String) {
 
     companion object {
         fun from(value: String) = either {
-            ensure(value.isNotBlank()) { EmptyString }
-            ensure(value.singleWord()) { MoreThanOneWord }
-            ensure(value.containsOnlyLetters()) { NonLetters }
-            ensure(value.isNotCredits()) { CreditsNameIsReserved }
+            ensure(value.isNotBlank()) { ResourceValidationError.EmptyString }
+            ensure(value.singleWord()) { ResourceValidationError.MoreThanOneWord }
+            ensure(value.containsOnlyLetters()) { ResourceValidationError.NonLetters }
+            ensure(value.isNotCredits()) { ResourceValidationError.CreditsNameIsReserved }
 
             Resource(value)
         }

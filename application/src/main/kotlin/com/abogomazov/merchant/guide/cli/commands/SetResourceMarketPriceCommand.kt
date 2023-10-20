@@ -14,9 +14,7 @@ data class SetResourceMarketPriceCommand(
 
     fun execute(usecase: SetResourceMarketPriceUseCase) =
         usecase.execute(resourceAmount, resource, total)
-            .fold({ it.toError() }, { response() })
-
-    private fun response() = "Set"
+            .fold({ it.toError() }, { "Set" })
 
     private fun SetResourceMarketPriceError.toError() =
         when (this) {

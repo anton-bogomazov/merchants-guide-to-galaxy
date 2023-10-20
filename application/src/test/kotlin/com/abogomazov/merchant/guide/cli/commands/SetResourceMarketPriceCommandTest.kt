@@ -6,13 +6,12 @@ import com.abogomazov.merchant.guide.domain.localFour
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.setResourceError
 import com.abogomazov.merchant.guide.domain.setResourceResult
-import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-
 
 class SetResourceMarketPriceCommandTest : FreeSpec({
 
@@ -32,5 +31,4 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
 
         sut.execute(usecase) shouldBe "[Error] Translation not found for \"one\""
     }
-
 })

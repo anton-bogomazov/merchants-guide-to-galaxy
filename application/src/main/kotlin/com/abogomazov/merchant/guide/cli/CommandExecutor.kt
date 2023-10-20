@@ -3,8 +3,8 @@ package com.abogomazov.merchant.guide.cli
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.ErrorCommand
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
-import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
+import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase

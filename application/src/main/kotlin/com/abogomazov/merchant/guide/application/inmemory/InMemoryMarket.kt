@@ -5,7 +5,6 @@ import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 
-
 class InMemoryMarket : MarketPriceProvider, MarketPricePersister {
 
     private val prices = KeyValueInMemoryStorage<Resource, UnitPrice>()

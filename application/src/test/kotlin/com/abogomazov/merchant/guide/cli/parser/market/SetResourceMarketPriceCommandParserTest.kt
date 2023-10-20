@@ -1,8 +1,6 @@
 package com.abogomazov.merchant.guide.cli.parser.market
 
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
-import com.abogomazov.merchant.guide.cli.parser.market.GetResourceMarketPriceCommandParser
-import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCommandParser
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.localFour
@@ -44,5 +42,4 @@ class SetResourceMarketPriceCommandParserTest : FreeSpec({
             GetResourceMarketPriceCommandParser(it).parse().shouldBeLeft()
         }
     }
-
 })

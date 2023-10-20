@@ -13,5 +13,4 @@ class CommandRegexBuilderTest : FreeSpec({
 
         result.toString() shouldBe "how\\s+much\\s+is\\s+([MDCLXVI])\\s+\\?"
     }
-
 })

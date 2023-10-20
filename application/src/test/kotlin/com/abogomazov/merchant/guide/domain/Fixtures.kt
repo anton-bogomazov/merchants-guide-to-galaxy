@@ -11,13 +11,13 @@ import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
-import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -56,7 +56,6 @@ class InMemoryTranslationStorage(
     override fun remove(localDigit: LocalDigit, romanDigit: RomanDigit) {
         dictionary.remove(localDigit)
     }
-
 }
 
 fun englishDictionary() = PreconfiguredTranslationProvider(
@@ -105,14 +104,12 @@ fun localNumber(vararg digits: LocalDigit) = LocalNumber(digits.toList())
 fun localThree() = localNumber(one(), one(), one())
 fun localFour() = localNumber(one(), five())
 
-
 fun amount(int: Int) = Amount(int)
 fun price(float: Float) = UnitPrice(float.toBigDecimal())
 fun credits(int: Int) = Credits(bigInt(int))
 
 fun bigInt(value: Int) = BigInteger.valueOf(value.toLong())
 fun bigDec(value: Double) = BigDecimal.valueOf(value)
-
 
 fun getResourceResult(credits: Credits) =
     either<GetResourceMarketPriceError, Credits> { return credits.right() }

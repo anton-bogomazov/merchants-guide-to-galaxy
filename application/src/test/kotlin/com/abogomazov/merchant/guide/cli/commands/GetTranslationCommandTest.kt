@@ -5,13 +5,12 @@ import com.abogomazov.merchant.guide.domain.getTranslationError
 import com.abogomazov.merchant.guide.domain.getTranslationResult
 import com.abogomazov.merchant.guide.domain.localFour
 import com.abogomazov.merchant.guide.domain.one
-import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
 import io.mockk.mockk
-
 
 class GetTranslationCommandTest : FreeSpec({
 
@@ -31,5 +30,4 @@ class GetTranslationCommandTest : FreeSpec({
 
         sut.execute(usecase) shouldBe "[Error] Translation not found for \"one\""
     }
-
 })

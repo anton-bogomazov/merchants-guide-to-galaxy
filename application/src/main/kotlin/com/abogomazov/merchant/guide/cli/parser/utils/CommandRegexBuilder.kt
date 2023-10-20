@@ -1,7 +1,5 @@
 package com.abogomazov.merchant.guide.cli.parser.utils
 
-import java.lang.StringBuilder
-
 @Suppress("TooManyFunctions", "FunctionNaming")
 class CommandRegexBuilder {
 

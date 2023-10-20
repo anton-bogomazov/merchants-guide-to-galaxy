@@ -6,7 +6,6 @@ import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
-
 class InMemoryDictionary : TranslationProvider, TranslationPersister, TranslationRemover {
 
     private val dictionary = KeyValueInMemoryStorage<LocalDigit, RomanDigit>()

@@ -2,7 +2,6 @@ package com.abogomazov.merchant.guide.usecase.translator
 
 import arrow.core.left
 import arrow.core.raise.either
-import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider

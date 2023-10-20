@@ -7,5 +7,5 @@ enum class RomanDigit(val value: Int) {
     L(value = 50),
     C(value = 100),
     D(value = 500),
-    M(value = 1000);
+    M(value = 1000)
 }

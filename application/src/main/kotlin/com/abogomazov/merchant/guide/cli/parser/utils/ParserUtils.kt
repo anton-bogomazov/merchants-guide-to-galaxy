@@ -1,8 +1,8 @@
 package com.abogomazov.merchant.guide.cli.parser.utils
 
-fun MatchResult?.getOneArgument() = getNArguments(1)?.firstOrNull()
-fun MatchResult?.getTwoArguments() = getNArguments(2)?.toPair()
-fun MatchResult?.getThreeArguments() = getNArguments(3)?.toTriple()
+fun MatchResult?.getOneArgument() = getNArguments(n = 1)?.firstOrNull()
+fun MatchResult?.getTwoArguments() = getNArguments(n = 2)?.toPair()
+fun MatchResult?.getThreeArguments() = getNArguments(n = 3)?.toTriple()
 
 private fun MatchResult?.getNArguments(n: Int) =
     this?.let { result ->
