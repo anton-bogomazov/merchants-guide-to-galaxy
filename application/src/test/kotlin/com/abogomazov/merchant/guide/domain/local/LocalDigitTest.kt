@@ -11,7 +11,7 @@ class LocalDigitTest : FreeSpec({
             nameFn = { "blank string: <$it>" },
             "peep","BoOp", "x"
         ) {
-            LocalDigit.of(it).shouldBeRight()
+            LocalDigit.from(it).shouldBeRight()
         }
     }
 
@@ -20,7 +20,7 @@ class LocalDigitTest : FreeSpec({
             nameFn = { "blank string: <$it>" },
             "", "  ", " \n "
         ) {
-            LocalDigit.of(it).shouldBeLeft(LocalDigitValidationError.EmptyString)
+            LocalDigit.from(it).shouldBeLeft(LocalDigitValidationError.EmptyString)
         }
     }
 
@@ -28,11 +28,11 @@ class LocalDigitTest : FreeSpec({
         withData(
             "123", "He11o", "$"
         ) {
-            LocalDigit.of(it).shouldBeLeft(LocalDigitValidationError.NonLetters)
+            LocalDigit.from(it).shouldBeLeft(LocalDigitValidationError.NonLetters)
         }
     }
 
     "impossible to create digit from string with more than one word" - {
-        LocalDigit.of("foo bar").shouldBeLeft(LocalDigitValidationError.MoreThanOneWord)
+        LocalDigit.from("foo bar").shouldBeLeft(LocalDigitValidationError.MoreThanOneWord)
     }
 })

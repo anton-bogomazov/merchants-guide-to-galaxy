@@ -16,7 +16,7 @@ sealed interface LocalDigitValidationError {
 data class LocalDigit internal constructor(private val value: String) {
 
     companion object {
-        fun of(value: String) = either {
+        fun from(value: String) = either {
             ensure(value.isNotBlank()) { EmptyString }
             ensure(value.singleWord()) { MoreThanOneWord }
             ensure(value.containsOnlyLetters()) { NonLetters }

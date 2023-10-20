@@ -25,7 +25,7 @@ class SetResourceMarketPriceUseCase(
         totalPrice: Credits
     ) = either<SetResourceMarketPriceUseCaseError, Unit> {
         return evaluator.evaluate(totalResourceAmount).map { totalAmount ->
-            val unitPrice = UnitPrice.of(totalPrice, totalAmount)
+            val unitPrice = UnitPrice.calculate(totalPrice, totalAmount)
             marketPricePersister.setPrice(resource, unitPrice)
         }.mapLeft { it.toError() }
     }

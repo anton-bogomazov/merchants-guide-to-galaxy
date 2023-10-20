@@ -8,7 +8,7 @@ import java.math.RoundingMode
 data class UnitPrice internal constructor(private val value: BigDecimal) {
 
     companion object {
-        fun of(total: Credits, quantity: Amount) = UnitPrice(
+        fun calculate(total: Credits, quantity: Amount) = UnitPrice(
             total.toBigDecimal().divide(quantity.toBigDecimal(), roundDownContext())
         )
     }

@@ -11,7 +11,7 @@ class UnitPriceTest : FreeSpec({
     // TODO MATH! Do a proper testing
 
     "unit price is a fractional value of 1 unit of resource" {
-        UnitPrice.of(credits(87), amount(17))
+        UnitPrice.calculate(credits(87), amount(17))
             .toBigDecimal() shouldBe bigDec(5.117647059)
     }
 
