@@ -5,15 +5,14 @@ import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 
+
 class InMemoryMarket : MarketPriceProvider, MarketPricePersister {
 
-    private val prices = mutableMapOf<Resource, UnitPrice>()
+    private val prices = KeyValueInMemoryStorage<Resource, UnitPrice>()
 
-    override fun getUnitPrice(resource: Resource): UnitPrice? {
-        return prices[resource]
-    }
+    override fun getUnitPrice(resource: Resource) = prices.get(resource)
 
     override fun setPrice(resource: Resource, price: UnitPrice) {
-        prices[resource] = price
+        prices.set(resource, price)
     }
 }
