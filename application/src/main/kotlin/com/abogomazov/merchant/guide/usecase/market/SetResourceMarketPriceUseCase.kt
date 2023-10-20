@@ -1,13 +1,13 @@
 package com.abogomazov.merchant.guide.usecase.market
 
-import arrow.core.raise.either
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluatorError
-import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError.*
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError.NumberIsNotFollowingRomanNotationRules
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError.TranslationNotFound
 
 sealed interface SetResourceMarketPriceUseCaseError {
     data object TranslationNotFound : SetResourceMarketPriceUseCaseError
@@ -23,12 +23,12 @@ class SetResourceMarketPriceUseCase(
         totalResourceAmount: LocalNumber,
         resource: Resource,
         totalPrice: Credits
-    ) = either<SetResourceMarketPriceUseCaseError, Unit> {
-        return evaluator.evaluate(totalResourceAmount).map { totalAmount ->
-            val unitPrice = UnitPrice.calculate(totalPrice, totalAmount)
-            marketPricePersister.setPrice(resource, unitPrice)
-        }.mapLeft { it.toError() }
-    }
+    ) = evaluator.evaluate(totalResourceAmount).map { quantity ->
+        marketPricePersister.setPrice(
+            resource = resource,
+            price = UnitPrice.calculate(totalPrice, quantity)
+        )
+    }.mapLeft { it.toError() }
 
 }
 

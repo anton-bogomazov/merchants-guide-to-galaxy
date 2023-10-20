@@ -22,12 +22,14 @@ class GetResourceMarketPriceUseCase(
     private val marketPriceProvider: MarketPriceProvider,
 ) {
 
-    fun execute(amountOfResource: LocalNumber, resource: Resource) = either<GetResourceMarketPriceUseCaseError, Credits> {
-        val unitPrice = marketPriceProvider.getUnitPrice(resource) ?: return PriceNotFound.left()
-        return evaluator.evaluate(amountOfResource).map { amount ->
-            return Credits.total(amount, unitPrice).right()
+    fun execute(amountOfResource: LocalNumber, resource: Resource) =
+        evaluator.evaluate(amountOfResource).map { quantity ->
+            Credits.total(
+                quantity = quantity,
+                price = marketPriceProvider.getUnitPrice(resource)
+                    ?: return PriceNotFound.left()
+            )
         }.mapLeft { it.toError() }
-    }
 
 }
 
