@@ -3,7 +3,6 @@ package com.abogomazov.merchant.guide.domain.market
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.containsOnlyLetters
-import com.abogomazov.merchant.guide.domain.isNotCredits
 import com.abogomazov.merchant.guide.domain.market.ResourceValidationError.*
 import com.abogomazov.merchant.guide.domain.singleWord
 
@@ -31,3 +30,5 @@ data class Resource internal constructor(private val value: String) {
     override fun toString() = value
 
 }
+
+private fun String.isNotCredits() = this.lowercase() != "credits"
