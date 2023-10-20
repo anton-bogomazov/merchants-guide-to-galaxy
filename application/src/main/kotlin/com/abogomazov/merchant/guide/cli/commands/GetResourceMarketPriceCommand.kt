@@ -4,7 +4,7 @@ import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCaseError
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 
 data class GetResourceMarketPriceCommand(
     private val localNum: LocalNumber,
@@ -19,9 +19,9 @@ data class GetResourceMarketPriceCommand(
 
 }
 
-private fun GetResourceMarketPriceUseCaseError.toError() =
+private fun GetResourceMarketPriceError.toError() =
     when (this) {
-        GetResourceMarketPriceUseCaseError.TranslationNotFound -> errorMessage(this)
-        GetResourceMarketPriceUseCaseError.NumberIsNotFollowingRomanNotationRules -> errorMessage(this)
-        GetResourceMarketPriceUseCaseError.PriceNotFound -> errorMessage(this)
+        GetResourceMarketPriceError.TranslationNotFound -> errorMessage(this)
+        GetResourceMarketPriceError.RomanNotationRulesViolated -> errorMessage(this)
+        GetResourceMarketPriceError.PriceNotFound -> errorMessage(this)
     }

@@ -6,7 +6,7 @@ import com.abogomazov.merchant.guide.domain.getResourceError
 import com.abogomazov.merchant.guide.domain.getResourceResult
 import com.abogomazov.merchant.guide.domain.localFour
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCaseError
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -26,7 +26,7 @@ class GetResourceMarketPriceCommandTest : FreeSpec({
     "executed with error usecase leads to error response" {
         val usecase = mockk<GetResourceMarketPriceUseCase>()
         every { usecase.execute(localFour(), dirt()) } returns
-                getResourceError(GetResourceMarketPriceUseCaseError.PriceNotFound)
+                getResourceError(GetResourceMarketPriceError.PriceNotFound)
         val sut = GetResourceMarketPriceCommand(localFour(), dirt())
 
         sut.execute(usecase) shouldBe "[Error] PriceNotFound"

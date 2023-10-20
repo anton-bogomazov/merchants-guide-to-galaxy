@@ -32,7 +32,7 @@ class LocalNumberEvaluatorTest : FreeSpec({
 
         LocalNumberEvaluator(englishDictionary())
             .evaluate(localNumber)
-            .shouldBeLeft(LocalNumberEvaluatorError.NumberIsNotFollowingRomanNotationRules)
+            .shouldBeLeft(LocalNumberEvaluationError.RomanNotationRulesViolated)
     }
 
     "impossible to translate number with insufficient dictionary" {
@@ -42,7 +42,7 @@ class LocalNumberEvaluatorTest : FreeSpec({
 
         LocalNumberEvaluator(emptyDictionary())
             .evaluate(localNumber)
-            .shouldBeLeft(LocalNumberEvaluatorError.TranslationNotFound)
+            .shouldBeLeft(LocalNumberEvaluationError.TranslationNotFound)
     }
 
 })

@@ -9,7 +9,7 @@ class ApplicationIntegrationTest : FreeSpec({
         val commands = listOf(
             "glob is I" to "Set",
             // cannot associate the same local digit with 2 different roman numbers
-            "glob is V" to "[Error] LocalDigitAlreadyAssociatedWithRoman",
+            "glob is V" to "[Error] LocalDigitAlreadyAssociated",
             "prok is V" to "Set",
             "prok is V" to "Set",
             "pish is X" to "Set",
@@ -21,7 +21,7 @@ class ApplicationIntegrationTest : FreeSpec({
             "how much is glob groop ?" to "[Error] TranslationNotFound",
             "groop is M" to "Set",
             // local number represents invalid roman number
-            "how much is glob groop ?" to "[Error] NumberIsNotFollowingRomanNotationRules",
+            "how much is glob groop ?" to "[Error] RomanNotationRulesViolated",
             "how much is boop groop pish boop glob pish ?" to "boop groop pish boop glob pish is 999",
             // association could be overwritten with a new local digit
             "wtf is I" to "Set",

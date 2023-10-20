@@ -3,7 +3,7 @@ package com.abogomazov.merchant.guide.cli.commands
 import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
-import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 
 data class SetTranslationCommand(
     private val localDigit: LocalDigit,
@@ -18,7 +18,7 @@ data class SetTranslationCommand(
 
 }
 
-private fun SetTranslationUseCaseError.toError() =
+private fun SetTranslationError.toError() =
     when (this) {
-        SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman -> errorMessage(this)
+        SetTranslationError.LocalDigitAlreadyAssociated -> errorMessage(this)
     }

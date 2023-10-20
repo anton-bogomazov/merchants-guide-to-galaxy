@@ -5,24 +5,23 @@ import arrow.core.left
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanNumber
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluatorError.*
 
 
-sealed interface LocalNumberEvaluatorError {
-    data object TranslationNotFound : LocalNumberEvaluatorError
-    data object NumberIsNotFollowingRomanNotationRules : LocalNumberEvaluatorError
+sealed interface LocalNumberEvaluationError {
+    data object TranslationNotFound : LocalNumberEvaluationError
+    data object RomanNotationRulesViolated : LocalNumberEvaluationError
 }
 
 class LocalNumberEvaluator(
     private val translationProvider: TranslationProvider,
 ) {
-    fun evaluate(number: LocalNumber): Either<LocalNumberEvaluatorError, Amount> =
+    fun evaluate(number: LocalNumber): Either<LocalNumberEvaluationError, Amount> =
         number.digits.map { localDigit ->
             translationProvider.getTranslation(localDigit)
-                ?: return TranslationNotFound.left()
+                ?: return LocalNumberEvaluationError.TranslationNotFound.left()
         }.let { romanDigits ->
             RomanNumber.from(romanDigits)
-                .mapLeft { NumberIsNotFollowingRomanNotationRules }
+                .mapLeft { LocalNumberEvaluationError.RomanNotationRulesViolated }
                 .map { it.toAmount() }
         }
 }

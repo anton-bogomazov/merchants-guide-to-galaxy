@@ -2,11 +2,11 @@ package com.abogomazov.merchant.guide.usecase.translator
 
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluatorError
+import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
 
-sealed interface GetTranslationUseCaseError {
-    data object TranslationNotFound : GetTranslationUseCaseError
-    data object NumberIsNotFollowingRomanNotationRules : GetTranslationUseCaseError
+sealed interface GetTranslationError {
+    data object TranslationNotFound : GetTranslationError
+    data object RomanNotationRulesViolated : GetTranslationError
 }
 
 class GetTranslationUseCase(
@@ -17,9 +17,10 @@ class GetTranslationUseCase(
             .mapLeft { it.toError() }
 }
 
-fun LocalNumberEvaluatorError.toError() =
+fun LocalNumberEvaluationError.toError() =
     when (this) {
-        LocalNumberEvaluatorError.TranslationNotFound -> GetTranslationUseCaseError.TranslationNotFound
-        LocalNumberEvaluatorError.NumberIsNotFollowingRomanNotationRules ->
-            GetTranslationUseCaseError.NumberIsNotFollowingRomanNotationRules
+        LocalNumberEvaluationError.TranslationNotFound ->
+            GetTranslationError.TranslationNotFound
+        LocalNumberEvaluationError.RomanNotationRulesViolated ->
+            GetTranslationError.RomanNotationRulesViolated
     }

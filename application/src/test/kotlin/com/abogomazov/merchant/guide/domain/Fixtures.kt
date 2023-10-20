@@ -13,11 +13,11 @@ import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCaseError
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
-import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError
-import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCaseError
-import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseError
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 import java.math.BigDecimal
 import java.math.BigInteger
@@ -115,21 +115,21 @@ fun bigDec(value: Double) = BigDecimal.valueOf(value)
 
 
 fun getResourceResult(credits: Credits) =
-    either<GetResourceMarketPriceUseCaseError, Credits> { return credits.right() }
-fun getResourceError(error: GetResourceMarketPriceUseCaseError) =
-    either<GetResourceMarketPriceUseCaseError, Credits> { return error.left() }
+    either<GetResourceMarketPriceError, Credits> { return credits.right() }
+fun getResourceError(error: GetResourceMarketPriceError) =
+    either<GetResourceMarketPriceError, Credits> { return error.left() }
 
 fun getTranslationResult(amount: Amount) =
-    either<GetTranslationUseCaseError, Amount> { return amount.right() }
-fun getTranslationError(error: GetTranslationUseCaseError) =
-    either<GetTranslationUseCaseError, Amount> { return error.left() }
+    either<GetTranslationError, Amount> { return amount.right() }
+fun getTranslationError(error: GetTranslationError) =
+    either<GetTranslationError, Amount> { return error.left() }
 
 fun setResourceResult() =
-    either<SetResourceMarketPriceUseCaseError, Unit> { return Unit.right() }
-fun setResourceError(error: SetResourceMarketPriceUseCaseError) =
-    either<SetResourceMarketPriceUseCaseError, Unit> { return error.left() }
+    either<SetResourceMarketPriceError, Unit> { return Unit.right() }
+fun setResourceError(error: SetResourceMarketPriceError) =
+    either<SetResourceMarketPriceError, Unit> { return error.left() }
 
 fun setTranslationResult() =
-    either<SetTranslationUseCaseError, Unit> { return Unit.right() }
-fun setTranslationError(error: SetTranslationUseCaseError) =
-    either<SetTranslationUseCaseError, Unit> { return error.left() }
+    either<SetTranslationError, Unit> { return Unit.right() }
+fun setTranslationError(error: SetTranslationError) =
+    either<SetTranslationError, Unit> { return error.left() }

@@ -1,20 +1,18 @@
 package com.abogomazov.merchant.guide.usecase.market
 
 import arrow.core.left
-import arrow.core.raise.either
-import arrow.core.right
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluatorError
-import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCaseError.*
+import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
 
-sealed interface GetResourceMarketPriceUseCaseError {
-    data object PriceNotFound : GetResourceMarketPriceUseCaseError
-    data object TranslationNotFound : GetResourceMarketPriceUseCaseError
-    data object NumberIsNotFollowingRomanNotationRules : GetResourceMarketPriceUseCaseError
+
+sealed interface GetResourceMarketPriceError {
+    data object PriceNotFound : GetResourceMarketPriceError
+    data object TranslationNotFound : GetResourceMarketPriceError
+    data object RomanNotationRulesViolated : GetResourceMarketPriceError
 }
 
 class GetResourceMarketPriceUseCase(
@@ -27,7 +25,7 @@ class GetResourceMarketPriceUseCase(
             Credits.total(
                 quantity = quantity,
                 price = marketPriceProvider.getUnitPrice(resource)
-                    ?: return PriceNotFound.left()
+                    ?: return GetResourceMarketPriceError.PriceNotFound.left()
             )
         }.mapLeft { it.toError() }
 
@@ -37,9 +35,11 @@ fun interface MarketPriceProvider {
     fun getUnitPrice(resource: Resource): UnitPrice?
 }
 
-private fun LocalNumberEvaluatorError.toError() =
+private fun LocalNumberEvaluationError.toError() =
     when (this) {
-        LocalNumberEvaluatorError.TranslationNotFound -> TranslationNotFound
-        LocalNumberEvaluatorError.NumberIsNotFollowingRomanNotationRules -> NumberIsNotFollowingRomanNotationRules
+        LocalNumberEvaluationError.TranslationNotFound ->
+            GetResourceMarketPriceError.TranslationNotFound
+        LocalNumberEvaluationError.RomanNotationRulesViolated ->
+            GetResourceMarketPriceError.RomanNotationRulesViolated
     }
 

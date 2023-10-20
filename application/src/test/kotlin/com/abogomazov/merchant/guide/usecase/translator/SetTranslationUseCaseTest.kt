@@ -23,7 +23,7 @@ class SetTranslationUseCaseTest : FreeSpec({
         val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
         sut.execute(one(), RomanDigit.I)
-            .shouldBeLeft(SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman)
+            .shouldBeLeft(SetTranslationError.LocalDigitAlreadyAssociated)
     }
 
     "it safe to try to overwrite association with the same value" {

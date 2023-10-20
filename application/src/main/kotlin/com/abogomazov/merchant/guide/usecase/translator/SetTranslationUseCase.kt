@@ -6,8 +6,8 @@ import com.abogomazov.merchant.guide.domain.local.LocalDigit
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 
-sealed interface SetTranslationUseCaseError {
-    data object LocalDigitAlreadyAssociatedWithRoman : SetTranslationUseCaseError
+sealed interface SetTranslationError {
+    data object LocalDigitAlreadyAssociated : SetTranslationError
 }
 
 class SetTranslationUseCase(
@@ -15,8 +15,8 @@ class SetTranslationUseCase(
     private val translationPersister: TranslationPersister,
     private val translationRemover: TranslationRemover,
 ) {
-    fun execute(localDigit: LocalDigit, romanDigit: RomanDigit) = either<SetTranslationUseCaseError, Unit> {
-        ensure(!localDigit.isAlreadyAssociated(romanDigit)) { SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman }
+    fun execute(localDigit: LocalDigit, romanDigit: RomanDigit) = either<SetTranslationError, Unit> {
+        ensure(!localDigit.isAlreadyAssociated(romanDigit)) { SetTranslationError.LocalDigitAlreadyAssociated }
 
         removePersistedAssociation(romanDigit)
         translationPersister.associate(localDigit, romanDigit)

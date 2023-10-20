@@ -5,13 +5,12 @@ import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluatorError
-import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError.NumberIsNotFollowingRomanNotationRules
-import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCaseError.TranslationNotFound
+import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
 
-sealed interface SetResourceMarketPriceUseCaseError {
-    data object TranslationNotFound : SetResourceMarketPriceUseCaseError
-    data object NumberIsNotFollowingRomanNotationRules : SetResourceMarketPriceUseCaseError
+
+sealed interface SetResourceMarketPriceError {
+    data object TranslationNotFound : SetResourceMarketPriceError
+    data object RomanNotationRulesViolated : SetResourceMarketPriceError
 }
 
 class SetResourceMarketPriceUseCase(
@@ -36,8 +35,8 @@ fun interface MarketPricePersister {
     fun setPrice(resource: Resource, price: UnitPrice)
 }
 
-private fun LocalNumberEvaluatorError.toError() =
+private fun LocalNumberEvaluationError.toError() =
     when (this) {
-        LocalNumberEvaluatorError.TranslationNotFound -> TranslationNotFound
-        LocalNumberEvaluatorError.NumberIsNotFollowingRomanNotationRules -> NumberIsNotFollowingRomanNotationRules
+        LocalNumberEvaluationError.TranslationNotFound -> SetResourceMarketPriceError.TranslationNotFound
+        LocalNumberEvaluationError.RomanNotationRulesViolated -> SetResourceMarketPriceError.RomanNotationRulesViolated
     }

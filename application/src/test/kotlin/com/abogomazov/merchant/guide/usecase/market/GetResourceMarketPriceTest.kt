@@ -21,7 +21,7 @@ class GetResourceMarketPriceTest : FreeSpec({
     "impossible to get price if no price for the unit on market" {
         val sut = GetResourceMarketPriceUseCase(englishNumberEvaluator(), waterDirtMarket())
 
-        sut.execute(localThree(), steamDeck()).shouldBeLeft(GetResourceMarketPriceUseCaseError.PriceNotFound)
+        sut.execute(localThree(), steamDeck()).shouldBeLeft(GetResourceMarketPriceError.PriceNotFound)
     }
 
 })

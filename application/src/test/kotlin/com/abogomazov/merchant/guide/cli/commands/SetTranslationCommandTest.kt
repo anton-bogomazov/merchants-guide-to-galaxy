@@ -5,7 +5,7 @@ import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import com.abogomazov.merchant.guide.domain.setTranslationError
 import com.abogomazov.merchant.guide.domain.setTranslationResult
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
-import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCaseError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 import io.mockk.every
@@ -25,10 +25,10 @@ class SetTranslationCommandTest : FreeSpec({
     "executed with error usecase leads to error response" {
         val usecase = mockk<SetTranslationUseCase>()
         every { usecase.execute(five(), RomanDigit.V) } returns
-                setTranslationError(SetTranslationUseCaseError.LocalDigitAlreadyAssociatedWithRoman)
+                setTranslationError(SetTranslationError.LocalDigitAlreadyAssociated)
         val sut = SetTranslationCommand(five(), RomanDigit.V)
 
-        sut.execute(usecase) shouldBe "[Error] LocalDigitAlreadyAssociatedWithRoman"
+        sut.execute(usecase) shouldBe "[Error] LocalDigitAlreadyAssociated"
     }
 
 })
