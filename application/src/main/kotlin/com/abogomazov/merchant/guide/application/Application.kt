@@ -2,7 +2,12 @@ package com.abogomazov.merchant.guide.application
 
 import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryTranslationRegistry
+import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
+import com.abogomazov.merchant.guide.application.io.ConsoleIO
+import com.abogomazov.merchant.guide.cli.ApplicationShell
+import com.abogomazov.merchant.guide.cli.CommandSource
+import com.abogomazov.merchant.guide.cli.ParserFactory
+import com.abogomazov.merchant.guide.cli.ResultCollector
 import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
@@ -42,7 +47,7 @@ class Application(
 }
 
 fun main() {
-    val dictionary = InMemoryTranslationRegistry()
+    val dictionary = InMemoryDictionary()
     val market = InMemoryMarket()
     val io = ConsoleIO()
     val parserFactory = ParserFactory()

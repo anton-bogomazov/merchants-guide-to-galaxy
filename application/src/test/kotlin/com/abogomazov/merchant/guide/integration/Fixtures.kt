@@ -1,17 +1,17 @@
 package com.abogomazov.merchant.guide.integration
 
 import com.abogomazov.merchant.guide.application.Application
-import com.abogomazov.merchant.guide.application.CommandSource
-import com.abogomazov.merchant.guide.application.ParserFactory
-import com.abogomazov.merchant.guide.application.ResultCollector
+import com.abogomazov.merchant.guide.cli.CommandSource
+import com.abogomazov.merchant.guide.cli.ParserFactory
+import com.abogomazov.merchant.guide.cli.ResultCollector
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryTranslationRegistry
+import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
 import io.kotest.matchers.shouldBe
 
 private object ApplicationDriver {
 
     fun run(commandProvider: UserInputStream, asserter: ResultCollector) {
-        val dictionary = InMemoryTranslationRegistry()
+        val dictionary = InMemoryDictionary()
         val market = InMemoryMarket()
         val parserFactory = ParserFactory()
 

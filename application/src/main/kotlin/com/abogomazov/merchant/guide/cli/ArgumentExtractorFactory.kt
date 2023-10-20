@@ -1,5 +1,7 @@
-package com.abogomazov.merchant.guide.application
+package com.abogomazov.merchant.guide.cli
 
+import com.abogomazov.merchant.guide.cli.CommandParser
+import com.abogomazov.merchant.guide.cli.CommandParserFactory
 import com.abogomazov.merchant.guide.cli.parser.ExitCommandExtractor
 import com.abogomazov.merchant.guide.cli.parser.market.GetResourceMarketPriceCommandParser
 import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCommandParser

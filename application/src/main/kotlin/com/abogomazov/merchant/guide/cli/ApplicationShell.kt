@@ -1,7 +1,6 @@
-package com.abogomazov.merchant.guide.application
+package com.abogomazov.merchant.guide.cli
 
 import arrow.core.Either
-import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
