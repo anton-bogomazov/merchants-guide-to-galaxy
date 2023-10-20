@@ -19,6 +19,7 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
+import io.kotest.assertions.arrow.core.shouldBeRight
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -65,7 +66,7 @@ fun englishDictionary() = PreconfiguredTranslationProvider(
         ten() to RomanDigit.X,
         fifty() to RomanDigit.L,
         localDigit("hundred") to RomanDigit.C,
-        localDigit("five-hundred") to RomanDigit.D,
+        localDigit("fiveHundred") to RomanDigit.D,
         localDigit("thousand") to RomanDigit.M,
     )
 )
@@ -80,8 +81,8 @@ fun englishNumberEvaluator() = LocalNumberEvaluator(englishDictionary())
 class WaterDirtMarketPriceProvider : MarketPriceProvider {
     override fun getUnitPrice(resource: Resource): UnitPrice? {
         return when (resource) {
-            dirt() -> UnitPrice(bigDec(1.5))
-            water() -> UnitPrice(bigDec(0.9))
+            dirt() -> price(1.5f)
+            water() -> price(0.9f)
             else -> null
         }
     }
@@ -89,27 +90,26 @@ class WaterDirtMarketPriceProvider : MarketPriceProvider {
 
 fun waterDirtMarket() = WaterDirtMarketPriceProvider()
 
-fun dirt() = Resource("Dirt")
-fun water() = Resource("Water")
-fun steamDeck() = Resource("SteamDeck")
+fun dirt() = Resource.from("Dirt").shouldBeRight()
+fun water() = Resource.from("Water").shouldBeRight()
+fun steamDeck() = Resource.from("SteamDeck").shouldBeRight()
 
-fun localDigit(value: String) = LocalDigit(value)
+fun localDigit(value: String): LocalDigit = LocalDigit.from(value).shouldBeRight()
 fun five() = localDigit("five")
 fun ten() = localDigit("ten")
 fun fifty() = localDigit("fifty")
 fun one() = localDigit("one")
 
-fun localNumber(vararg digits: LocalDigit) = LocalNumber(digits.toList())
-
+fun localNumber(vararg digits: LocalDigit): LocalNumber = LocalNumber.from(digits.toList()).shouldBeRight()
 fun localThree() = localNumber(one(), one(), one())
 fun localFour() = localNumber(one(), five())
 
-fun amount(int: Int) = Amount(int)
-fun price(float: Float) = UnitPrice(float.toBigDecimal())
-fun credits(int: Int) = Credits(bigInt(int))
+fun amount(int: Int): Amount = Amount.from(int).shouldBeRight()
+fun price(float: Float): UnitPrice = UnitPrice.from(float.toBigDecimal())
+fun credits(int: Int): Credits = Credits.from(bigInt(int)).shouldBeRight()
 
-fun bigInt(value: Int) = BigInteger.valueOf(value.toLong())
-fun bigDec(value: Double) = BigDecimal.valueOf(value)
+fun bigInt(value: Int): BigInteger = BigInteger.valueOf(value.toLong())
+fun bigDec(value: Double): BigDecimal = BigDecimal.valueOf(value)
 
 fun getResourceResult(credits: Credits) =
     either<GetResourceMarketPriceError, Credits> { return credits.right() }

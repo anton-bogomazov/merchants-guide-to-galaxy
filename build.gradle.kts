@@ -18,6 +18,8 @@ subprojects {
 
         plugin(Plugins.detekt)
         plugin("jacoco")
+
+        plugin(Plugins.testFixtures)
     }
 
     detekt {

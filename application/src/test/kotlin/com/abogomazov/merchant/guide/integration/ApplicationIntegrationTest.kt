@@ -57,7 +57,15 @@ class ApplicationIntegrationTest : FreeSpec({
         runTest(commands.unzip().first, commands.unzip().second)
     }
 
-    // TODO add test case with complex parsing
+    "complex parsing".config(enabled = false) {
+        val commands = listOf(
+            "is much is V" to "",
+            "glob is V V" to "",
+            "glob is VV" to "",
+        )
+
+        runTest(commands.unzip().first, commands.unzip().second)
+    }
 
     "monkey test" {
         val commands = mutableListOf<String>()

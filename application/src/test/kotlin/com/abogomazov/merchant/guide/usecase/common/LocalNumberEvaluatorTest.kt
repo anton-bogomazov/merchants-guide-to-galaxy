@@ -5,6 +5,7 @@ import com.abogomazov.merchant.guide.domain.englishDictionary
 import com.abogomazov.merchant.guide.domain.fifty
 import com.abogomazov.merchant.guide.domain.five
 import com.abogomazov.merchant.guide.domain.local.LocalNumber
+import com.abogomazov.merchant.guide.domain.localNumber
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.ten
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -15,8 +16,8 @@ import io.kotest.matchers.shouldBe
 class LocalNumberEvaluatorTest : FreeSpec({
 
     "uses provided dictionary to translate to roman number" {
-        val localNumber = LocalNumber(
-            listOf(fifty(), ten(), ten(), ten(), five(), one(), one(), one())
+        val localNumber = localNumber(
+            fifty(), ten(), ten(), ten(), five(), one(), one(), one()
         )
 
         LocalNumberEvaluator(englishDictionary())
@@ -26,9 +27,7 @@ class LocalNumberEvaluatorTest : FreeSpec({
     }
 
     "local number representing invalid roman number cannot be evaluated" {
-        val localNumber = LocalNumber(
-            listOf(one(), one(), five())
-        )
+        val localNumber = localNumber(one(), one(), five())
 
         LocalNumberEvaluator(englishDictionary())
             .evaluate(localNumber)
@@ -36,9 +35,7 @@ class LocalNumberEvaluatorTest : FreeSpec({
     }
 
     "impossible to translate number with insufficient dictionary" {
-        val localNumber = LocalNumber(
-            listOf(one(), one(), five())
-        )
+        val localNumber = localNumber(one(), one(), five())
 
         LocalNumberEvaluator(emptyDictionary())
             .evaluate(localNumber)

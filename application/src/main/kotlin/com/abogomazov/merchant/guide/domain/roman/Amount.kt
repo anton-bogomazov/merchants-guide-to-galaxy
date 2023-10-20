@@ -12,6 +12,8 @@ data class Amount internal constructor(private val value: Int) {
     companion object {
         fun from(value: Int) = either {
             ensure(value >= 0) { AmountValidationError.NegativeValue }
+
+            Amount(value)
         }
     }
 

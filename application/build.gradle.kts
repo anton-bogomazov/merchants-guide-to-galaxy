@@ -14,6 +14,11 @@ dependencies {
     testImplementation(Libs.kotest_arrow)
 
     testImplementation(Libs.mockk)
+
+    testFixturesImplementation(project(":application"))
+    testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.kotest_runner)
+    testFixturesImplementation(Libs.kotest_arrow)
 }
 
 application {

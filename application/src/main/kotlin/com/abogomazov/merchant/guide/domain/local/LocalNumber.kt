@@ -12,6 +12,8 @@ data class LocalNumber internal constructor(val digits: List<LocalDigit>) {
     companion object {
         fun from(digits: List<LocalDigit>) = either {
             ensure(digits.isNotEmpty()) { LocalNumberValidationError.NoDigits }
+
+            LocalNumber(digits)
         }
     }
 

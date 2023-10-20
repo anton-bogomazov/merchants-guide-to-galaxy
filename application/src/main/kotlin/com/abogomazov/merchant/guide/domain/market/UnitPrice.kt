@@ -11,6 +11,8 @@ data class UnitPrice internal constructor(private val value: BigDecimal) {
         fun calculate(total: Credits, quantity: Amount) = UnitPrice(
             total.toBigDecimal().divide(quantity.toBigDecimal(), roundDownContext())
         )
+        // TODO Add validation: non-negative
+        fun from(value: BigDecimal) = UnitPrice(value)
     }
 
     fun toBigDecimal() = value
