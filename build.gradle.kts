@@ -24,6 +24,7 @@ subprojects {
         toolVersion = Plugins.Versions.detekt
         config.setFrom(file(Plugins.Paths.detekt_config))
         buildUponDefaultConfig = true
+        autoCorrect = true
 
         dependencies {
             detektPlugins(Plugins.detekt_formatting)
