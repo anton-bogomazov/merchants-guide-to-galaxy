@@ -8,16 +8,17 @@ sealed interface ResourceValidationError {
     data object EmptyString : ResourceValidationError
     data object NonLetters : ResourceValidationError
     data object MoreThanOneWord : ResourceValidationError
+    data object CreditsNameIsReserved : ResourceValidationError
 }
 
-//TODO RESERVE NAME "CREDITS"
 data class Resource internal constructor(private val value: String) {
 
     companion object {
-        fun from(value: String) = either<ResourceValidationError, Resource> {
+        fun from(value: String) = either {
             ensure(value.isNotBlank()) { EmptyString }
             ensure(value.singleWord()) { MoreThanOneWord }
             ensure(value.containsOnlyLetters()) { NonLetters }
+            ensure(value.isNotCredits()) { CreditsNameIsReserved }
 
             Resource(value)
         }
@@ -27,5 +28,6 @@ data class Resource internal constructor(private val value: String) {
 
 }
 
+private fun String.isNotCredits() = this.lowercase() != "credits"
 private fun String.singleWord() = this.split("\\s+".toRegex()).size == 1
 private fun String.containsOnlyLetters() = this.all { it.isLetter() }

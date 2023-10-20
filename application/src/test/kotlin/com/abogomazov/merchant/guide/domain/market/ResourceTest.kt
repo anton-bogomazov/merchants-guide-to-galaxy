@@ -39,4 +39,10 @@ class ResourceTest : FreeSpec({
         }
     }
 
+    "impossible to create Credits resource" - {
+        withData("CrEdIts", "Credits", "credits") {
+            Resource.from(it).shouldBeLeft(ResourceValidationError.CreditsNameIsReserved)
+        }
+    }
+
 })

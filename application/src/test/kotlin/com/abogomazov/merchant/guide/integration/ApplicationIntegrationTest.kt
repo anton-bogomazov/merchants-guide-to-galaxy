@@ -49,6 +49,9 @@ class ApplicationIntegrationTest : FreeSpec({
                     "how many Credits is groop groop groop Mud ?" to "groop groop groop Mud is 0 Credits",
                     "groop groop groop Mud is 1 Credits" to "Set",
                     "how many Credits is glob Mud ?" to "glob Mud is 0 Credits",
+                    // Can't create resource 'Credits', the name is reserved
+                    "pish pish Credits is 3910 Credits" to "[Error] InvalidArguments",
+                    "how many Credits is glob prok Credits ?" to "[Error] InvalidArguments",
                 )
 
         runTest(commands.unzip().first, commands.unzip().second)
