@@ -4,6 +4,8 @@ plugins {
 
 dependencies {
     implementation(Libs.arrow)
+    implementation(Libs.slf4j_api)
+    implementation(Libs.logback)
 
     testImplementation(Libs.kotest_runner)
     testImplementation(Libs.kotest_assertions)
