@@ -44,12 +44,12 @@ data class RomanNumber private constructor(
 }
 
 
-private const val CONSECUTIVE_NUMERALS_LIMIT = 4
+private const val MAX_CONSECUTIVE_NUMERALS = 3
 private val NON_REPEATING_NUMERALS = setOf(RomanDigit.V, RomanDigit.L, RomanDigit.D)
-private val VALID_SUBTRACTIVE_NUMERALS = setOf(RomanDigit.I, RomanDigit.X, RomanDigit.C)
+private val SUBTRACTIVE_NUMERALS = setOf(RomanDigit.I, RomanDigit.X, RomanDigit.C)
 
 private fun List<RomanDigit>.exceedsConsecutiveNumeralsLimit() =
-    this.windowed(CONSECUTIVE_NUMERALS_LIMIT).any { it.allEqual() }
+    this.windowed(MAX_CONSECUTIVE_NUMERALS + 1).any { it.allEqual() }
 
 private fun List<RomanDigit>.hasRepeatedVLOrD() =
     this.windowed(2).any { it[0] in NON_REPEATING_NUMERALS && it.allEqual() }
@@ -59,7 +59,7 @@ private fun List<RomanDigit>.hasIncorrectSubtractiveNumeral() =
         val (first, second) = it.toPair()
         if (first.value >= second.value) return@any false
 
-        first !in VALID_SUBTRACTIVE_NUMERALS || second.value / first.value > 10
+        first !in SUBTRACTIVE_NUMERALS || second.value / first.value > 10
     }
 
 private fun List<RomanDigit>.hasMultipleSubtractiveNumerals() =
