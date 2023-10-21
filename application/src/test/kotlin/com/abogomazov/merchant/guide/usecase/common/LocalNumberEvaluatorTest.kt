@@ -4,7 +4,6 @@ import com.abogomazov.merchant.guide.domain.emptyDictionary
 import com.abogomazov.merchant.guide.domain.englishDictionary
 import com.abogomazov.merchant.guide.domain.fifty
 import com.abogomazov.merchant.guide.domain.five
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
 import com.abogomazov.merchant.guide.domain.localNumber
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.ten
@@ -17,7 +16,14 @@ class LocalNumberEvaluatorTest : FreeSpec({
 
     "uses provided dictionary to translate to roman number" {
         val localNumber = localNumber(
-            fifty(), ten(), ten(), ten(), five(), one(), one(), one()
+            fifty(),
+            ten(),
+            ten(),
+            ten(),
+            five(),
+            one(),
+            one(),
+            one()
         )
 
         LocalNumberEvaluator(englishDictionary())

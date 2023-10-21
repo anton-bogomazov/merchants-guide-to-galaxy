@@ -22,7 +22,7 @@ fun String.toResource() = Resource.from(this)
 
 fun String.toCredit() =
     try {
-        Credits.from(BigInteger.valueOf(this@toCredit.toLong()))
+        Credits.from(BigInteger(this@toCredit))
             .mapLeft { ParserError.InvalidArguments }
     } catch (e: NumberFormatException) {
         ParserError.InvalidArguments.left()
