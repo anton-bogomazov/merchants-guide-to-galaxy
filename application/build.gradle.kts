@@ -2,6 +2,10 @@ plugins {
     application
 }
 
+kotlin {
+    jvmToolchain(JavaLanguageVersion.of(Core.Versions.JAVA_VERSION).asInt())
+}
+
 dependencies {
     implementation(Libs.arrow)
     implementation(Libs.slf4j_api)
