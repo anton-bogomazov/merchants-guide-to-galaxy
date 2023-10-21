@@ -1,8 +1,5 @@
 package com.abogomazov.merchant.guide.application
 
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
-import com.abogomazov.merchant.guide.application.io.ConsoleIO
 import com.abogomazov.merchant.guide.cli.ApplicationShell
 import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.CommandSource
@@ -18,7 +15,6 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
-import org.slf4j.LoggerFactory
 
 class Application(
     private val translationProvider: TranslationProvider,
@@ -45,28 +41,4 @@ class Application(
             )
         )
     }
-}
-
-fun main() {
-    val logger = LoggerFactory.getLogger("Main")
-
-    val dictionary = InMemoryDictionary()
-    val market = InMemoryMarket()
-    val io = ConsoleIO()
-    val parserFactory = ParserFactory()
-
-    logger.info("Dependencies instantiated, constructing application")
-    val app = Application(
-        translationPersister = dictionary,
-        translationProvider = dictionary,
-        translationRemover = dictionary,
-        marketPricePersister = market,
-        marketPriceProvider = market,
-        resultCollector = io,
-        commandSource = io,
-        parserFactory = parserFactory
-    ).build()
-    logger.info("Application constructed")
-
-    app.run()
 }
