@@ -28,3 +28,7 @@ dependencies {
 application {
     mainClass.set("com.abogomazov.merchant.guide.MainKt")
 }
+
+tasks.named<JavaExec>("run") {
+    standardInput = System.`in`
+}
