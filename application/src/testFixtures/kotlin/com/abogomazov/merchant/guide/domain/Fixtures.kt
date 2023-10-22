@@ -20,6 +20,8 @@ import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 import io.kotest.assertions.arrow.core.shouldBeRight
+import io.kotest.property.Arb
+import io.kotest.property.arbitrary.arbitrary
 import java.math.BigDecimal
 import java.math.BigInteger
 
@@ -81,8 +83,8 @@ fun englishNumberEvaluator() = LocalNumberEvaluator(englishDictionary())
 class WaterDirtMarketPriceProvider : MarketPriceProvider {
     override fun getUnitPrice(resource: Resource): UnitPrice? {
         return when (resource) {
-            dirt() -> price(1.5f)
-            water() -> price(0.9f)
+            dirt() -> price(1.5)
+            water() -> price(0.9)
             else -> null
         }
     }
@@ -105,8 +107,9 @@ fun localThree() = localNumber(one(), one(), one())
 fun localFour() = localNumber(one(), five())
 
 fun amount(int: Int): Amount = Amount.from(int).shouldBeRight()
-fun price(float: Float): UnitPrice = UnitPrice.from(float.toBigDecimal())
+fun price(double: Double): UnitPrice = UnitPrice.from(double.toBigDecimal()).shouldBeRight()
 fun credits(int: Int): Credits = Credits.from(bigInt(int)).shouldBeRight()
+fun credits(bigInteger: BigInteger): Credits = Credits.from(bigInteger).shouldBeRight()
 
 fun bigInt(value: Int): BigInteger = BigInteger.valueOf(value.toLong())
 fun bigDec(value: Double): BigDecimal = BigDecimal.valueOf(value)
@@ -130,3 +133,13 @@ fun setTranslationResult() =
     either<SetTranslationError, Unit> { return Unit.right() }
 fun setTranslationError(error: SetTranslationError) =
     either<SetTranslationError, Unit> { return error.left() }
+
+fun BigDecimal.dropFractional() = this.toBigInteger().toBigDecimal()
+
+fun Arb.Companion.amount() = arbitrary {
+    amount(it.random.nextInt(0, Int.MAX_VALUE))
+}
+
+fun Arb.Companion.price() = arbitrary {
+    price(it.random.nextDouble(0.00, Double.MAX_VALUE))
+}

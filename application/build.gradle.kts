@@ -23,6 +23,7 @@ dependencies {
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_runner)
     testFixturesImplementation(Libs.kotest_arrow)
+    testFixturesImplementation(Libs.kotest_property)
 }
 
 application {

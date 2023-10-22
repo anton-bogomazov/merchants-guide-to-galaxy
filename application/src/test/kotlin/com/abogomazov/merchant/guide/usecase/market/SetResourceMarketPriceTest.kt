@@ -20,6 +20,6 @@ class SetResourceMarketPriceTest : FreeSpec({
 
         sut.execute(localFour(), dirt(), credits(50)).shouldBeRight()
 
-        verify { persister.setPrice(dirt(), price(12.5f)) }
+        verify { persister.setPrice(dirt(), price(12.5)) }
     }
 })
