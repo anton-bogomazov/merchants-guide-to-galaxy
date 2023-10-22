@@ -18,7 +18,7 @@ class LocalNumberEvaluator(
 ) {
     fun evaluate(number: LocalNumber): Either<LocalNumberEvaluationError, Amount> {
         logger.info("Evaluating $number")
-        return number.digits.map { localDigit ->
+        return number.toLocalDigits().map { localDigit ->
             val romanNumber = translationProvider.getTranslation(localDigit)
             if (romanNumber == null) {
                 logger.error("Translation not found for $localDigit")

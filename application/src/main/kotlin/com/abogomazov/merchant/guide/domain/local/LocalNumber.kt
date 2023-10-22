@@ -7,7 +7,9 @@ sealed interface LocalNumberValidationError {
     data object NoDigits : LocalNumberValidationError
 }
 
-data class LocalNumber internal constructor(val digits: List<LocalDigit>) {
+data class LocalNumber internal constructor(
+    private val digits: List<LocalDigit>
+) {
 
     companion object {
         fun from(digits: List<LocalDigit>) = either {
@@ -17,5 +19,6 @@ data class LocalNumber internal constructor(val digits: List<LocalDigit>) {
         }
     }
 
+    fun toLocalDigits() = digits
     override fun toString() = digits.joinToString(" ")
 }
