@@ -7,25 +7,32 @@ import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCom
 import com.abogomazov.merchant.guide.cli.parser.translator.GetTranslationCommandParser
 import com.abogomazov.merchant.guide.cli.parser.translator.SetTranslationCommandParser
 
+typealias ParserConstructor = (CommandParser) -> CommandParser
+
 class ParserFactory : CommandParserFactory {
-    override fun create(command: String): CommandParser {
-        return when {
-            SetResourceMarketPriceCommandParser.match(command) -> {
-                SetResourceMarketPriceCommandParser(command)
-            }
-            GetResourceMarketPriceCommandParser.match(command) -> {
-                GetResourceMarketPriceCommandParser(command)
-            }
-            GetTranslationCommandParser.match(command) -> {
-                GetTranslationCommandParser(command)
-            }
-            SetTranslationCommandParser.match(command) -> {
-                SetTranslationCommandParser(command)
-            }
-            ExitCommandParser.match(command) -> {
-                ExitCommandParser
-            }
-            else -> UnknownCommandParser
+    inner class ParserChainBuilder {
+        private val chain = mutableListOf<ParserConstructor>()
+
+        fun next(parser: ParserConstructor): ParserChainBuilder {
+            chain.add(parser)
+            return this
         }
+
+        fun terminate() =
+            chain.fold(
+                { UnknownCommandParser }
+            ) { acc: () -> CommandParser, cons: ParserConstructor ->
+                { cons(acc()) }
+            }()
+    }
+
+    override fun create(): CommandParser {
+        return ParserChainBuilder()
+            .next { ExitCommandParser(it) }
+            .next { SetResourceMarketPriceCommandParser(it) }
+            .next { GetResourceMarketPriceCommandParser(it) }
+            .next { GetTranslationCommandParser(it) }
+            .next { SetTranslationCommandParser(it) }
+            .terminate()
     }
 }

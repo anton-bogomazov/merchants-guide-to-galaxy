@@ -16,10 +16,11 @@ class ApplicationShell(
     private val resultCollector: ResultCollector,
 ) {
     fun run() {
+        val commandParser = commandParserFactory.create()
         do {
             val userInput = commandSource.read()
             logger.info("Processing input: \"$userInput\"")
-            val command = commandParserFactory.create(userInput).parse()
+            val command = commandParser.parse(userInput)
                 .fold({ resolveErrors(it) }, { it })
 
             when (command) {
@@ -44,11 +45,11 @@ fun resolveErrors(error: ParserError) =
     }
 
 fun interface CommandParserFactory {
-    fun create(command: String): CommandParser
+    fun create(): CommandParser
 }
 
-fun interface CommandParser {
-    fun parse(): Either<ParserError, Command>
+interface CommandParser {
+    fun parse(command: String): Either<ParserError, Command>
 }
 
 fun interface CommandSource {

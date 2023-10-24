@@ -6,11 +6,14 @@ import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
 
-object ExitCommandParser : CommandParser {
-
-    fun match(command: String) = command.trim().lowercase() == "exit"
-
-    override fun parse(): Either<ParserError, Command> {
-        return ExitCommand.right()
+class ExitCommandParser(
+    private val next: CommandParser
+) : CommandParser {
+    override fun parse(command: String): Either<ParserError, Command> {
+        return if (command.trim().lowercase() != "exit") {
+            next.parse(command)
+        } else {
+            ExitCommand.right()
+        }
     }
 }

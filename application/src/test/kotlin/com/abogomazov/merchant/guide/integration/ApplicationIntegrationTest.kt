@@ -57,11 +57,24 @@ class ApplicationIntegrationTest : FreeSpec({
         runTest(commands.unzip().first, commands.unzip().second)
     }
 
-    "complex parsing".config(enabled = false) {
+    // TODO unit tests
+    "reserved keywords".config(enabled = false) {
         val commands = listOf(
-            "is much is V" to "",
-            "glob is V V" to "",
-            "glob is VV" to "",
+            "is much is V" to "error",
+            "glob is VV" to "error",
+            "glob is IV" to "error",
+            "glob is V V" to "error",
+            "glob is Silver is 34 Credits" to "error",
+            "much Silver is 34 Credits" to "error",
+            "HOW Silver is 34 Credits" to "error",
+            "how is Silver is 34 Credits" to "error",
+            "credits is Silver is 34 Credits" to "error",
+            "how much is how is ?" to "error",
+            "how much is much ?" to "error",
+            "? how many Credits is glob Mud ?" to "error",
+            "how much Credits is glob prok Silver ?" to "error",
+            "how many credits is glob prok Silver ?" to "error",
+            "how many credits is is is Silver ?" to "error",
         )
 
         runTest(commands.unzip().first, commands.unzip().second)
