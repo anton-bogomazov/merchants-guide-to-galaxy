@@ -1,6 +1,7 @@
 package com.abogomazov.merchant.guide.cli.parser.market
 
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
+import com.abogomazov.merchant.guide.cli.parser.GetResourcePriceCommandParser
 import com.abogomazov.merchant.guide.cli.parser.UnknownCommandParser
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.five
@@ -23,7 +24,7 @@ class GetResourceMarketPriceCommandParserTest : FreeSpec({
             "how many Credits is \n one five     one five\t one five    Dirt ?" to
                     localNumber(one(), five(), one(), five(), one(), five()),
         ) { (command, localNumber) ->
-            GetResourceMarketPriceCommandParser(UnknownCommandParser).parse(command)
+            GetResourcePriceCommandParser(UnknownCommandParser).parse(command)
                 .shouldBeRight(
                     GetResourceMarketPriceCommand(
                         localNum = localNumber,

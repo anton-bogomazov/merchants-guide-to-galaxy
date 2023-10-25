@@ -2,37 +2,35 @@ package com.abogomazov.merchant.guide.cli
 
 import com.abogomazov.merchant.guide.cli.parser.ExitCommandParser
 import com.abogomazov.merchant.guide.cli.parser.UnknownCommandParser
-import com.abogomazov.merchant.guide.cli.parser.market.GetResourceMarketPriceCommandParser
-import com.abogomazov.merchant.guide.cli.parser.market.SetResourceMarketPriceCommandParser
-import com.abogomazov.merchant.guide.cli.parser.translator.GetTranslationCommandParser
-import com.abogomazov.merchant.guide.cli.parser.translator.SetTranslationCommandParser
+import com.abogomazov.merchant.guide.cli.parser.GetResourcePriceCommandParser
+import com.abogomazov.merchant.guide.cli.parser.SetResourcePriceCommandParser
+import com.abogomazov.merchant.guide.cli.parser.GetTranslationCommandParser
+import com.abogomazov.merchant.guide.cli.parser.SetTranslationCommandParser
 
 typealias ParserConstructor = (CommandParser) -> CommandParser
 
 class ParserFactory : CommandParserFactory {
-    inner class ParserChainBuilder {
+    private class ParserChainBuilder {
         private val chain = mutableListOf<ParserConstructor>()
 
-        fun next(parser: ParserConstructor): ParserChainBuilder {
-            chain.add(parser)
-            return this
-        }
+        fun next(parser: ParserConstructor) =
+            this.also { chain.add(parser) }
 
         fun terminate() =
             chain.fold(
                 { UnknownCommandParser }
-            ) { acc: () -> CommandParser, cons: ParserConstructor ->
+            ) { acc: () -> CommandParser,
+                cons: ParserConstructor ->
                 { cons(acc()) }
             }()
     }
 
-    override fun create(): CommandParser {
-        return ParserChainBuilder()
+    override fun create(): CommandParser =
+        ParserChainBuilder()
             .next { ExitCommandParser(it) }
-            .next { SetResourceMarketPriceCommandParser(it) }
-            .next { GetResourceMarketPriceCommandParser(it) }
+            .next { SetResourcePriceCommandParser(it) }
+            .next { GetResourcePriceCommandParser(it) }
             .next { GetTranslationCommandParser(it) }
             .next { SetTranslationCommandParser(it) }
             .terminate()
-    }
 }

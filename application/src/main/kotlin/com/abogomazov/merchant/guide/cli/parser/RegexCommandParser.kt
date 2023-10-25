@@ -1,18 +1,20 @@
 package com.abogomazov.merchant.guide.cli.parser
 
 import arrow.core.Either
-import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.Command
-import com.abogomazov.merchant.guide.cli.commands.ExitCommand
 
-class ExitCommandParser(
-    private val next: CommandParser
+abstract class RegexCommandParser(
+    private val next: CommandParser,
+    private val regex: Regex
 ) : CommandParser {
+
     override fun parse(command: String): Either<ParserError, Command> =
-        if (command.trim().lowercase() != "exit") {
+        if (!command.matches(regex)) {
             next.parse(command)
         } else {
-            ExitCommand.right()
+            constructCommand(command)
         }
+
+    protected abstract fun constructCommand(command: String): Either<ParserError, Command>
 }

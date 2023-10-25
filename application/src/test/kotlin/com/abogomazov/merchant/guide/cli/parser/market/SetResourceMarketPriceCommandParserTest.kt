@@ -1,6 +1,7 @@
 package com.abogomazov.merchant.guide.cli.parser.market
 
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
+import com.abogomazov.merchant.guide.cli.parser.SetResourcePriceCommandParser
 import com.abogomazov.merchant.guide.cli.parser.UnknownCommandParser
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
@@ -16,7 +17,7 @@ class SetResourceMarketPriceCommandParserTest : FreeSpec({
             "one five Dirt is 34 Credits",
             "one five Dirt is    34 Credits ",
         ) {
-            SetResourceMarketPriceCommandParser(UnknownCommandParser).parse(it)
+            SetResourcePriceCommandParser(UnknownCommandParser).parse(it)
                 .shouldBeRight(
                     SetResourceMarketPriceCommand(localFour(), dirt(), credits(34))
                 )
