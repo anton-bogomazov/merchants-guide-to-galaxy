@@ -92,9 +92,10 @@ class WaterDirtMarketPriceProvider : MarketPriceProvider {
 
 fun waterDirtMarket() = WaterDirtMarketPriceProvider()
 
-fun dirt() = Resource.from("Dirt").shouldBeRight()
-fun water() = Resource.from("Water").shouldBeRight()
-fun steamDeck() = Resource.from("SteamDeck").shouldBeRight()
+fun resource(value: String) = Resource.from(value).shouldBeRight()
+fun dirt() = resource("Dirt")
+fun water() = resource("Water")
+fun steamDeck() = resource("SteamDeck")
 
 fun localDigit(value: String): LocalDigit = LocalDigit.from(value).shouldBeRight()
 fun five() = localDigit("five")

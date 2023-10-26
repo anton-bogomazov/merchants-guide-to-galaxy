@@ -1,6 +1,5 @@
-package com.abogomazov.merchant.guide.cli.parser
+package com.abogomazov.merchant.guide.cli.parser.utils
 
-import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 

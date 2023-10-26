@@ -15,7 +15,7 @@ class SetResourcePriceCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .LocalNum().s().Resource().s().iz().s().ArabNum().s().credits().os()
+            .os().LocalNum().s().Resource().s().iz().s().ArabNum().s().credits().os()
             .build()
 
         private fun String.extractArguments() =

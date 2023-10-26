@@ -14,7 +14,7 @@ class GetResourcePriceCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .how().s().many().s().credits().s().iz().s().LocalNum().s().Resource().s().question().os()
+            .os().how().s().many().s().credits().s().iz().s().LocalNum().s().Resource().s().question().os()
             .build()
 
         private fun String.extractArguments() =

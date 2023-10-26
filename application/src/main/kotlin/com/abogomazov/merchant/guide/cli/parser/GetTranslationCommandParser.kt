@@ -14,7 +14,7 @@ class GetTranslationCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .how().s().much().s().iz().s().LocalNum().s().question().os()
+            .os().how().s().much().s().iz().s().LocalNum().s().question().os()
             .build()
 
         private fun String.extractArguments() =
