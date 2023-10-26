@@ -1,21 +1,16 @@
 package com.abogomazov.merchant.guide.domain.market
 
 import com.abogomazov.merchant.guide.domain.amount
-import com.abogomazov.merchant.guide.domain.bigDec
 import com.abogomazov.merchant.guide.domain.credits
-import com.abogomazov.merchant.guide.domain.dropFractional
-import com.abogomazov.merchant.guide.domain.price
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.bigdecimal.shouldBeGreaterThan
-import io.kotest.matchers.bigdecimal.shouldBeGreaterThanOrEquals
 import io.kotest.matchers.bigdecimal.shouldBeLessThan
 import io.kotest.matchers.bigdecimal.shouldHavePrecision
 import io.kotest.matchers.comparables.shouldBeGreaterThanOrEqualTo
 import io.kotest.matchers.comparables.shouldBeLessThan
 import io.kotest.matchers.shouldBe
-import io.kotest.matchers.shouldNot
 import io.kotest.matchers.shouldNotBe
 import io.kotest.property.Arb
 import io.kotest.property.arbitrary.bigDecimal

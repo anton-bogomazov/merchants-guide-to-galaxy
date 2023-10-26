@@ -21,7 +21,9 @@ class ParserFactory : CommandParserFactory {
                 { UnknownCommandParser }
             ) { acc: () -> CommandParser,
                 cons: ParserConstructor ->
-                { cons(acc()) }
+                {
+                    cons(acc())
+                }
             }()
     }
 

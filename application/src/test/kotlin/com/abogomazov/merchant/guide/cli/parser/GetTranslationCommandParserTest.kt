@@ -13,7 +13,10 @@ class GetTranslationCommandParserTest : FreeSpec({
     "proper input successfully parsed" - {
         withData(
             "   how much is\t glob   prok \nglob  ok   ? " to
-                    galaxyNumber(galaxyNumeral("glob"), galaxyNumeral("prok"), galaxyNumeral("glob"), galaxyNumeral("ok")),
+                    galaxyNumber(
+                        galaxyNumeral("glob"), galaxyNumeral("prok"),
+                        galaxyNumeral("glob"), galaxyNumeral("ok")
+                    ),
            "how much is how is ?" to galaxyNumber(galaxyNumeral("how"), galaxyNumeral("is")),
             "how much is much ?" to galaxyNumber(galaxyNumeral("much")),
 

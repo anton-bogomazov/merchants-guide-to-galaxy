@@ -23,15 +23,23 @@ class GetResourcePriceCommandParserTest : FreeSpec({
             nameFn = { it.first },
             case("how many Credits is one five Dirt ?", galaxyNumber(one(), five())),
             case("\nhow many \tCredits is one  Dirt  \n ? \n", galaxyNumber(one())),
-            case("how many Credits is one five one five one five one five Dirt ? ",
-                galaxyNumber(one(), five(), one(), five(), one(), five(), one(), five())),
+            case(
+                "how many Credits is one five one five one five one five Dirt ? ",
+                galaxyNumber(one(), five(), one(), five(), one(), five(), one(), five())
+            ),
             case(" how many      Credits   is one    Dirt  ? ", galaxyNumber(one())),
-            case("     how many Credits is \n one five     one five\t one five    Dirt ?",
-                galaxyNumber(one(), five(), one(), five(), one(), five())),
-            case("how many Credits is one five Dirt Dirt ?",
-                galaxyNumber(one(), five(), galaxyNumeral("Dirt"))),
-            case("how many Credits is one five much ?", galaxyNumber(one(), five()),
-                resource("much")),
+            case(
+                "     how many Credits is \n one five     one five\t one five    Dirt ?",
+                galaxyNumber(one(), five(), one(), five(), one(), five())
+            ),
+            case(
+                "how many Credits is one five Dirt Dirt ?",
+                galaxyNumber(one(), five(), galaxyNumeral("Dirt"))
+            ),
+            case(
+                "how many Credits is one five much ?", galaxyNumber(one(), five()),
+                resource("much")
+            ),
         ) { (command, galaxyNumber, resource) ->
             GetResourcePriceCommandParser(NullParser).parse(command)
                 .shouldBeRight(
