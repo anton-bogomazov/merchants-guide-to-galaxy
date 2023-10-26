@@ -14,7 +14,7 @@ import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
-private val DEFAULT_MODE = "cli"
+private const val DEFAULT_MODE = "cli"
 
 class ApplicationFactory(
     private val translationProvider: TranslationProvider,
@@ -28,7 +28,10 @@ class ApplicationFactory(
         val evaluator = GalaxyNumberEvaluator(translationProvider)
         val getTranslationUseCase = GetTranslationUseCase(evaluator)
         val setTranslationUseCase = SetTranslationUseCase(
-            translationProvider, translationPersister, translationRemover)
+            translationProvider,
+            translationPersister,
+            translationRemover
+        )
         val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketPriceProvider)
         val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketPricePersister)
 
@@ -36,7 +39,10 @@ class ApplicationFactory(
             "cli" -> {
                 val io = ConsoleIO()
                 val commandExecutor = CommandExecutor(
-                    getTranslationUseCase, setTranslationUseCase, setPriceUseCase, getPriceUseCase
+                    getTranslationUseCase,
+                    setTranslationUseCase,
+                    setPriceUseCase,
+                    getPriceUseCase
                 )
                 ApplicationShell(
                     commandExecutor = commandExecutor,

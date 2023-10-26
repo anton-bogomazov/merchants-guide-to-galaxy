@@ -44,10 +44,6 @@ fun resolveErrors(error: ParserError) =
         is ParserError.FailedToExtractArguments -> UnknownCommand
     }
 
-fun interface CommandParserFactory {
-    fun create(): CommandParser
-}
-
 interface CommandParser {
     fun parse(command: String): Either<ParserError, Command>
 }

@@ -9,7 +9,7 @@ import com.abogomazov.merchant.guide.cli.parser.SetTranslationCommandParser
 
 typealias ParserConstructor = (CommandParser) -> CommandParser
 
-class ParserFactory : CommandParserFactory {
+class ParserFactory {
     private class ParserChainBuilder {
         private val chain = mutableListOf<ParserConstructor>()
 
@@ -27,7 +27,7 @@ class ParserFactory : CommandParserFactory {
             }()
     }
 
-    override fun create(): CommandParser =
+    fun create(): CommandParser =
         ParserChainBuilder()
             .next { ExitCommandParser(it) }
             .next { SetResourcePriceCommandParser(it) }
