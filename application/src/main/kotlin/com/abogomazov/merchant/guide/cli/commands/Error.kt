@@ -4,15 +4,15 @@ import com.abogomazov.merchant.guide.cli.parser.ParserError
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Resource
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 
 private fun errorMessage(reason: Any) = "[Error] $reason"
 
 fun translationNotFound(digit: GalaxyNumeral) =
     errorMessage("Translation not found for \"$digit\"")
 
-fun galaxyNumeralAlreadyAssociated(galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) =
-    errorMessage("Digit \"$galaxyNumeral\" is already associated with \"$romanDigit\"")
+fun galaxyNumeralAlreadyAssociated(galaxyNumeral: GalaxyNumeral, romanNumeral: RomanNumeral) =
+    errorMessage("Digit \"$galaxyNumeral\" is already associated with \"$romanNumeral\"")
 
 fun romanNotationRulesViolated(galaxyNumber: GalaxyNumber) =
     errorMessage("Number \"$galaxyNumber\" violates roman notation rules")

@@ -25,10 +25,10 @@ class GalaxyNumberEvaluator(
                 return GalaxyNumberEvaluationError.TranslationNotFound(galaxyNumeral).left()
             }
             romanNumber
-        }.let { romanDigits ->
-            RomanNumber.from(romanDigits)
+        }.let { romanNumeral ->
+            RomanNumber.from(romanNumeral)
                 .mapLeft {
-                    logger.error("$romanDigits violates roman notation rules: $it")
+                    logger.error("$romanNumeral violates roman notation rules: $it")
                     GalaxyNumberEvaluationError.RomanNotationRulesViolated
                 }
                 .map {

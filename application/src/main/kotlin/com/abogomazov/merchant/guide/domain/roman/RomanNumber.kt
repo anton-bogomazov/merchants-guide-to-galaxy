@@ -12,11 +12,11 @@ sealed interface RomanNumberValidationError {
 }
 
 data class RomanNumber private constructor(
-    private val digits: List<RomanDigit>
+    private val digits: List<RomanNumeral>
 ) {
 
     companion object {
-        fun from(digits: List<RomanDigit>) = either {
+        fun from(digits: List<RomanNumeral>) = either {
             ensure(
                 !digits.exceedsConsecutiveNumeralsLimit()
             ) { RomanNumberValidationError.ExceedsConsecutiveNumeralsLimit }
@@ -46,18 +46,18 @@ data class RomanNumber private constructor(
 }
 
 private const val MAX_CONSECUTIVE_NUMERALS = 3
-private val NON_REPEATING_NUMERALS = setOf(RomanDigit.V, RomanDigit.L, RomanDigit.D)
-private val SUBTRACTIVE_NUMERALS = setOf(RomanDigit.I, RomanDigit.X, RomanDigit.C)
+private val NON_REPEATING_NUMERALS = setOf(RomanNumeral.V, RomanNumeral.L, RomanNumeral.D)
+private val SUBTRACTIVE_NUMERALS = setOf(RomanNumeral.I, RomanNumeral.X, RomanNumeral.C)
 
-private fun List<RomanDigit>.exceedsConsecutiveNumeralsLimit() =
+private fun List<RomanNumeral>.exceedsConsecutiveNumeralsLimit() =
     this.windowed(MAX_CONSECUTIVE_NUMERALS + 1).any { it.allEqual() }
 
-private fun List<RomanDigit>.hasRepeatedVLOrD() =
+private fun List<RomanNumeral>.hasRepeatedVLOrD() =
     this.windowed(size = 2).any { it[0] in NON_REPEATING_NUMERALS && it.allEqual() }
 
-private fun List<RomanDigit>.hasIncorrectSubtractiveNumeral() =
+private fun List<RomanNumeral>.hasIncorrectSubtractiveNumeral() =
     this.windowed(size = 2).any {
-        val areSameOrder = { a: RomanDigit, b: RomanDigit ->
+        val areSameOrder = { a: RomanNumeral, b: RomanNumeral ->
             @Suppress("MagicNumber")
             val oneOrderDistance = 10
             a.value / b.value <= oneOrderDistance
@@ -68,14 +68,14 @@ private fun List<RomanDigit>.hasIncorrectSubtractiveNumeral() =
         first !in SUBTRACTIVE_NUMERALS || !areSameOrder(second, first)
     }
 
-private fun List<RomanDigit>.hasMultipleSubtractiveNumerals() =
+private fun List<RomanNumeral>.hasMultipleSubtractiveNumerals() =
     this.windowed(size = 3).any {
         val (first, second, third) = it.toTriple()
 
         first.value == second.value && second.value < third.value
     }
 
-private fun List<RomanDigit>.hasWrongNumeralsOrder() =
+private fun List<RomanNumeral>.hasWrongNumeralsOrder() =
     this.windowed(size = 3).any {
         val (first, second, third) = it.toTriple()
         if (first.value >= second.value) return@any false

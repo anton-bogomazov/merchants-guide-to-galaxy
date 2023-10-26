@@ -5,7 +5,7 @@ import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import java.math.BigInteger
 
 fun String.toGalaxyNumber() = GalaxyNumber(
@@ -14,7 +14,7 @@ fun String.toGalaxyNumber() = GalaxyNumber(
 
 fun String.toGalaxyNumeral() = GalaxyNumeral(this)
 
-fun String.toRomanDigit() = RomanDigit.valueOf(this)
+fun String.toRomanNumeral() = RomanNumeral.valueOf(this)
 
 fun String.toResource() = Resource.from(this)
         .mapLeft { ParserError.InvalidArguments }

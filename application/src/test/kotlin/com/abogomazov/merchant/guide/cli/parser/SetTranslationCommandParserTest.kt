@@ -5,7 +5,7 @@ import com.abogomazov.merchant.guide.cli.NullParser
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.galaxyNumeral
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
@@ -14,9 +14,9 @@ class SetTranslationCommandParserTest : FreeSpec({
 
     "proper input successfully parsed" - {
         withData(
-            case("glob is C", galaxyNumeral("glob"), RomanDigit.C),
-            case(" I is I", galaxyNumeral("I"), RomanDigit.I),
-            case("Credits is I", galaxyNumeral("Credits"), RomanDigit.I),
+            case("glob is C", galaxyNumeral("glob"), RomanNumeral.C),
+            case(" I is I", galaxyNumeral("I"), RomanNumeral.I),
+            case("Credits is I", galaxyNumeral("Credits"), RomanNumeral.I),
         ) { (command, galaxyNumeral, romanDigit) ->
             SetTranslationCommandParser(NullParser).parse(command)
                 .shouldBeRight(
@@ -38,5 +38,5 @@ class SetTranslationCommandParserTest : FreeSpec({
     }
 })
 
-private fun case(command: String, galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) =
-    Triple(command, galaxyNumeral, romanDigit)
+private fun case(command: String, galaxyNumeral: GalaxyNumeral, romanNumeral: RomanNumeral) =
+    Triple(command, galaxyNumeral, romanNumeral)

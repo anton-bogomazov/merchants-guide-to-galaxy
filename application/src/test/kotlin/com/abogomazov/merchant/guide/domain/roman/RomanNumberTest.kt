@@ -2,13 +2,13 @@
 
 package com.abogomazov.merchant.guide.domain.roman
 
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.C
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.D
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.I
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.L
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.M
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.V
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit.X
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.C
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.D
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.I
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.L
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.M
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.V
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral.X
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
@@ -19,7 +19,7 @@ import io.kotest.property.forAll
 class RomanNumberTest : FreeSpec({
 
     "any single digit is allowed" {
-        forAll<RomanDigit> { digit ->
+        forAll<RomanNumeral> { digit ->
             RomanNumber.from(listOf(digit)).isRight()
         }
     }

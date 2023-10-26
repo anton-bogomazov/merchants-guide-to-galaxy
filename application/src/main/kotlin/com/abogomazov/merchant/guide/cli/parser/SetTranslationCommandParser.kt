@@ -23,10 +23,10 @@ class SetTranslationCommandParser(
     }
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
-        command.extractArguments().map { (galaxyNumeral, romanDigit) ->
+        command.extractArguments().map { (galaxyNumeral, romanNumeral) ->
             return SetTranslationCommand(
                 galaxyNumeral = galaxyNumeral.toGalaxyNumeral(),
-                romanDigit = romanDigit.toRomanDigit(),
+                romanNumeral = romanNumeral.toRomanNumeral(),
             ).right()
         }
 }

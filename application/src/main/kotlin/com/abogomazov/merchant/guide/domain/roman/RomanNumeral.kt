@@ -1,6 +1,6 @@
 package com.abogomazov.merchant.guide.domain.roman
 
-enum class RomanDigit(val value: Int) {
+enum class RomanNumeral(val value: Int) {
     I(value = 1),
     V(value = 5),
     X(value = 10),

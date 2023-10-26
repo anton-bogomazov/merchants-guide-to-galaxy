@@ -9,7 +9,7 @@ import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.domain.roman.Amount
-import com.abogomazov.merchant.guide.domain.roman.RomanDigit
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
@@ -26,56 +26,56 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 class PreconfiguredTranslationProvider(
-    private val dictionary: Map<GalaxyNumeral, RomanDigit>
+    private val dictionary: Map<GalaxyNumeral, RomanNumeral>
 ) : TranslationProvider {
-    override fun getTranslation(digit: GalaxyNumeral): RomanDigit? {
+    override fun getTranslation(digit: GalaxyNumeral): RomanNumeral? {
         return dictionary[digit]
     }
-    override fun getTranslation(digit: RomanDigit): GalaxyNumeral? {
+    override fun getTranslation(digit: RomanNumeral): GalaxyNumeral? {
         return dictionary.entries.singleOrNull { it.value == digit }?.key
     }
 }
 
 class InMemoryTranslationStorage(
-    translations: List<Pair<GalaxyNumeral, RomanDigit>>
+    translations: List<Pair<GalaxyNumeral, RomanNumeral>>
 ) : TranslationPersister, TranslationProvider, TranslationRemover {
 
-    private val dictionary = mutableMapOf<GalaxyNumeral, RomanDigit>()
+    private val dictionary = mutableMapOf<GalaxyNumeral, RomanNumeral>()
 
     init { translations.forEach { dictionary[it.first] = it.second } }
 
-    override fun associate(galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) {
-        dictionary[galaxyNumeral] = romanDigit
+    override fun associate(galaxyNumeral: GalaxyNumeral, romanNumeral: RomanNumeral) {
+        dictionary[galaxyNumeral] = romanNumeral
     }
 
-    override fun getTranslation(digit: GalaxyNumeral): RomanDigit? {
+    override fun getTranslation(digit: GalaxyNumeral): RomanNumeral? {
         return dictionary[digit]
     }
 
-    override fun getTranslation(digit: RomanDigit): GalaxyNumeral? {
+    override fun getTranslation(digit: RomanNumeral): GalaxyNumeral? {
         return dictionary.entries.singleOrNull { it.value == digit }?.key
     }
 
-    override fun remove(galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) {
+    override fun remove(galaxyNumeral: GalaxyNumeral, romanNumeral: RomanNumeral) {
         dictionary.remove(galaxyNumeral)
     }
 }
 
 fun englishDictionary() = PreconfiguredTranslationProvider(
     mapOf(
-        one() to RomanDigit.I,
-        five() to RomanDigit.V,
-        ten() to RomanDigit.X,
-        fifty() to RomanDigit.L,
-        galaxyNumeral("hundred") to RomanDigit.C,
-        galaxyNumeral("fiveHundred") to RomanDigit.D,
-        galaxyNumeral("thousand") to RomanDigit.M,
+        one() to RomanNumeral.I,
+        five() to RomanNumeral.V,
+        ten() to RomanNumeral.X,
+        fifty() to RomanNumeral.L,
+        galaxyNumeral("hundred") to RomanNumeral.C,
+        galaxyNumeral("fiveHundred") to RomanNumeral.D,
+        galaxyNumeral("thousand") to RomanNumeral.M,
     )
 )
 
 fun emptyDictionary() = PreconfiguredTranslationProvider(emptyMap())
 
-fun inMemoryTranslationStorage(vararg translations: Pair<GalaxyNumeral, RomanDigit>) =
+fun inMemoryTranslationStorage(vararg translations: Pair<GalaxyNumeral, RomanNumeral>) =
     InMemoryTranslationStorage(translations.toList())
 
 fun englishNumberEvaluator() = GalaxyNumberEvaluator(englishDictionary())
