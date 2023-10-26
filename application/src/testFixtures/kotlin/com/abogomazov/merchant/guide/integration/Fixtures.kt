@@ -1,11 +1,16 @@
 package com.abogomazov.merchant.guide.integration
 
-import com.abogomazov.merchant.guide.application.Application
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
+import com.abogomazov.merchant.guide.cli.ApplicationShell
+import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.CommandSource
-import com.abogomazov.merchant.guide.cli.ParserFactory
 import com.abogomazov.merchant.guide.cli.ResultCollector
+import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import io.kotest.matchers.shouldBe
 
 private object ApplicationDriver {
@@ -13,18 +18,25 @@ private object ApplicationDriver {
     fun run(commandProvider: UserInputStream, asserter: ResultCollector) {
         val dictionary = InMemoryDictionary()
         val market = InMemoryMarket()
-        val parserFactory = ParserFactory()
 
-        Application(
-            translationPersister = dictionary,
-            translationProvider = dictionary,
-            translationRemover = dictionary,
-            marketPricePersister = market,
-            marketPriceProvider = market,
-            resultCollector = asserter,
+        val evaluator = GalaxyNumberEvaluator(dictionary)
+        val getTranslationUseCase = GetTranslationUseCase(evaluator)
+        val setTranslationUseCase = SetTranslationUseCase(
+            dictionary, dictionary, dictionary)
+        val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, market)
+        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, market)
+
+        val executor = CommandExecutor(
+            getTranslationUseCase,
+            setTranslationUseCase,
+            setPriceUseCase,
+            getPriceUseCase
+        )
+        ApplicationShell(
+            commandExecutor = executor,
             commandSource = commandProvider,
-            parserFactory = parserFactory
-        ).build().run()
+            resultCollector = asserter
+        ).run()
     }
 }
 

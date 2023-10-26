@@ -1,10 +1,8 @@
 package com.abogomazov.merchant.guide.application
 
+import com.abogomazov.merchant.guide.application.io.ConsoleIO
 import com.abogomazov.merchant.guide.cli.ApplicationShell
 import com.abogomazov.merchant.guide.cli.CommandExecutor
-import com.abogomazov.merchant.guide.cli.CommandSource
-import com.abogomazov.merchant.guide.cli.ParserFactory
-import com.abogomazov.merchant.guide.cli.ResultCollector
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
@@ -16,29 +14,41 @@ import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
-class Application(
+private val DEFAULT_MODE = "cli"
+
+class ApplicationFactory(
     private val translationProvider: TranslationProvider,
     private val translationPersister: TranslationPersister,
     private val translationRemover: TranslationRemover,
     private val marketPriceProvider: MarketPriceProvider,
     private val marketPricePersister: MarketPricePersister,
-    private val commandSource: CommandSource,
-    private val resultCollector: ResultCollector,
-    private val parserFactory: ParserFactory,
 ) {
-    fun build(): ApplicationShell {
-        val evaluator = GalaxyNumberEvaluator(translationProvider)
 
-        return ApplicationShell(
-            commandSource = commandSource,
-            resultCollector = resultCollector,
-            commandParserFactory = parserFactory,
-            commandExecutor = CommandExecutor(
-                getTranslation = GetTranslationUseCase(evaluator),
-                setTranslation = SetTranslationUseCase(translationProvider, translationPersister, translationRemover),
-                getPrice = GetResourceMarketPriceUseCase(evaluator, marketPriceProvider),
-                setPrice = SetResourceMarketPriceUseCase(evaluator, marketPricePersister)
-            )
-        )
+    fun build(mode: String = DEFAULT_MODE): Application {
+        val evaluator = GalaxyNumberEvaluator(translationProvider)
+        val getTranslationUseCase = GetTranslationUseCase(evaluator)
+        val setTranslationUseCase = SetTranslationUseCase(
+            translationProvider, translationPersister, translationRemover)
+        val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketPriceProvider)
+        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketPricePersister)
+
+        return when (mode) {
+            "cli" -> {
+                val io = ConsoleIO()
+                val commandExecutor = CommandExecutor(
+                    getTranslationUseCase, setTranslationUseCase, setPriceUseCase, getPriceUseCase
+                )
+                ApplicationShell(
+                    commandExecutor = commandExecutor,
+                    commandSource = io,
+                    resultCollector = io
+                )
+            }
+            else -> error("$mode is not supported")
+        }
     }
+}
+
+interface Application {
+    fun run()
 }

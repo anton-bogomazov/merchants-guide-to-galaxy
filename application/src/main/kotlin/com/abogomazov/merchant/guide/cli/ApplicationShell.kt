@@ -1,6 +1,7 @@
 package com.abogomazov.merchant.guide.cli
 
 import arrow.core.Either
+import com.abogomazov.merchant.guide.application.Application
 import com.abogomazov.merchant.guide.cli.commands.BusinessCommand
 import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.ExitCommand
@@ -10,13 +11,12 @@ import com.abogomazov.merchant.guide.cli.parser.ParserError
 import org.slf4j.LoggerFactory
 
 class ApplicationShell(
-    private val commandParserFactory: CommandParserFactory,
     private val commandExecutor: CommandExecutor,
     private val commandSource: CommandSource,
     private val resultCollector: ResultCollector,
-) {
-    fun run() {
-        val commandParser = commandParserFactory.create()
+) : Application {
+    override fun run() {
+        val commandParser = ParserFactory().create()
         do {
             val userInput = commandSource.read()
             logger.info("Processing input: \"$userInput\"")

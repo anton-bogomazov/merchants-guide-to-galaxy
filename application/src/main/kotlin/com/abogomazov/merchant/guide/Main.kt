@@ -1,10 +1,8 @@
 package com.abogomazov.merchant.guide
 
-import com.abogomazov.merchant.guide.application.Application
+import com.abogomazov.merchant.guide.application.ApplicationFactory
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
 import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
-import com.abogomazov.merchant.guide.application.io.ConsoleIO
-import com.abogomazov.merchant.guide.cli.ParserFactory
 import org.slf4j.LoggerFactory
 
 fun main() {
@@ -12,19 +10,14 @@ fun main() {
 
     val dictionary = InMemoryDictionary()
     val market = InMemoryMarket()
-    val io = ConsoleIO()
-    val parserFactory = ParserFactory()
 
     logger.info("Dependencies instantiated, constructing application")
-    val app = Application(
+    val app = ApplicationFactory(
         translationPersister = dictionary,
         translationProvider = dictionary,
         translationRemover = dictionary,
         marketPricePersister = market,
         marketPriceProvider = market,
-        resultCollector = io,
-        commandSource = io,
-        parserFactory = parserFactory
     ).build()
     logger.info("Application constructed")
 
