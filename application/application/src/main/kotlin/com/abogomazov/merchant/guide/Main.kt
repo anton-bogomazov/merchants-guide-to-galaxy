@@ -18,7 +18,7 @@ fun main() {
         translationRemover = dictionary,
         marketPricePersister = market,
         marketPriceProvider = market,
-    ).build()
+    ).build("web")
     logger.info("Application constructed")
 
     app.run()

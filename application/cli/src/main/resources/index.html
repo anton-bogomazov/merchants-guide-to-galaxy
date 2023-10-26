@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Roman Numeral Translator</title>
+</head>
+<body>
+<h1>Roman Numeral Translator</h1>
+
+<h2>Add Translation</h2>
+<div>
+    <input type="text" value="I" id="roman-value-I" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-I" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="V" id="roman-value-V" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-V" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="X" id="roman-value-X" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-X" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="L" id="roman-value-L" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-L" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="C" id="roman-value-C" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-C" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="D" id="roman-value-D" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-D" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="M" id="roman-value-M" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-M" placeholder="Galaxy Numeral">
+</div>
+<button onclick="addTranslation()">Add</button>
+
+
+<h2>Translate</h2>
+<input type="text" id="galaxyNumber" placeholder="Galaxy Numeral">
+<button onclick="getTranslation()">Translate</button>
+<div id="result"></div>
+
+<h2>Add Resource Price</h2>
+<input type="text" id="totalResourceAmount" placeholder="totalResourceAmount">
+<input type="text" id="add-resource" placeholder="Resource Name">
+<input type="text" id="totalPrice" placeholder="totalPrice">
+<button onclick="addResourcePrice()">Add</button>
+
+
+<h2>Get resource price</h2>
+<input type="text" id="resourceAmount" placeholder="resourceAmount">
+<input type="text" id="get-resource" placeholder="Resource Name">
+<button onclick="getResourcePrice()">Translate</button>
+<div id="result-market"></div>
+
+<script>
+  function addTranslation() {
+    const add = (localDigit, romanDigit) => {
+      fetch('http://localhost:8080/add-translation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ localDigit, romanDigit }),
+      });
+    }
+
+    const ROMAN_NUMERALS = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
+    ROMAN_NUMERALS.forEach((it) => {
+      const romanDigit = document.getElementById(`roman-value-${it}`).value;
+      const localDigit = document.getElementById(`galaxy-value-${it}`).value;
+      add(localDigit, romanDigit)
+    });
+  }
+
+  function getTranslation() {
+    const localNumber = document.getElementById('galaxyNumber').value;
+    const data = { localNumber };
+
+    fetch('http://localhost:8080/translation?' + new URLSearchParams(data), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.text())
+      .then(response => {
+        document.getElementById('result').textContent = response;
+      });
+  }
+
+  function addResourcePrice() {
+    const totalResourceAmount = document.getElementById('totalResourceAmount').value;
+    const resource = document.getElementById('add-resource').value;
+    const totalPrice = document.getElementById('totalPrice').value;
+    const data = { totalResourceAmount, resource, totalPrice };
+
+    fetch('http://localhost:8080/add-resource-price', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    })
+  }
+
+  function getResourcePrice() {
+    const resourceName = document.getElementById('get-resource').value;
+    const resourceAmount = document.getElementById('resourceAmount').value;
+
+    fetch(`http://localhost:8080/resource-price?` + new URLSearchParams({resourceAmount, resourceName}), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.text())
+      .then(response => {
+        document.getElementById('result-market').textContent = response;
+      });
+  }
+</script>
+</body>
+</html>

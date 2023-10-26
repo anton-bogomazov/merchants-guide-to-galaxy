@@ -1,7 +1,9 @@
 package com.abogomazov.merchant.guide.application.inmemory
 
+import java.util.concurrent.ConcurrentHashMap
+
 class KeyValueInMemoryStorage<K, V> {
-    private val registry = mutableMapOf<K, V>()
+    private val registry = ConcurrentHashMap<K, V>()
 
     fun get(key: K) = registry[key]
     fun getByValue(value: V) = registry.entries.singleOrNull { it.value == value }?.key
