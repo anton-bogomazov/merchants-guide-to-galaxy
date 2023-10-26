@@ -4,7 +4,7 @@ import com.abogomazov.merchant.guide.domain.emptyDictionary
 import com.abogomazov.merchant.guide.domain.englishDictionary
 import com.abogomazov.merchant.guide.domain.fifty
 import com.abogomazov.merchant.guide.domain.five
-import com.abogomazov.merchant.guide.domain.localNumber
+import com.abogomazov.merchant.guide.domain.galaxyNumber
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.ten
 import io.kotest.assertions.arrow.core.shouldBeLeft
@@ -12,10 +12,10 @@ import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe
 
-class LocalNumberEvaluatorTest : FreeSpec({
+class GalaxyNumberEvaluatorTest : FreeSpec({
 
     "uses provided dictionary to translate to roman number" {
-        val localNumber = localNumber(
+        val galaxyNumber = galaxyNumber(
             fifty(),
             ten(),
             ten(),
@@ -26,25 +26,25 @@ class LocalNumberEvaluatorTest : FreeSpec({
             one()
         )
 
-        LocalNumberEvaluator(englishDictionary())
-            .evaluate(localNumber)
+        GalaxyNumberEvaluator(englishDictionary())
+            .evaluate(galaxyNumber)
             .shouldBeRight()
             .toInt() shouldBe 88
     }
 
-    "local number representing invalid roman number cannot be evaluated" {
-        val localNumber = localNumber(one(), one(), five())
+    "galaxy number representing invalid roman number cannot be evaluated" {
+        val galaxyNumber = galaxyNumber(one(), one(), five())
 
-        LocalNumberEvaluator(englishDictionary())
-            .evaluate(localNumber)
-            .shouldBeLeft(LocalNumberEvaluationError.RomanNotationRulesViolated)
+        GalaxyNumberEvaluator(englishDictionary())
+            .evaluate(galaxyNumber)
+            .shouldBeLeft(GalaxyNumberEvaluationError.RomanNotationRulesViolated)
     }
 
     "impossible to translate number with insufficient dictionary" {
-        val localNumber = localNumber(one(), one(), five())
+        val galaxyNumber = galaxyNumber(one(), one(), five())
 
-        LocalNumberEvaluator(emptyDictionary())
-            .evaluate(localNumber)
-            .shouldBeLeft(LocalNumberEvaluationError.TranslationNotFound(one()))
+        GalaxyNumberEvaluator(emptyDictionary())
+            .evaluate(galaxyNumber)
+            .shouldBeLeft(GalaxyNumberEvaluationError.TranslationNotFound(one()))
     }
 })

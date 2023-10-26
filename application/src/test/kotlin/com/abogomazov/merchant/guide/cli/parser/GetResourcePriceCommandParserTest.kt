@@ -5,9 +5,9 @@ import com.abogomazov.merchant.guide.cli.NullParser
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.five
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
-import com.abogomazov.merchant.guide.domain.localDigit
-import com.abogomazov.merchant.guide.domain.localNumber
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
+import com.abogomazov.merchant.guide.domain.galaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.domain.resource
@@ -18,25 +18,25 @@ import io.kotest.datatest.withData
 
 class GetResourcePriceCommandParserTest : FreeSpec({
 
-    "parses whole local number as a single argument" - {
+    "parses whole galaxy number as a single argument" - {
         withData(
             nameFn = { it.first },
-            case("how many Credits is one five Dirt ?", localNumber(one(), five())),
-            case("\nhow many \tCredits is one  Dirt  \n ? \n", localNumber(one())),
+            case("how many Credits is one five Dirt ?", galaxyNumber(one(), five())),
+            case("\nhow many \tCredits is one  Dirt  \n ? \n", galaxyNumber(one())),
             case("how many Credits is one five one five one five one five Dirt ? ",
-                localNumber(one(), five(), one(), five(), one(), five(), one(), five())),
-            case(" how many      Credits   is one    Dirt  ? ", localNumber(one())),
+                galaxyNumber(one(), five(), one(), five(), one(), five(), one(), five())),
+            case(" how many      Credits   is one    Dirt  ? ", galaxyNumber(one())),
             case("     how many Credits is \n one five     one five\t one five    Dirt ?",
-                localNumber(one(), five(), one(), five(), one(), five())),
+                galaxyNumber(one(), five(), one(), five(), one(), five())),
             case("how many Credits is one five Dirt Dirt ?",
-                localNumber(one(), five(), localDigit("Dirt"))),
-            case("how many Credits is one five much ?", localNumber(one(), five()),
+                galaxyNumber(one(), five(), galaxyNumeral("Dirt"))),
+            case("how many Credits is one five much ?", galaxyNumber(one(), five()),
                 resource("much")),
-        ) { (command, localNumber, resource) ->
+        ) { (command, galaxyNumber, resource) ->
             GetResourcePriceCommandParser(NullParser).parse(command)
                 .shouldBeRight(
                     GetResourceMarketPriceCommand(
-                        localNum = localNumber,
+                        galaxyNumber = galaxyNumber,
                         resource = resource
                     )
                 )
@@ -66,5 +66,5 @@ class GetResourcePriceCommandParserTest : FreeSpec({
     }
 })
 
-private fun case(command: String, localNumber: LocalNumber, resource: Resource = dirt()) =
-    Triple(command, localNumber, resource)
+private fun case(command: String, galaxyNumber: GalaxyNumber, resource: Resource = dirt()) =
+    Triple(command, galaxyNumber, resource)

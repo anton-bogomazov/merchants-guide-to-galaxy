@@ -3,14 +3,14 @@ package com.abogomazov.merchant.guide.domain
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
-import com.abogomazov.merchant.guide.domain.local.LocalDigit
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
+import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
@@ -26,38 +26,38 @@ import java.math.BigDecimal
 import java.math.BigInteger
 
 class PreconfiguredTranslationProvider(
-    private val dictionary: Map<LocalDigit, RomanDigit>
+    private val dictionary: Map<GalaxyNumeral, RomanDigit>
 ) : TranslationProvider {
-    override fun getTranslation(digit: LocalDigit): RomanDigit? {
+    override fun getTranslation(digit: GalaxyNumeral): RomanDigit? {
         return dictionary[digit]
     }
-    override fun getTranslation(digit: RomanDigit): LocalDigit? {
+    override fun getTranslation(digit: RomanDigit): GalaxyNumeral? {
         return dictionary.entries.singleOrNull { it.value == digit }?.key
     }
 }
 
 class InMemoryTranslationStorage(
-    translations: List<Pair<LocalDigit, RomanDigit>>
+    translations: List<Pair<GalaxyNumeral, RomanDigit>>
 ) : TranslationPersister, TranslationProvider, TranslationRemover {
 
-    private val dictionary = mutableMapOf<LocalDigit, RomanDigit>()
+    private val dictionary = mutableMapOf<GalaxyNumeral, RomanDigit>()
 
     init { translations.forEach { dictionary[it.first] = it.second } }
 
-    override fun associate(localDigit: LocalDigit, romanDigit: RomanDigit) {
-        dictionary[localDigit] = romanDigit
+    override fun associate(galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) {
+        dictionary[galaxyNumeral] = romanDigit
     }
 
-    override fun getTranslation(digit: LocalDigit): RomanDigit? {
+    override fun getTranslation(digit: GalaxyNumeral): RomanDigit? {
         return dictionary[digit]
     }
 
-    override fun getTranslation(digit: RomanDigit): LocalDigit? {
+    override fun getTranslation(digit: RomanDigit): GalaxyNumeral? {
         return dictionary.entries.singleOrNull { it.value == digit }?.key
     }
 
-    override fun remove(localDigit: LocalDigit, romanDigit: RomanDigit) {
-        dictionary.remove(localDigit)
+    override fun remove(galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) {
+        dictionary.remove(galaxyNumeral)
     }
 }
 
@@ -67,18 +67,18 @@ fun englishDictionary() = PreconfiguredTranslationProvider(
         five() to RomanDigit.V,
         ten() to RomanDigit.X,
         fifty() to RomanDigit.L,
-        localDigit("hundred") to RomanDigit.C,
-        localDigit("fiveHundred") to RomanDigit.D,
-        localDigit("thousand") to RomanDigit.M,
+        galaxyNumeral("hundred") to RomanDigit.C,
+        galaxyNumeral("fiveHundred") to RomanDigit.D,
+        galaxyNumeral("thousand") to RomanDigit.M,
     )
 )
 
 fun emptyDictionary() = PreconfiguredTranslationProvider(emptyMap())
 
-fun inMemoryTranslationStorage(vararg translations: Pair<LocalDigit, RomanDigit>) =
+fun inMemoryTranslationStorage(vararg translations: Pair<GalaxyNumeral, RomanDigit>) =
     InMemoryTranslationStorage(translations.toList())
 
-fun englishNumberEvaluator() = LocalNumberEvaluator(englishDictionary())
+fun englishNumberEvaluator() = GalaxyNumberEvaluator(englishDictionary())
 
 class WaterDirtMarketPriceProvider : MarketPriceProvider {
     override fun getUnitPrice(resource: Resource): UnitPrice? {
@@ -97,15 +97,16 @@ fun dirt() = resource("Dirt")
 fun water() = resource("Water")
 fun steamDeck() = resource("SteamDeck")
 
-fun localDigit(value: String): LocalDigit = LocalDigit.from(value).shouldBeRight()
-fun five() = localDigit("five")
-fun ten() = localDigit("ten")
-fun fifty() = localDigit("fifty")
-fun one() = localDigit("one")
+fun galaxyNumeral(value: String): GalaxyNumeral = GalaxyNumeral.from(value).shouldBeRight()
+fun five() = galaxyNumeral("five")
+fun ten() = galaxyNumeral("ten")
+fun fifty() = galaxyNumeral("fifty")
+fun one() = galaxyNumeral("one")
 
-fun localNumber(vararg digits: LocalDigit): LocalNumber = LocalNumber.from(digits.toList()).shouldBeRight()
-fun localThree() = localNumber(one(), one(), one())
-fun localFour() = localNumber(one(), five())
+fun galaxyNumber(vararg digits: GalaxyNumeral): GalaxyNumber =
+    GalaxyNumber.from(digits.toList()).shouldBeRight()
+fun galaxyThree() = galaxyNumber(one(), one(), one())
+fun galaxyFour() = galaxyNumber(one(), five())
 
 fun amount(int: Int): Amount = Amount.from(int).shouldBeRight()
 fun price(double: Double): UnitPrice = UnitPrice.from(double.toBigDecimal()).shouldBeRight()

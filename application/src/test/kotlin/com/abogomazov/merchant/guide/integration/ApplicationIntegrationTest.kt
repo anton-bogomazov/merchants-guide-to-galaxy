@@ -8,7 +8,7 @@ class ApplicationIntegrationTest : FreeSpec({
     "translator happy path scenario" {
         val commands = listOf(
             "glob is I" to "Set",
-            // cannot associate the same local digit with 2 different roman numbers
+            // cannot associate the same galaxy numeral with 2 different roman numbers
             "glob is V" to "[Error] Digit \"glob\" is already associated with \"I\"",
             "prok is V" to "Set",
             "prok is V" to "Set",
@@ -20,10 +20,10 @@ class ApplicationIntegrationTest : FreeSpec({
             // translation for groop is not found
             "how much is glob groop ?" to "[Error] Translation not found for \"groop\"",
             "groop is M" to "Set",
-            // local number represents invalid roman number
+            // galaxy number represents invalid roman number
             "how much is glob groop ?" to "[Error] Number \"glob groop\" violates roman notation rules",
             "how much is boop groop pish boop glob pish ?" to "boop groop pish boop glob pish is 999",
-            // association could be overwritten with a new local digit
+            // association could be overwritten with a new galaxy numeral
             "wtf is I" to "Set",
             "how much is wtf wtf wtf ?" to "wtf wtf wtf is 3",
             // ...old association has been deleted

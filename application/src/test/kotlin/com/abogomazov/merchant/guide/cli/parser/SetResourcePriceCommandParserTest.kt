@@ -4,9 +4,9 @@ import com.abogomazov.merchant.guide.cli.NullParser
 import com.abogomazov.merchant.guide.cli.commands.SetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
-import com.abogomazov.merchant.guide.domain.localDigit
-import com.abogomazov.merchant.guide.domain.localFour
-import com.abogomazov.merchant.guide.domain.localNumber
+import com.abogomazov.merchant.guide.domain.galaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxyFour
+import com.abogomazov.merchant.guide.domain.galaxyNumber
 import com.abogomazov.merchant.guide.domain.resource
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
@@ -22,17 +22,17 @@ class SetResourcePriceCommandParserTest : FreeSpec({
         ) {
             SetResourcePriceCommandParser(NullParser).parse(it)
                 .shouldBeRight(
-                    SetResourceMarketPriceCommand(localFour(), dirt(), credits(34))
+                    SetResourceMarketPriceCommand(galaxyFour(), dirt(), credits(34))
                 )
         }
     }
 
-    "(credits, how, many, much, is) is not reserved for local digits" - {
+    "(credits, how, many, much, is) is not reserved for galaxy numerals" - {
         withData(
-            "much Silver is 34 Credits" to localNumber(localDigit("much")),
-            "HOW Silver is 34 Credits" to localNumber(localDigit("HOW")),
-            "how is Silver is 34 Credits" to localNumber(localDigit("how"), localDigit("is")),
-            "credits is Silver is 34 Credits" to localNumber(localDigit("credits"), localDigit("is")),
+            "much Silver is 34 Credits" to galaxyNumber(galaxyNumeral("much")),
+            "HOW Silver is 34 Credits" to galaxyNumber(galaxyNumeral("HOW")),
+            "how is Silver is 34 Credits" to galaxyNumber(galaxyNumeral("how"), galaxyNumeral("is")),
+            "credits is Silver is 34 Credits" to galaxyNumber(galaxyNumeral("credits"), galaxyNumeral("is")),
         ) { (command, number) ->
             SetResourcePriceCommandParser(NullParser).parse(command)
                 .shouldBeRight(

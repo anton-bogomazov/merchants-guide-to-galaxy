@@ -14,7 +14,7 @@ class GetResourcePriceCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .os().how().s().many().s().credits().s().iz().s().LocalNum().s().Resource().s().question().os()
+            .os().how().s().many().s().credits().s().iz().s().GalaxyNum().s().Resource().s().question().os()
             .build()
 
         private fun String.extractArguments() =
@@ -23,10 +23,10 @@ class GetResourcePriceCommandParser(
     }
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
-        command.extractArguments().map { (localNum, resource) ->
+        command.extractArguments().map { (galaxyNumber, resource) ->
             return resource.toResource().map {
                 GetResourceMarketPriceCommand(
-                    localNum = localNum.toLocalNumber(),
+                    galaxyNumber = galaxyNumber.toGalaxyNumber(),
                     resource = it,
                 )
             }

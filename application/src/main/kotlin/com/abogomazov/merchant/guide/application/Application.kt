@@ -5,7 +5,7 @@ import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.CommandSource
 import com.abogomazov.merchant.guide.cli.ParserFactory
 import com.abogomazov.merchant.guide.cli.ResultCollector
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
+import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
@@ -27,7 +27,7 @@ class Application(
     private val parserFactory: ParserFactory,
 ) {
     fun build(): ApplicationShell {
-        val evaluator = LocalNumberEvaluator(translationProvider)
+        val evaluator = GalaxyNumberEvaluator(translationProvider)
 
         return ApplicationShell(
             commandSource = commandSource,

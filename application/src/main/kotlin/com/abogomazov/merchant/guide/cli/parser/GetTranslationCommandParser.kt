@@ -14,7 +14,7 @@ class GetTranslationCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .os().how().s().much().s().iz().s().LocalNum().s().question().os()
+            .os().how().s().much().s().iz().s().GalaxyNum().s().question().os()
             .build()
 
         private fun String.extractArguments() =
@@ -23,9 +23,9 @@ class GetTranslationCommandParser(
     }
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
-        command.extractArguments().map { localNum ->
+        command.extractArguments().map { galaxyNumber ->
             return GetTranslationCommand(
-                localNum = localNum.toLocalNumber(),
+                galaxyNumber = galaxyNumber.toGalaxyNumber(),
             ).right()
         }
 }

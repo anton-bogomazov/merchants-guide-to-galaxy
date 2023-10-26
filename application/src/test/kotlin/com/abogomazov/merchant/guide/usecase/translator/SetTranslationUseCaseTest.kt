@@ -18,12 +18,12 @@ class SetTranslationUseCaseTest : FreeSpec({
             .shouldBeRight()
     }
 
-    "local duplicated numerals are not allowed" {
+    "galaxy duplicated numerals are not allowed" {
         val dictionary = inMemoryTranslationStorage(one() to RomanDigit.V)
         val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
         sut.execute(one(), RomanDigit.I)
-            .shouldBeLeft(SetTranslationError.LocalDigitAlreadyAssociated(RomanDigit.V))
+            .shouldBeLeft(SetTranslationError.GalaxyNumeralAlreadyAssociated(RomanDigit.V))
     }
 
     "it safe to try to overwrite association with the same value" {

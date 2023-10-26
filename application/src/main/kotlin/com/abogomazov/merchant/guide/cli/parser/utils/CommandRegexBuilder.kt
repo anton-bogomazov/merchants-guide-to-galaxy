@@ -6,7 +6,7 @@ class CommandRegexBuilder {
     private val resultRegex = StringBuilder()
 
     companion object {
-        private const val LOCAL_NUM = "(?:\\w+\\s*)+"
+        private const val GALAXY_NUM = "(?:\\w+\\s*)+"
         private const val ARABIC_NUM = "\\d+"
         private const val ROMAN_NUM = "[MDCLXVI]"
         private const val RESOURCE = "\\w+"
@@ -16,7 +16,7 @@ class CommandRegexBuilder {
         private const val QUESTION = "\\?"
     }
 
-    fun LocalNum() = add(captured(LOCAL_NUM))
+    fun GalaxyNum() = add(captured(GALAXY_NUM))
     fun ArabNum() = add(captured(ARABIC_NUM))
     fun RomanNum() = add(captured(ROMAN_NUM))
     fun Resource() = add(captured(RESOURCE))

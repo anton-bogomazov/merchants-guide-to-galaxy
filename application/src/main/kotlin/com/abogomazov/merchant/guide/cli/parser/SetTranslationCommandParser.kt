@@ -14,7 +14,7 @@ class SetTranslationCommandParser(
 ) : RegexCommandParser(next, COMMAND_REGEX) {
     companion object {
         private val COMMAND_REGEX = CommandRegexBuilder()
-            .os().LocalNum().s().iz().s().RomanNum().os()
+            .os().GalaxyNum().s().iz().s().RomanNum().os()
             .build()
 
         private fun String.extractArguments() =
@@ -23,9 +23,9 @@ class SetTranslationCommandParser(
     }
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
-        command.extractArguments().map { (localDigit, romanDigit) ->
+        command.extractArguments().map { (galaxyNumeral, romanDigit) ->
             return SetTranslationCommand(
-                localDigit = localDigit.toLocalDigit(),
+                galaxyNumeral = galaxyNumeral.toGalaxyNumeral(),
                 romanDigit = romanDigit.toRomanDigit(),
             ).right()
         }

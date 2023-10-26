@@ -1,13 +1,13 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 
 data class SetResourceMarketPriceCommand(
-    private val resourceAmount: LocalNumber,
+    private val resourceAmount: GalaxyNumber,
     private val resource: Resource,
     private val total: Credits,
 ) : BusinessCommand {

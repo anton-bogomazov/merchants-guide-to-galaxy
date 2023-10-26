@@ -1,17 +1,17 @@
-package com.abogomazov.merchant.guide.domain.local
+package com.abogomazov.merchant.guide.domain.galaxy
 
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
 
-class LocalDigitTest : FreeSpec({
+class GalaxyNumeralTest : FreeSpec({
     "any one worded string of letters is allowed" - {
         withData(
             nameFn = { "blank string: <$it>" },
             "peep", "BoOp", "x"
         ) {
-            LocalDigit.from(it).shouldBeRight()
+            GalaxyNumeral.from(it).shouldBeRight()
         }
     }
 
@@ -20,7 +20,7 @@ class LocalDigitTest : FreeSpec({
             nameFn = { "blank string: <$it>" },
             "", "  ", " \n "
         ) {
-            LocalDigit.from(it).shouldBeLeft(LocalDigitValidationError.EmptyString)
+            GalaxyNumeral.from(it).shouldBeLeft(GalaxyNumeralValidationError.EmptyString)
         }
     }
 
@@ -28,11 +28,11 @@ class LocalDigitTest : FreeSpec({
         withData(
             "123", "He11o", "$"
         ) {
-            LocalDigit.from(it).shouldBeLeft(LocalDigitValidationError.NonLetters)
+            GalaxyNumeral.from(it).shouldBeLeft(GalaxyNumeralValidationError.NonLetters)
         }
     }
 
     "impossible to create digit from string with more than one word" - {
-        LocalDigit.from("foo bar").shouldBeLeft(LocalDigitValidationError.MoreThanOneWord)
+        GalaxyNumeral.from("foo bar").shouldBeLeft(GalaxyNumeralValidationError.MoreThanOneWord)
     }
 })

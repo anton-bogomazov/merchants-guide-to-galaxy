@@ -2,28 +2,28 @@ package com.abogomazov.merchant.guide.usecase.market
 
 import arrow.core.Either
 import arrow.core.left
-import com.abogomazov.merchant.guide.domain.local.LocalDigit
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluationError
-import com.abogomazov.merchant.guide.usecase.common.LocalNumberEvaluator
+import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluationError
+import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import org.slf4j.LoggerFactory
 
 sealed interface GetResourceMarketPriceError {
     data object PriceNotFound : GetResourceMarketPriceError
-    data class TranslationNotFound(val digit: LocalDigit) : GetResourceMarketPriceError
+    data class TranslationNotFound(val digit: GalaxyNumeral) : GetResourceMarketPriceError
     data object RomanNotationRulesViolated : GetResourceMarketPriceError
 }
 
 class GetResourceMarketPriceUseCase(
-    private val evaluator: LocalNumberEvaluator,
+    private val evaluator: GalaxyNumberEvaluator,
     private val marketPriceProvider: MarketPriceProvider,
 ) {
 
     fun execute(
-        amountOfResource: LocalNumber,
+        amountOfResource: GalaxyNumber,
         resource: Resource
     ): Either<GetResourceMarketPriceError, Credits> {
         logger.info("Getting cost of amount=$amountOfResource of $resource")
@@ -51,10 +51,10 @@ fun interface MarketPriceProvider {
     fun getUnitPrice(resource: Resource): UnitPrice?
 }
 
-private fun LocalNumberEvaluationError.toError() =
+private fun GalaxyNumberEvaluationError.toError() =
     when (this) {
-        is LocalNumberEvaluationError.TranslationNotFound ->
+        is GalaxyNumberEvaluationError.TranslationNotFound ->
             GetResourceMarketPriceError.TranslationNotFound(this.digit)
-        LocalNumberEvaluationError.RomanNotationRulesViolated ->
+        GalaxyNumberEvaluationError.RomanNotationRulesViolated ->
             GetResourceMarketPriceError.RomanNotationRulesViolated
     }

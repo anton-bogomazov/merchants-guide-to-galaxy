@@ -2,14 +2,9 @@ package com.abogomazov.merchant.guide.cli.parser
 
 import com.abogomazov.merchant.guide.cli.NullCommand
 import com.abogomazov.merchant.guide.cli.NullParser
-import com.abogomazov.merchant.guide.cli.commands.GetTranslationCommand
 import com.abogomazov.merchant.guide.cli.commands.SetTranslationCommand
-import com.abogomazov.merchant.guide.domain.dirt
-import com.abogomazov.merchant.guide.domain.local.LocalDigit
-import com.abogomazov.merchant.guide.domain.local.LocalNumber
-import com.abogomazov.merchant.guide.domain.localDigit
-import com.abogomazov.merchant.guide.domain.localNumber
-import com.abogomazov.merchant.guide.domain.market.Resource
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxyNumeral
 import com.abogomazov.merchant.guide.domain.roman.RomanDigit
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
@@ -19,13 +14,13 @@ class SetTranslationCommandParserTest : FreeSpec({
 
     "proper input successfully parsed" - {
         withData(
-            case("glob is C", localDigit("glob"), RomanDigit.C),
-            case(" I is I", localDigit("I"), RomanDigit.I),
-            case("Credits is I", localDigit("Credits"), RomanDigit.I),
-        ) { (command, localDigit, romanDigit) ->
+            case("glob is C", galaxyNumeral("glob"), RomanDigit.C),
+            case(" I is I", galaxyNumeral("I"), RomanDigit.I),
+            case("Credits is I", galaxyNumeral("Credits"), RomanDigit.I),
+        ) { (command, galaxyNumeral, romanDigit) ->
             SetTranslationCommandParser(NullParser).parse(command)
                 .shouldBeRight(
-                    SetTranslationCommand(localDigit, romanDigit)
+                    SetTranslationCommand(galaxyNumeral, romanDigit)
                 )
         }
     }
@@ -43,5 +38,5 @@ class SetTranslationCommandParserTest : FreeSpec({
     }
 })
 
-private fun case(command: String, localDigit: LocalDigit, romanDigit: RomanDigit) =
-    Triple(command, localDigit, romanDigit)
+private fun case(command: String, galaxyNumeral: GalaxyNumeral, romanDigit: RomanDigit) =
+    Triple(command, galaxyNumeral, romanDigit)
