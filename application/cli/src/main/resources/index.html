@@ -1,10 +1,10 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Roman Numeral Translator</title>
+    <title>Merchant's Guide to Galaxy</title>
 </head>
 <body>
-<h1>Roman Numeral Translator</h1>
+<h1>Merchant's Guide to Galaxy</h1>
 
 <h2>Add Translation</h2>
 <div>
@@ -35,50 +35,57 @@
     <input type="text" value="M" id="roman-value-M" placeholder="Roman Numeral">
     <input type="text" id="galaxy-value-M" placeholder="Galaxy Numeral">
 </div>
-<button onclick="addTranslation()">Add</button>
-
+<button onclick="addTranslation()">Save Dictionary</button>
+<div id="add-translation-result"></div>
 
 <h2>Translate</h2>
-<input type="text" id="galaxyNumber" placeholder="Galaxy Numeral">
+<input type="text" id="translate-galaxy-number" placeholder="Galaxy Number">
 <button onclick="getTranslation()">Translate</button>
-<div id="result"></div>
+<div id="translation-result"></div>
 
 <h2>Add Resource Price</h2>
-<input type="text" id="totalResourceAmount" placeholder="totalResourceAmount">
+<input type="text" id="add-resource-amount" placeholder="Total Resource Galaxy Amount">
 <input type="text" id="add-resource" placeholder="Resource Name">
-<input type="text" id="totalPrice" placeholder="totalPrice">
-<button onclick="addResourcePrice()">Add</button>
+<input type="text" id="add-resource-cost" placeholder="Total Arabic Cost">
+<button onclick="addResourcePrice()">Save</button>
+<div id="add-resource-price-result"></div>
 
-
-<h2>Get resource price</h2>
-<input type="text" id="resourceAmount" placeholder="resourceAmount">
+<h2>Get Resource Price</h2>
+<input type="text" id="get-resource-amount" placeholder="Total Resource Amount">
 <input type="text" id="get-resource" placeholder="Resource Name">
-<button onclick="getResourcePrice()">Translate</button>
-<div id="result-market"></div>
+<button onclick="getResourcePrice()">Convert</button>
+<div id="conversion-result"></div>
 
 <script>
   function addTranslation() {
-    const add = (localDigit, romanDigit) => {
+    const add = (galaxyNumeral, romanNumeral) => {
       fetch('http://localhost:8080/add-translation', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ localDigit, romanDigit }),
-      });
+        body: JSON.stringify(
+          { galaxy: galaxyNumeral, roman: romanNumeral }
+        ),
+      }).then(response => {
+          document.getElementById('add-translation-result').textContent = `Saved!`;
+        }
+      )
     }
 
     const ROMAN_NUMERALS = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
     ROMAN_NUMERALS.forEach((it) => {
-      const romanDigit = document.getElementById(`roman-value-${it}`).value;
-      const localDigit = document.getElementById(`galaxy-value-${it}`).value;
-      add(localDigit, romanDigit)
+      const romanNumeral = document.getElementById(`roman-value-${it}`).value;
+      const galaxyNumeral = document.getElementById(`galaxy-value-${it}`).value;
+      if (galaxyNumeral !== '' || romanNumeral !== '') {
+        add(galaxyNumeral, romanNumeral)
+      }
     });
   }
 
   function getTranslation() {
-    const localNumber = document.getElementById('galaxyNumber').value;
-    const data = { localNumber };
+    const galaxyNumber = document.getElementById('translate-galaxy-number').value;
+    const data = { galaxy: galaxyNumber };
 
     fetch('http://localhost:8080/translation?' + new URLSearchParams(data), {
       method: 'GET',
@@ -88,15 +95,15 @@
     })
       .then(response => response.text())
       .then(response => {
-        document.getElementById('result').textContent = response;
+        document.getElementById('translation-result').textContent = `Translation result: ${response}`;
       });
   }
 
   function addResourcePrice() {
-    const totalResourceAmount = document.getElementById('totalResourceAmount').value;
+    const amount = document.getElementById('add-resource-amount').value;
     const resource = document.getElementById('add-resource').value;
-    const totalPrice = document.getElementById('totalPrice').value;
-    const data = { totalResourceAmount, resource, totalPrice };
+    const cost = document.getElementById('add-resource-cost').value;
+    const data = { amount, resource, cost };
 
     fetch('http://localhost:8080/add-resource-price', {
       method: 'POST',
@@ -104,14 +111,17 @@
         'Content-Type': 'application/json',
       },
       body: JSON.stringify(data),
-    })
+    }).then(response => {
+        document.getElementById('add-resource-price-result').textContent = `Saved!`;
+      }
+    )
   }
 
   function getResourcePrice() {
-    const resourceName = document.getElementById('get-resource').value;
-    const resourceAmount = document.getElementById('resourceAmount').value;
+    const resource = document.getElementById('get-resource').value;
+    const amount = document.getElementById('get-resource-amount').value;
 
-    fetch(`http://localhost:8080/resource-price?` + new URLSearchParams({resourceAmount, resourceName}), {
+    fetch(`http://localhost:8080/resource-price?` + new URLSearchParams({resource, amount}), {
       method: 'GET',
       headers: {
         'Content-Type': 'application/json',
@@ -119,7 +129,7 @@
     })
       .then(response => response.text())
       .then(response => {
-        document.getElementById('result-market').textContent = response;
+        document.getElementById('conversion-result').textContent = `Conversion result: ${response}`;
       });
   }
 </script>
