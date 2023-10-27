@@ -1,6 +1,11 @@
 package com.abogomazov.merchant.guide.rest
 
 import com.abogomazov.merchant.guide.application.Application
+import com.abogomazov.merchant.guide.rest.servlet.GetResourcePriceServlet
+import com.abogomazov.merchant.guide.rest.servlet.GetTranslationServlet
+import com.abogomazov.merchant.guide.rest.servlet.SetResourcePriceServlet
+import com.abogomazov.merchant.guide.rest.servlet.SetTranslationServlet
+import com.abogomazov.merchant.guide.rest.servlet.UIServlet
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase

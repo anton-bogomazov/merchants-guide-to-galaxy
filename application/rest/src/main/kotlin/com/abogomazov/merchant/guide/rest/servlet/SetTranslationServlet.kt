@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.rest
+package com.abogomazov.merchant.guide.rest.servlet
 
 import arrow.core.flatMap
 import arrow.core.raise.either

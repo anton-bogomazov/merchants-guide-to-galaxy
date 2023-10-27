@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.rest
+package com.abogomazov.merchant.guide.rest.servlet
 
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
