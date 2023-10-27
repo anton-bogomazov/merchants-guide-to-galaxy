@@ -1,6 +1,7 @@
 object Plugins {
     object Versions {
         const val detekt = "1.23.1"
+        const val kotlin_serialization = "1.9.0"
     }
 
     object Paths {
@@ -8,6 +9,7 @@ object Plugins {
     }
 
     const val kotlin_jvm = "org.jetbrains.kotlin.jvm"
+    const val kotlin_serialization = "plugin.serialization"
 
     const val testFixtures = "java-test-fixtures"
 

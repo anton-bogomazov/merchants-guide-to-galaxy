@@ -12,6 +12,7 @@ dependencies {
     implementation(Libs.logback)
     implementation(project(":application:core"))
     implementation(project(":application:cli"))
+    implementation(project(":application:rest"))
     implementation(project(":application:common"))
 
     testImplementation(Libs.kotest_runner)

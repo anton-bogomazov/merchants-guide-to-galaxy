@@ -1,7 +1,6 @@
 package com.abogomazov.merchant.guide.domain.market
 
 import com.abogomazov.merchant.guide.domain.amount
-import com.abogomazov.merchant.guide.domain.bigInt
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dropFractional
 import com.abogomazov.merchant.guide.domain.price
@@ -53,5 +52,20 @@ class CreditsTest : FreeSpec({
 
             Credits.from(it.negate()).shouldBeLeft(CreditsValidationError.NegativeValue)
         }
+    }
+
+    "credits can be constructed from primitive String" {
+        "123456789876543234567897654323456789876543".toCredit()
+            .shouldBeRight(credits(BigInteger("123456789876543234567897654323456789876543")))
+    }
+
+    "credits cannot be constructed from String representing negative number" {
+        "-6453".toCredit()
+            .shouldBeLeft(CreditsValidationError.NegativeValue)
+    }
+
+    "credits cannot be constructed from not a number String" {
+        "hello".toCredit()
+            .shouldBeLeft(CreditsValidationError.NanString)
     }
 })

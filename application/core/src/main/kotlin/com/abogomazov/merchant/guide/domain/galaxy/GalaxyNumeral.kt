@@ -25,3 +25,5 @@ data class GalaxyNumeral internal constructor(private val value: String) {
 
     override fun toString() = value
 }
+
+fun String.toGalaxyNumeral() = GalaxyNumeral.from(this)

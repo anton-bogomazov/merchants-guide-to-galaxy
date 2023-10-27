@@ -1,6 +1,7 @@
 package com.abogomazov.merchant.guide.cli.parser
 
 import arrow.core.Either
+import arrow.core.flatMap
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
@@ -9,6 +10,8 @@ import com.abogomazov.merchant.guide.cli.commands.Command
 import com.abogomazov.merchant.guide.cli.commands.GetResourceMarketPriceCommand
 import com.abogomazov.merchant.guide.cli.parser.utils.CommandRegexBuilder
 import com.abogomazov.merchant.guide.cli.parser.utils.getTwoArguments
+import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumber
+import com.abogomazov.merchant.guide.domain.market.toResource
 
 class GetResourcePriceCommandParser(
     next: CommandParser
@@ -24,13 +27,13 @@ class GetResourcePriceCommandParser(
     }
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
-        command.extractArguments().map { (galaxyNumber, resource) ->
-            return either { resource.toResource().bind() to galaxyNumber.toGalaxyNumber().bind() }
+        command.extractArguments().flatMap { (galaxyNumber, resource) ->
+            either { resource.toResource().bind() to galaxyNumber.toGalaxyNumber().bind() }
                 .map { (resource, number) ->
                     GetResourceMarketPriceCommand(
                         galaxyNumber = number,
                         resource = resource,
                     )
-                }
+                }.mapLeft { ParserError.InvalidArguments }
         }
 }

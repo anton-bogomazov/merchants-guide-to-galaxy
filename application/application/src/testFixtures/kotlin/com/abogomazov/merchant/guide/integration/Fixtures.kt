@@ -26,14 +26,11 @@ private object ApplicationDriver {
         val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, market)
         val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, market)
 
-        val executor = CommandExecutor(
-            getTranslationUseCase,
-            setTranslationUseCase,
-            setPriceUseCase,
-            getPriceUseCase
-        )
         ApplicationShell(
-            commandExecutor = executor,
+            setTranslationUseCase,
+            getTranslationUseCase,
+            setPriceUseCase,
+            getPriceUseCase,
             commandSource = commandProvider,
             resultCollector = asserter
         ).run()

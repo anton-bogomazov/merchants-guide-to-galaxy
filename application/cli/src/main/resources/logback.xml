@@ -9,7 +9,7 @@
         </layout>
     </appender>
 
-    <appender name="File"
+    <appender name="FILE"
               class="ch.qos.logback.core.FileAppender">
         <file>application.log</file>
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -24,7 +24,7 @@
     <logger name="ch.qos.logback" level="OFF"/>
 
     <logger name="com.abogomazov" level="INFO">
-        <appender-ref ref="File" />
+        <appender-ref ref="STDOUT" />
     </logger>
 
 </configuration>

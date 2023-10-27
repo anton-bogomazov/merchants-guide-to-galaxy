@@ -2,7 +2,7 @@ package com.abogomazov.merchant.guide.application
 
 import com.abogomazov.merchant.guide.application.io.ConsoleIO
 import com.abogomazov.merchant.guide.cli.ApplicationShell
-import com.abogomazov.merchant.guide.cli.CommandExecutor
+import com.abogomazov.merchant.guide.rest.ApplicationServer
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
@@ -38,16 +38,22 @@ class ApplicationFactory(
         return when (mode) {
             "cli" -> {
                 val io = ConsoleIO()
-                val commandExecutor = CommandExecutor(
-                    getTranslationUseCase,
-                    setTranslationUseCase,
-                    setPriceUseCase,
-                    getPriceUseCase
-                )
+
                 ApplicationShell(
-                    commandExecutor = commandExecutor,
+                    getTranslationUseCase = getTranslationUseCase,
+                    setTranslationUseCase = setTranslationUseCase,
+                    getPriceUseCase = getPriceUseCase,
+                    setPriceUseCase = setPriceUseCase,
                     commandSource = io,
                     resultCollector = io
+                )
+            }
+            "web" -> {
+                ApplicationServer(
+                    getTranslationUseCase = getTranslationUseCase,
+                    setTranslationUseCase = setTranslationUseCase,
+                    getResourcePriceUseCase = getPriceUseCase,
+                    setResourcePriceUseCase = setPriceUseCase,
                 )
             }
             else -> error("$mode is not supported")

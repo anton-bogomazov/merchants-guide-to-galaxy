@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Merchant's Guide to Galaxy</title>
+</head>
+<body>
+<h1>Merchant's Guide to Galaxy</h1>
+
+<h2>Add Translation</h2>
+<div>
+    <input type="text" value="I" id="roman-value-I" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-I" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="V" id="roman-value-V" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-V" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="X" id="roman-value-X" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-X" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="L" id="roman-value-L" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-L" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="C" id="roman-value-C" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-C" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="D" id="roman-value-D" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-D" placeholder="Galaxy Numeral">
+</div>
+<div>
+    <input type="text" value="M" id="roman-value-M" placeholder="Roman Numeral">
+    <input type="text" id="galaxy-value-M" placeholder="Galaxy Numeral">
+</div>
+<button onclick="addTranslation()">Save Dictionary</button>
+<div id="add-translation-result"></div>
+
+<h2>Translate</h2>
+<input type="text" id="translate-galaxy-number" placeholder="Galaxy Number">
+<button onclick="getTranslation()">Translate</button>
+<div id="translation-result"></div>
+
+<h2>Add Resource Price</h2>
+<input type="text" id="add-resource-amount" placeholder="Total Resource Galaxy Amount">
+<input type="text" id="add-resource" placeholder="Resource Name">
+<input type="text" id="add-resource-cost" placeholder="Total Arabic Cost">
+<button onclick="addResourcePrice()">Save</button>
+<div id="add-resource-price-result"></div>
+
+<h2>Get Resource Price</h2>
+<input type="text" id="get-resource-amount" placeholder="Total Resource Amount">
+<input type="text" id="get-resource" placeholder="Resource Name">
+<button onclick="getResourcePrice()">Convert</button>
+<div id="conversion-result"></div>
+
+<script>
+  function addTranslation() {
+    const add = (galaxyNumeral, romanNumeral) => {
+      fetch('http://localhost:8080/add-translation', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(
+          { galaxy: galaxyNumeral, roman: romanNumeral }
+        ),
+      }).then(response => {
+          document.getElementById('add-translation-result').textContent = `Saved!`;
+        }
+      )
+    }
+
+    const ROMAN_NUMERALS = ['I', 'V', 'X', 'L', 'C', 'D', 'M']
+    ROMAN_NUMERALS.forEach((it) => {
+      const romanNumeral = document.getElementById(`roman-value-${it}`).value;
+      const galaxyNumeral = document.getElementById(`galaxy-value-${it}`).value;
+      if (galaxyNumeral !== '' || romanNumeral !== '') {
+        add(galaxyNumeral, romanNumeral)
+      }
+    });
+  }
+
+  function getTranslation() {
+    const galaxyNumber = document.getElementById('translate-galaxy-number').value;
+    const data = { galaxy: galaxyNumber };
+
+    fetch('http://localhost:8080/translation?' + new URLSearchParams(data), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.text())
+      .then(response => {
+        document.getElementById('translation-result').textContent = `Translation result: ${response}`;
+      });
+  }
+
+  function addResourcePrice() {
+    const amount = document.getElementById('add-resource-amount').value;
+    const resource = document.getElementById('add-resource').value;
+    const cost = document.getElementById('add-resource-cost').value;
+    const data = { amount, resource, cost };
+
+    fetch('http://localhost:8080/add-resource-price', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify(data),
+    }).then(response => {
+        document.getElementById('add-resource-price-result').textContent = `Saved!`;
+      }
+    )
+  }
+
+  function getResourcePrice() {
+    const resource = document.getElementById('get-resource').value;
+    const amount = document.getElementById('get-resource-amount').value;
+
+    fetch(`http://localhost:8080/resource-price?` + new URLSearchParams({resource, amount}), {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+      .then(response => response.text())
+      .then(response => {
+        document.getElementById('conversion-result').textContent = `Conversion result: ${response}`;
+      });
+  }
+</script>
+</body>
+</html>

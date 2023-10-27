@@ -29,3 +29,5 @@ data class Resource internal constructor(private val value: String) {
 }
 
 private fun String.isNotCredits() = this.lowercase() != "credits"
+
+fun String.toResource() = Resource.from(this)
