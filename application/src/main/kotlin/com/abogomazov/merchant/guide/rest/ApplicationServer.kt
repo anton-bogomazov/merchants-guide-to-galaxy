@@ -8,7 +8,9 @@ import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import jakarta.servlet.http.HttpServlet
 import org.apache.catalina.Context
 import org.apache.catalina.startup.Tomcat
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
 import kotlin.reflect.KClass
 
 class ApplicationServer(
@@ -24,7 +26,7 @@ class ApplicationServer(
         }
         val context = server.addContext("", File(".").absolutePath)
 
-        server.registerEndpoint(context, "/", UIServlet())
+        server.registerEndpoint(context, "/", UIServlet(indexPage()))
         server.registerEndpoint(context, "/add-translation", SetTranslationServlet(setTranslationUseCase))
         server.registerEndpoint(context, "/translation", GetTranslationServlet(getTranslationUseCase))
         server.registerEndpoint(context, "/add-resource-price", SetResourcePriceServlet(setResourcePriceUseCase))
@@ -34,6 +36,14 @@ class ApplicationServer(
         server.getServer().await()
     }
 }
+
+private fun indexPage() =
+    BufferedReader(
+        InputStreamReader(
+            ApplicationServer::class.java.getResourceAsStream("/index.html")
+                ?: error("Can't load index page")
+        )
+    ).readText()
 
 fun Tomcat.registerEndpoint(context: Context, route: String, servlet: HttpServlet) {
     this.registerServlet(context, servlet)
