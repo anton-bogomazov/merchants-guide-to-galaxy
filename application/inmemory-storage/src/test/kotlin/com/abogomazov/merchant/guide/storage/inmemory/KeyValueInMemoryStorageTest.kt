@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.application.inmemory
+package com.abogomazov.merchant.guide.storage.inmemory
 
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe

@@ -14,6 +14,7 @@ dependencies {
     implementation(project(":application:cli"))
     implementation(project(":application:rest"))
     implementation(project(":application:common"))
+    implementation(project(":application:inmemory-storage"))
 
     testImplementation(Libs.kotest_runner)
     testImplementation(Libs.kotest_assertions)
@@ -24,6 +25,7 @@ dependencies {
     testFixturesImplementation(project(":application:core"))
     testFixturesImplementation(project(":application:common"))
     testFixturesImplementation(project(":application:cli"))
+    testFixturesImplementation(project(":application:inmemory-storage"))
     testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_assertions)
     testFixturesImplementation(Libs.kotest_arrow)

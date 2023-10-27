@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.application.inmemory
+package com.abogomazov.merchant.guide.storage.inmemory
 
 class KeyValueInMemoryStorage<K, V> {
     private val registry = mutableMapOf<K, V>()

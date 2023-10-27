@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.application.inmemory
+package com.abogomazov.merchant.guide.storage.inmemory
 
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral

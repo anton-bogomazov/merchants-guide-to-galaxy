@@ -1,4 +1,4 @@
-package com.abogomazov.merchant.guide.application.inmemory
+package com.abogomazov.merchant.guide.storage.inmemory
 
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice

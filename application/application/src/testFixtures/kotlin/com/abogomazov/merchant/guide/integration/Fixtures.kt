@@ -1,11 +1,10 @@
 package com.abogomazov.merchant.guide.integration
 
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.cli.ApplicationShell
-import com.abogomazov.merchant.guide.cli.CommandExecutor
 import com.abogomazov.merchant.guide.cli.CommandSource
 import com.abogomazov.merchant.guide.cli.ResultCollector
+import com.abogomazov.merchant.guide.storage.inmemory.InMemoryDictionary
+import com.abogomazov.merchant.guide.storage.inmemory.InMemoryMarket
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase

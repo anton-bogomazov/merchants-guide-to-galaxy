@@ -27,13 +27,15 @@ class GalaxyNumberTest : FreeSpec({
 
     "can be constructed from primitive String" {
         "  one two   three \t  oclock \n rock \n".toGalaxyNumber()
-            .shouldBeRight(galaxyNumber(
+            .shouldBeRight(
+                galaxyNumber(
                 galaxyNumeral("one"),
                 galaxyNumeral("two"),
                 galaxyNumeral("three"),
                 galaxyNumeral("oclock"),
                 galaxyNumeral("rock"),
-            ))
+            )
+            )
     }
 
     "can't be constructed from primitive String with invalid numeral" {

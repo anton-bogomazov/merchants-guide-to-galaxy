@@ -1,8 +1,8 @@
 package com.abogomazov.merchant.guide
 
 import com.abogomazov.merchant.guide.application.ApplicationFactory
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryDictionary
-import com.abogomazov.merchant.guide.application.inmemory.InMemoryMarket
+import com.abogomazov.merchant.guide.storage.inmemory.InMemoryDictionary
+import com.abogomazov.merchant.guide.storage.inmemory.InMemoryMarket
 import org.slf4j.LoggerFactory
 
 fun main() {
@@ -18,7 +18,7 @@ fun main() {
         translationRemover = dictionary,
         marketPricePersister = market,
         marketPriceProvider = market,
-    ).build("web")
+    ).build("cli")
     logger.info("Application constructed")
 
     app.run()
