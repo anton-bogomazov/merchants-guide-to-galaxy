@@ -1,9 +1,10 @@
 package com.abogomazov.merchant.guide.rest
 
+import arrow.core.flatMap
 import arrow.core.raise.either
-import com.abogomazov.merchant.guide.cli.parser.toCredit
-import com.abogomazov.merchant.guide.cli.parser.toGalaxyNumber
-import com.abogomazov.merchant.guide.cli.parser.toResource
+import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumber
+import com.abogomazov.merchant.guide.domain.market.toCredit
+import com.abogomazov.merchant.guide.domain.market.toResource
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
@@ -38,15 +39,12 @@ class SetResourcePriceServlet(
                 dto.amount.toGalaxyNumber().bind(),
                 dto.cost.toCredit().bind()
             )
-        }.map { (resource, totalResourceAmount, credits) ->
+        }.flatMap { (resource, totalResourceAmount, credits) ->
             setResourcePriceUseCase.execute(
                 totalResourceAmount = totalResourceAmount,
                 resource = resource,
                 totalPrice = credits
-            ).fold(
-                { err -> err.toString() },
-                { "OK" }
-            )
+            ).map { "OK" }
         }.fold(
             { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
             { result -> result to HttpServletResponse.SC_OK }

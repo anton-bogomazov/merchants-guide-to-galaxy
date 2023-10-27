@@ -1,6 +1,7 @@
 package com.abogomazov.merchant.guide.rest
 
-import com.abogomazov.merchant.guide.cli.parser.toGalaxyNumber
+import arrow.core.flatMap
+import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumber
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
@@ -28,12 +29,9 @@ class GetTranslationServlet(
     private fun parse(req: HttpServletRequest) = req.getParameter(GALAXY_NUMBER)
 
     private fun execute(galaxyNumber: String): Pair<String, Int> =
-        galaxyNumber.toGalaxyNumber().map {
+        galaxyNumber.toGalaxyNumber().flatMap {
             getTranslationUseCase.execute(it)
-                .fold(
-                    { err -> err.toString() },
-                    { result -> result.toInt().toString() }
-                )
+                .map { result -> result.toInt().toString() }
         }.fold(
             { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
             { result -> result to HttpServletResponse.SC_OK }

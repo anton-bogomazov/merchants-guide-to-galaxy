@@ -9,3 +9,5 @@ enum class RomanNumeral(val value: Int) {
     D(value = 500),
     M(value = 1000)
 }
+
+fun String.toRomanNumeral() = RomanNumeral.valueOf(this)

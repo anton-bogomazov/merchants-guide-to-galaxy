@@ -1,15 +1,15 @@
 package com.abogomazov.merchant.guide.rest
 
+import arrow.core.flatMap
 import arrow.core.raise.either
-import com.abogomazov.merchant.guide.cli.parser.toGalaxyNumeral
-import com.abogomazov.merchant.guide.cli.parser.toRomanNumeral
+import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumeral
+import com.abogomazov.merchant.guide.domain.roman.toRomanNumeral
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.Json
-
 
 class SetTranslationServlet(
     private val setTranslationUseCase: SetTranslationUseCase
@@ -32,12 +32,9 @@ class SetTranslationServlet(
 
     private fun execute(dto: SetTranslationDto): Pair<String, Int> =
         either { dto.galaxy.toGalaxyNumeral().bind() to dto.roman.toRomanNumeral() }
-            .map { (localDigit, romanDigit) ->
+            .flatMap { (localDigit, romanDigit) ->
                 setTranslationUseCase.execute(localDigit, romanDigit)
-                    .fold(
-                        { err -> err.toString() },
-                        { "OK" }
-                    )
+                    .map { "OK" }
             }.fold(
                 { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
                 { result -> result to HttpServletResponse.SC_OK }

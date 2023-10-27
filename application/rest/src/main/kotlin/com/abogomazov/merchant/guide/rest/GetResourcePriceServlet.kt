@@ -1,8 +1,9 @@
 package com.abogomazov.merchant.guide.rest
 
+import arrow.core.flatMap
 import arrow.core.raise.either
-import com.abogomazov.merchant.guide.cli.parser.toGalaxyNumber
-import com.abogomazov.merchant.guide.cli.parser.toResource
+import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumber
+import com.abogomazov.merchant.guide.domain.market.toResource
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
@@ -32,12 +33,9 @@ class GetResourcePriceServlet(
 
     private fun execute(amountOfResource: String, resource: String): Pair<String, Int> =
         either { resource.toResource().bind() to amountOfResource.toGalaxyNumber().bind() }
-            .map { (resource, localNumber) ->
+            .flatMap { (resource, localNumber) ->
                 getResourcePriceUseCase.execute(localNumber, resource)
-                    .fold(
-                        { err -> err.toString() },
-                        { it.toBigInteger().intValueExact().toString() }
-                    )
+                    .map { it.toBigInteger().intValueExact().toString() }
             }.fold(
                 { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
                 { result -> result to HttpServletResponse.SC_OK }

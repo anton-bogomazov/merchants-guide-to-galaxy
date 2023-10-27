@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.domain.market
 
+import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.raise.ensure
 import com.abogomazov.merchant.guide.domain.roman.Amount
@@ -10,6 +11,7 @@ import java.math.RoundingMode
 
 sealed interface CreditsValidationError {
     data object NegativeValue : CreditsValidationError
+    data object NanString : CreditsValidationError
 }
 
 data class Credits internal constructor(private val value: BigInteger) {
@@ -36,3 +38,10 @@ data class Credits internal constructor(private val value: BigInteger) {
 
 private fun BigDecimal.floor() =
     this.round(MathContext(0, RoundingMode.DOWN))
+
+fun String.toCredit() =
+    try {
+        Credits.from(BigInteger(this@toCredit))
+    } catch (e: NumberFormatException) {
+        CreditsValidationError.NanString.left()
+    }
