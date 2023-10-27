@@ -4,7 +4,7 @@ object Plugins {
     }
 
     object Paths {
-        const val detekt_config = "../tools/detekt/detekt.yml"
+        const val detekt_config = "../../tools/detekt/detekt.yml"
     }
 
     const val kotlin_jvm = "org.jetbrains.kotlin.jvm"
