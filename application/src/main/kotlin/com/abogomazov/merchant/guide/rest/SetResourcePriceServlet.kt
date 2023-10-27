@@ -14,30 +14,48 @@ import kotlinx.serialization.json.Json
 class SetResourcePriceServlet(
     private val setResourcePriceUseCase: SetResourceMarketPriceUseCase
 ) : HttpServlet() {
-    override fun doPost(req: HttpServletRequest?, resp: HttpServletResponse?) {
-        val dto = req?.reader?.use {
+
+    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+        val dto = parse(req)
+
+        resp.writer.use { writer ->
+            val (response, status) = execute(dto)
+            writer.write(response)
+            resp.status = status
+            writer.flush()
+        }
+    }
+
+    private fun parse(req: HttpServletRequest) =
+        req.reader.use {
             Json.decodeFromString<SetResourcePriceDto>(it.readText())
         }
 
-        dto?.let {
-            either {
-                dto.resource.toResource().bind() to dto.totalPrice.toCredit().bind()
-            }.map { (resource, credits) ->
-                setResourcePriceUseCase.execute(
-                    totalResourceAmount = dto.totalResourceAmount.toGalaxyNumber(),
-                    resource = resource,
-                    totalPrice = credits
-                )
-            }
-        } ?: resp?.apply {
-            status = HttpServletResponse.SC_BAD_REQUEST
-        }
-    }
+    private fun execute(dto: SetResourcePriceDto): Pair<String, Int> =
+        either {
+            Triple(
+                dto.resource.toResource().bind(),
+                dto.amount.toGalaxyNumber().bind(),
+                dto.cost.toCredit().bind()
+            )
+        }.map { (resource, totalResourceAmount, credits) ->
+            setResourcePriceUseCase.execute(
+                totalResourceAmount = totalResourceAmount,
+                resource = resource,
+                totalPrice = credits
+            ).fold(
+                { err -> err.toString() },
+                { "OK" }
+            )
+        }.fold(
+            { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
+            { result -> result to HttpServletResponse.SC_OK }
+        )
 }
 
 @Serializable
 private data class SetResourcePriceDto(
-    val totalResourceAmount: String,
+    val amount: String,
     val resource: String,
-    val totalPrice: String,
+    val cost: String,
 )

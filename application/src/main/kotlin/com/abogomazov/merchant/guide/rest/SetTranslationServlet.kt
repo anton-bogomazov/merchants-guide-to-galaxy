@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.rest
 
+import arrow.core.raise.either
 import com.abogomazov.merchant.guide.cli.parser.toGalaxyNumeral
 import com.abogomazov.merchant.guide.cli.parser.toRomanNumeral
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
@@ -13,24 +14,38 @@ import kotlinx.serialization.json.Json
 class SetTranslationServlet(
     private val setTranslationUseCase: SetTranslationUseCase
 ) : HttpServlet() {
-    override fun doPost(req: HttpServletRequest?, resp: HttpServletResponse?) {
-        val dto = req?.reader?.use {
+    override fun doPost(req: HttpServletRequest, resp: HttpServletResponse) {
+        val dto = parse(req)
+
+        resp.writer.use { writer ->
+            val (response, status) = execute(dto)
+            writer.write(response)
+            resp.status = status
+            writer.flush()
+        }
+    }
+
+    private fun parse(req: HttpServletRequest) =
+        req.reader.use {
             Json.decodeFromString<SetTranslationDto>(it.readText())
         }
 
-        dto?.let {
-            setTranslationUseCase.execute(
-                dto.localDigit.toGalaxyNumeral(),
-                dto.romanDigit.toRomanNumeral()
+    private fun execute(dto: SetTranslationDto): Pair<String, Int> =
+        either { dto.galaxy.toGalaxyNumeral().bind() to dto.roman.toRomanNumeral() }
+            .map { (localDigit, romanDigit) ->
+                setTranslationUseCase.execute(localDigit, romanDigit)
+                    .fold(
+                        { err -> err.toString() },
+                        { "OK" }
+                    )
+            }.fold(
+                { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
+                { result -> result to HttpServletResponse.SC_OK }
             )
-        } ?: resp?.apply {
-            status = HttpServletResponse.SC_BAD_REQUEST
-        }
-    }
 }
 
 @Serializable
 private data class SetTranslationDto(
-    val localDigit: String,
-    val romanDigit: String,
+    val galaxy: String,
+    val roman: String,
 )

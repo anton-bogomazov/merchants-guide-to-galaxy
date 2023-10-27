@@ -9,25 +9,33 @@ import jakarta.servlet.http.HttpServletResponse
 class GetTranslationServlet(
     private val getTranslationUseCase: GetTranslationUseCase
 ) : HttpServlet() {
-    override fun doGet(req: HttpServletRequest?, resp: HttpServletResponse?) {
-        req?.getParameter("localNumber")
-        val localNumber = req?.getParameter("localNumber")
 
-        localNumber?.let {
-            resp?.writer.use {
-                getTranslationUseCase.execute(
-                    localNumber.toGalaxyNumber()
-                ).map { result ->
-                    it?.write(result.toString())
-                    resp?.status = HttpServletResponse.SC_OK
-                }.mapLeft { error ->
-                    it?.write(error.toString())
-                    resp?.status = HttpServletResponse.SC_BAD_REQUEST
-                }
-                it?.flush()
-            }
-        } ?: resp?.apply {
-            status = HttpServletResponse.SC_BAD_REQUEST
+    companion object {
+        private const val GALAXY_NUMBER = "galaxy"
+    }
+
+    override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
+        val galaxyNumber = parse(req)
+
+        resp.writer.use { writer ->
+            val (response, status) = execute(galaxyNumber)
+            writer.write(response)
+            resp.status = status
+            writer.flush()
         }
     }
+
+    private fun parse(req: HttpServletRequest) = req.getParameter(GALAXY_NUMBER)
+
+    private fun execute(galaxyNumber: String): Pair<String, Int> =
+        galaxyNumber.toGalaxyNumber().map {
+            getTranslationUseCase.execute(it)
+                .fold(
+                    { err -> err.toString() },
+                    { result -> result.toInt().toString() }
+                )
+        }.fold(
+            { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
+            { result -> result to HttpServletResponse.SC_OK }
+        )
 }
