@@ -2,6 +2,7 @@ package com.abogomazov.merchant.guide.cli.parser
 
 import arrow.core.Either
 import arrow.core.left
+import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.Command
@@ -24,9 +25,16 @@ class SetTranslationCommandParser(
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
         command.extractArguments().map { (galaxyNumeral, romanNumeral) ->
-            return SetTranslationCommand(
-                galaxyNumeral = galaxyNumeral.toGalaxyNumeral(),
-                romanNumeral = romanNumeral.toRomanNumeral(),
-            ).right()
+            return either {
+                Pair(
+                    galaxyNumeral.toGalaxyNumeral().bind(),
+                    romanNumeral.toRomanNumeral()
+                )
+            }.map { (galaxyNumeral, romanNumeral) ->
+                SetTranslationCommand(
+                    galaxyNumeral = galaxyNumeral,
+                    romanNumeral = romanNumeral,
+                )
+            }
         }
 }

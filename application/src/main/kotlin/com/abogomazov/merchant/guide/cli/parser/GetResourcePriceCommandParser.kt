@@ -2,6 +2,7 @@ package com.abogomazov.merchant.guide.cli.parser
 
 import arrow.core.Either
 import arrow.core.left
+import arrow.core.raise.either
 import arrow.core.right
 import com.abogomazov.merchant.guide.cli.CommandParser
 import com.abogomazov.merchant.guide.cli.commands.Command
@@ -24,11 +25,12 @@ class GetResourcePriceCommandParser(
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
         command.extractArguments().map { (galaxyNumber, resource) ->
-            return resource.toResource().map {
-                GetResourceMarketPriceCommand(
-                    galaxyNumber = galaxyNumber.toGalaxyNumber(),
-                    resource = it,
-                )
-            }
+            return either { resource.toResource().bind() to galaxyNumber.toGalaxyNumber().bind() }
+                .map { (resource, number) ->
+                    GetResourceMarketPriceCommand(
+                        galaxyNumber = number,
+                        resource = resource,
+                    )
+                }
         }
 }

@@ -25,10 +25,13 @@ class SetResourcePriceCommandParser(
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
         command.extractArguments().map { (resourceAmount, resource, totalCredits) ->
-            return either { Pair(resource.toResource().bind(), totalCredits.toCredit().bind()) }
-                .map { (resource, credits) ->
+            return either { Triple(
+                resource.toResource().bind(),
+                resourceAmount.toGalaxyNumber().bind(),
+                totalCredits.toCredit().bind()
+            ) }.map { (resource, resourceAmount, credits) ->
                     SetResourceMarketPriceCommand(
-                        resourceAmount = resourceAmount.toGalaxyNumber(),
+                        resourceAmount = resourceAmount,
                         resource = resource,
                         total = credits,
                     )

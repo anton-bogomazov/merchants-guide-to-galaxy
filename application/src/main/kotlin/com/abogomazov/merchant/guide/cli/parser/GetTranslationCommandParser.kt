@@ -24,8 +24,10 @@ class GetTranslationCommandParser(
 
     override fun constructCommand(command: String): Either<ParserError, Command> =
         command.extractArguments().map { galaxyNumber ->
-            return GetTranslationCommand(
-                galaxyNumber = galaxyNumber.toGalaxyNumber(),
-            ).right()
+            return galaxyNumber.toGalaxyNumber().map {
+                GetTranslationCommand(
+                    galaxyNumber = it,
+                )
+            }
         }
 }
