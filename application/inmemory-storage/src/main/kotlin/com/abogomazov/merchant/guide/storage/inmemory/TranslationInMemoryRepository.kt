@@ -2,11 +2,9 @@ package com.abogomazov.merchant.guide.storage.inmemory
 
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
-import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
-import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
-import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
+import com.abogomazov.merchant.guide.usecase.contracts.TranslationRepository
 
-class InMemoryDictionary : TranslationProvider, TranslationPersister, TranslationRemover {
+class TranslationInMemoryRepository : TranslationRepository {
 
     private val dictionary = KeyValueInMemoryStorage<GalaxyNumeral, RomanNumeral>()
 

@@ -1,17 +1,17 @@
 package com.abogomazov.merchant.guide.storage.postgres
 
-import com.abogomazov.merchant.guide.storage.postgres.repository.MarketRepository
-import com.abogomazov.merchant.guide.storage.postgres.repository.TranslationRepository
+import com.abogomazov.merchant.guide.storage.postgres.repository.MarketPostgresRepository
+import com.abogomazov.merchant.guide.storage.postgres.repository.TranslationPostgresRepository
 import org.testcontainers.containers.PostgreSQLContainer
 
 fun postgresDatasource(container: PostgreSQLContainer<*>) =
     postgresDatasource(container.getJdbcUrl(), container.username, container.password)
 
 fun marketRepository(container: PostgreSQLContainer<*>) =
-    MarketRepository(postgresDatasource(container))
+    MarketPostgresRepository(postgresDatasource(container))
 
 fun translationRepository(container: PostgreSQLContainer<*>) =
-    TranslationRepository(postgresDatasource(container))
+    TranslationPostgresRepository(postgresDatasource(container))
 
 fun postgresDatasource(
     jdbcUrl: String,

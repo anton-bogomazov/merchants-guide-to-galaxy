@@ -3,8 +3,8 @@ package com.abogomazov.merchant.guide.integration
 import com.abogomazov.merchant.guide.cli.ApplicationShell
 import com.abogomazov.merchant.guide.cli.CommandSource
 import com.abogomazov.merchant.guide.cli.ResultCollector
-import com.abogomazov.merchant.guide.storage.inmemory.InMemoryDictionary
-import com.abogomazov.merchant.guide.storage.inmemory.InMemoryMarket
+import com.abogomazov.merchant.guide.storage.inmemory.TranslationInMemoryRepository
+import com.abogomazov.merchant.guide.storage.inmemory.MarketInMemoryRepository
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
@@ -15,8 +15,8 @@ import io.kotest.matchers.shouldBe
 private object ApplicationDriver {
 
     fun run(commandProvider: UserInputStream, asserter: ResultCollector) {
-        val dictionary = InMemoryDictionary()
-        val market = InMemoryMarket()
+        val dictionary = TranslationInMemoryRepository()
+        val market = MarketInMemoryRepository()
 
         val evaluator = GalaxyNumberEvaluator(dictionary)
         val getTranslationUseCase = GetTranslationUseCase(evaluator)

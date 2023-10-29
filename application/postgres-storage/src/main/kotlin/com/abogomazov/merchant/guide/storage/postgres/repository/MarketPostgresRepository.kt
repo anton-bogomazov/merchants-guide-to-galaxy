@@ -4,12 +4,11 @@ import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.domain.market.toUnitPrice
 import com.abogomazov.merchant.guide.storage.postgres.PostgresDatasource
-import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
-import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
+import com.abogomazov.merchant.guide.usecase.contracts.MarketRepository
 
-class MarketRepository(
+class MarketPostgresRepository(
     private val dataSource: PostgresDatasource
-) : MarketPriceProvider, MarketPricePersister {
+) : MarketRepository {
 
     companion object {
         private const val TABLE = "market"
