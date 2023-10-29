@@ -20,5 +20,4 @@ dependencies {
 
     testFixturesImplementation(project(":application:core"))
     testFixturesImplementation(Libs.arrow)
-    testFixturesImplementation(Libs.kotest_arrow)
 }

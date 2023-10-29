@@ -16,7 +16,5 @@ dependencies {
     testFixturesImplementation(project(":application:core"))
     testFixturesImplementation(Libs.testcontainers)
     testFixturesImplementation(Libs.hikari_pool)
-    testFixturesImplementation(Libs.arrow)
     testFixturesImplementation(Libs.kotest_runner)
-    testFixturesImplementation(Libs.kotest_arrow)
 }
