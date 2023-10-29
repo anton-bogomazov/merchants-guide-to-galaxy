@@ -31,11 +31,11 @@ class ApplicationServer(
         }
         val context = server.addContext("", File(".").absolutePath)
 
-        server.registerEndpoint(context, "/", UIServlet(indexPage()))
-        server.registerEndpoint(context, "/add-translation", SetTranslationServlet(setTranslationUseCase))
-        server.registerEndpoint(context, "/translation", GetTranslationServlet(getTranslationUseCase))
-        server.registerEndpoint(context, "/add-resource-price", SetResourcePriceServlet(setResourcePriceUseCase))
-        server.registerEndpoint(context, "/resource-price", GetResourcePriceServlet(getResourcePriceUseCase))
+        server.registerEndpoint(context, ROOT, UIServlet(indexPage()))
+        server.registerEndpoint(context, ADD_TRANSLATION, SetTranslationServlet(setTranslationUseCase))
+        server.registerEndpoint(context, GET_TRANSLATION, GetTranslationServlet(getTranslationUseCase))
+        server.registerEndpoint(context, ADD_RESOURCE_PRICE, SetResourcePriceServlet(setResourcePriceUseCase))
+        server.registerEndpoint(context, GET_RESOURCE_PRICE, GetResourcePriceServlet(getResourcePriceUseCase))
 
         server.start()
         server.getServer().await()
