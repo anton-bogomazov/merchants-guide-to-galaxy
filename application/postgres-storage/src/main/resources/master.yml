@@ -1,0 +1,5 @@
+databaseChangeLog:
+  - include:
+      file: 1-create-table-translations.yml
+  - include:
+      file: 2-create-table-market.yml

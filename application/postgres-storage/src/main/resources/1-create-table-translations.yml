@@ -1,0 +1,25 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1-create-table-translations
+      author: abogomazov
+      runOrder: first
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: translations
+      changes:
+        - createTable:
+            tableName: translations
+            columns:
+              - column:
+                  name: roman_numeral
+                  type: VARCHAR(1)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: galaxy_numeral
+                  type: VARCHAR(255)
+                  constraints:
+                    nullable: false
+                    unique: true

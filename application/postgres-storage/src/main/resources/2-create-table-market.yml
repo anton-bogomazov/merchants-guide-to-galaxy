@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2-create-table-market
+      author: abogomazov
+      runOrder: first
+      preConditions:
+        - onFail: MARK_RAN
+          not:
+            tableExists:
+              tableName: market
+      changes:
+        - createTable:
+            tableName: market
+            columns:
+              - column:
+                  name: resource_name
+                  type: VARCHAR(255)
+                  constraints:
+                    primaryKey: true
+              - column:
+                  name: price
+                  type: number
+                  constraints:
+                    nullable: false
