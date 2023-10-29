@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class SetTranslationServlet(
@@ -18,9 +19,9 @@ class SetTranslationServlet(
         val dto = parse(req)
 
         resp.writer.use { writer ->
-            val (response, status) = execute(dto)
-            writer.write(response)
-            resp.status = status
+            val response = execute(dto)
+            writer.write(Json.encodeToString(response))
+            resp.status = response.code
             writer.flush()
         }
     }
@@ -30,19 +31,16 @@ class SetTranslationServlet(
             Json.decodeFromString<SetTranslationDto>(it.readText())
         }
 
-    private fun execute(dto: SetTranslationDto): Pair<String, Int> =
+    private fun execute(dto: SetTranslationDto): Response =
         either { dto.galaxy.toGalaxyNumeral().bind() to dto.roman.toRomanNumeral() }
             .flatMap { (localDigit, romanDigit) ->
                 setTranslationUseCase.execute(localDigit, romanDigit)
                     .map { "OK" }
-            }.fold(
-                { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
-                { result -> result to HttpServletResponse.SC_OK }
-            )
+            }.toResponse()
 }
 
 @Serializable
-private data class SetTranslationDto(
+data class SetTranslationDto(
     val galaxy: String,
     val roman: String,
 )

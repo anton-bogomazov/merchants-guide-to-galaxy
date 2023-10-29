@@ -6,6 +6,8 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class GetTranslationServlet(
     private val getTranslationUseCase: GetTranslationUseCase
@@ -19,21 +21,18 @@ class GetTranslationServlet(
         val galaxyNumber = parse(req)
 
         resp.writer.use { writer ->
-            val (response, status) = execute(galaxyNumber)
-            writer.write(response)
-            resp.status = status
+            val response = execute(galaxyNumber)
+            writer.write(Json.encodeToString(response))
+            resp.status = response.code
             writer.flush()
         }
     }
 
     private fun parse(req: HttpServletRequest) = req.getParameter(GALAXY_NUMBER)
 
-    private fun execute(galaxyNumber: String): Pair<String, Int> =
+    private fun execute(galaxyNumber: String): Response =
         galaxyNumber.toGalaxyNumber().flatMap {
             getTranslationUseCase.execute(it)
                 .map { result -> result.toInt().toString() }
-        }.fold(
-            { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
-            { result -> result to HttpServletResponse.SC_OK }
-        )
+        }.toResponse()
 }

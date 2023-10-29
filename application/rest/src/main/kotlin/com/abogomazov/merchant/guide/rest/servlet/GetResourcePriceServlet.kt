@@ -8,6 +8,8 @@ import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCas
 import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
+import kotlinx.serialization.encodeToString
+import kotlinx.serialization.json.Json
 
 class GetResourcePriceServlet(
     private val getResourcePriceUseCase: GetResourceMarketPriceUseCase
@@ -21,9 +23,9 @@ class GetResourcePriceServlet(
     override fun doGet(req: HttpServletRequest, resp: HttpServletResponse) {
         val (resource, amount) = parse(req)
         resp.writer.use { writer ->
-            val (response, status) = execute(amount, resource)
-            writer.write(response)
-            resp.status = status
+            val response = execute(amount, resource)
+            writer.write(Json.encodeToString(response))
+            resp.status = response.code
             writer.flush()
         }
     }
@@ -31,13 +33,10 @@ class GetResourcePriceServlet(
     private fun parse(req: HttpServletRequest) =
         req.getParameter(RESOURCE) to req.getParameter(AMOUNT)
 
-    private fun execute(amountOfResource: String, resource: String): Pair<String, Int> =
+    private fun execute(amountOfResource: String, resource: String): Response =
         either { resource.toResource().bind() to amountOfResource.toGalaxyNumber().bind() }
             .flatMap { (resource, localNumber) ->
                 getResourcePriceUseCase.execute(localNumber, resource)
                     .map { it.toBigInteger().intValueExact().toString() }
-            }.fold(
-                { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
-                { result -> result to HttpServletResponse.SC_OK }
-            )
+            }.toResponse()
 }

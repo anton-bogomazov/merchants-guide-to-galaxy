@@ -1,5 +1,6 @@
 package com.abogomazov.merchant.guide.rest.servlet
 
+import arrow.core.Either
 import arrow.core.flatMap
 import arrow.core.raise.either
 import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumber
@@ -10,6 +11,7 @@ import jakarta.servlet.http.HttpServlet
 import jakarta.servlet.http.HttpServletRequest
 import jakarta.servlet.http.HttpServletResponse
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 
 class SetResourcePriceServlet(
@@ -20,9 +22,9 @@ class SetResourcePriceServlet(
         val dto = parse(req)
 
         resp.writer.use { writer ->
-            val (response, status) = execute(dto)
-            writer.write(response)
-            resp.status = status
+            val response = execute(dto)
+            writer.write(Json.encodeToString(response))
+            resp.status = response.code
             writer.flush()
         }
     }
@@ -32,7 +34,7 @@ class SetResourcePriceServlet(
             Json.decodeFromString<SetResourcePriceDto>(it.readText())
         }
 
-    private fun execute(dto: SetResourcePriceDto): Pair<String, Int> =
+    private fun execute(dto: SetResourcePriceDto): Response =
         either {
             Triple(
                 dto.resource.toResource().bind(),
@@ -45,15 +47,18 @@ class SetResourcePriceServlet(
                 resource = resource,
                 totalPrice = credits
             ).map { "OK" }
-        }.fold(
-            { err -> err.toString() to HttpServletResponse.SC_BAD_REQUEST },
-            { result -> result to HttpServletResponse.SC_OK }
-        )
+        }.toResponse()
 }
 
 @Serializable
-private data class SetResourcePriceDto(
+data class SetResourcePriceDto(
     val amount: String,
     val resource: String,
     val cost: String,
 )
+
+fun <E, R> Either<E, R>.toResponse() =
+    this.fold(
+        { err -> Response(err.toString(), HttpServletResponse.SC_BAD_REQUEST) },
+        { result -> Response(result.toString(), HttpServletResponse.SC_OK) }
+    )
