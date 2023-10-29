@@ -1,42 +1,41 @@
 package com.abogomazov.merchant.guide.application
 
+import com.abogomazov.merchant.guide.Storage
+import com.abogomazov.merchant.guide.UI
 import com.abogomazov.merchant.guide.application.io.ConsoleIO
 import com.abogomazov.merchant.guide.cli.ApplicationShell
+import com.abogomazov.merchant.guide.properties
 import com.abogomazov.merchant.guide.rest.ApplicationServer
+import com.abogomazov.merchant.guide.storage.inmemory.MarketInMemoryRepository
+import com.abogomazov.merchant.guide.storage.inmemory.TranslationInMemoryRepository
+import com.abogomazov.merchant.guide.storage.postgres.PostgresDatasource
+import com.abogomazov.merchant.guide.storage.postgres.repository.MarketPostgresRepository
+import com.abogomazov.merchant.guide.storage.postgres.repository.TranslationPostgresRepository
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
-import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
+import com.abogomazov.merchant.guide.usecase.contracts.MarketRepository
+import com.abogomazov.merchant.guide.usecase.contracts.TranslationRepository
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
-import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
-import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
-import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
-import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
-
-private const val DEFAULT_MODE = "cli"
 
 class ApplicationFactory(
-    private val translationProvider: TranslationProvider,
-    private val translationPersister: TranslationPersister,
-    private val translationRemover: TranslationRemover,
-    private val marketPriceProvider: MarketPriceProvider,
-    private val marketPricePersister: MarketPricePersister,
+    private val ui: UI,
+    private val storage: Storage,
 ) {
 
-    fun build(mode: String = DEFAULT_MODE): Application {
-        val evaluator = GalaxyNumberEvaluator(translationProvider)
-        val getTranslationUseCase = GetTranslationUseCase(evaluator)
-        val setTranslationUseCase = SetTranslationUseCase(
-            translationProvider,
-            translationPersister,
-            translationRemover
-        )
-        val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketPriceProvider)
-        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketPricePersister)
+    fun build(): Application {
+        val marketStorage = marketStorage(storage)
+        val translationStorage = translationStorage(storage)
 
-        return when (mode) {
-            "cli" -> {
+        val evaluator = GalaxyNumberEvaluator(translationStorage)
+        val getTranslationUseCase = GetTranslationUseCase(evaluator)
+        val setTranslationUseCase = SetTranslationUseCase(translationStorage, translationStorage, translationStorage)
+        val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketStorage)
+        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketStorage)
+
+        return when (ui) {
+            UI.CLI -> {
                 val io = ConsoleIO()
 
                 ApplicationShell(
@@ -48,7 +47,7 @@ class ApplicationFactory(
                     resultCollector = io
                 )
             }
-            "web" -> {
+            UI.REST -> {
                 ApplicationServer(
                     getTranslationUseCase = getTranslationUseCase,
                     setTranslationUseCase = setTranslationUseCase,
@@ -56,7 +55,28 @@ class ApplicationFactory(
                     setResourcePriceUseCase = setPriceUseCase,
                 )
             }
-            else -> error("$mode is not supported")
         }
     }
+}
+
+fun marketStorage(type: Storage): MarketRepository {
+    return when (type) {
+        Storage.INMEMORY -> MarketInMemoryRepository()
+        Storage.POSTGRES -> MarketPostgresRepository(postgresDatasource())
+    }
+}
+
+fun translationStorage(type: Storage): TranslationRepository {
+    return when (type) {
+        Storage.INMEMORY -> TranslationInMemoryRepository()
+        Storage.POSTGRES -> TranslationPostgresRepository(postgresDatasource())
+    }
+}
+
+fun postgresDatasource() = properties("db").let {
+    PostgresDatasource(
+        jdbcUrl = it.getProperty("postgres.jdbcUrl"),
+        username = it.getProperty("postgres.username"),
+        password = it.getProperty("postgres.password"),
+    )
 }

@@ -15,6 +15,7 @@ dependencies {
     implementation(project(":application:rest"))
     implementation(project(":application:common"))
     implementation(project(":application:inmemory-storage"))
+    implementation(project(":application:postgres-storage"))
 
     testImplementation(Libs.kotest_runner)
     testImplementation(Libs.kotest_assertions)
