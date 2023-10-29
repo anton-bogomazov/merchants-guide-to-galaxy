@@ -30,3 +30,7 @@ data class UnitPrice internal constructor(private val value: BigDecimal) {
 
 private const val TOTAL_DIGITS = 30
 private fun roundDownContext() = MathContext(TOTAL_DIGITS, RoundingMode.HALF_DOWN)
+
+// TODO NaN string
+fun String.toUnitPrice() =
+    UnitPrice.from(BigDecimal(this))

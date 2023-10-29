@@ -31,6 +31,8 @@ fun galaxyFour() = galaxyNumber(one(), five())
 fun amount(int: Int) = Amount.from(int).shouldBeRight()
 fun price(double: Double) =
     UnitPrice.from(double.toBigDecimal()).shouldBeRight()
+fun price(bigDec: BigDecimal) =
+    UnitPrice.from(bigDec).shouldBeRight()
 fun credits(int: Int) =
     Credits.from(bigInt(int)).shouldBeRight()
 fun credits(bigInteger: BigInteger) =

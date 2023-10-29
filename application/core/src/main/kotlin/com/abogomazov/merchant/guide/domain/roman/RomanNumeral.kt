@@ -10,4 +10,5 @@ enum class RomanNumeral(val value: Int) {
     M(value = 1000)
 }
 
+// TODO catch conversion from invalid string
 fun String.toRomanNumeral() = RomanNumeral.valueOf(this)
