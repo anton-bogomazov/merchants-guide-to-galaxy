@@ -19,9 +19,7 @@ fun postgresDatasource(
     password: String
 ) =
     PostgresDatasource(
-        hikariDataSource(
-            jdbcUrl = jdbcUrl,
-            username = username,
-            password = password
-        )
+        jdbcUrl = jdbcUrl,
+        username = username,
+        password = password
     )

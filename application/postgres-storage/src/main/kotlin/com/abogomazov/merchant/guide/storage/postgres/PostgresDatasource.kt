@@ -6,8 +6,12 @@ import java.sql.ResultSet
 import javax.sql.DataSource
 
 class PostgresDatasource(
-    private var datasource: DataSource
+    jdbcUrl: String,
+    username: String,
+    password: String,
 ) {
+
+    private var datasource: DataSource = hikariDataSource(jdbcUrl, username, password)
 
     fun connection(): Connection = datasource.connection
 
@@ -45,9 +49,9 @@ class PostgresDatasource(
 }
 
 fun hikariDataSource(
-    jdbcUrl: String = "jdbc:postgresql://localhost:15432/galaxy",
-    username: String = "merchant",
-    password: String = "pass"
+    jdbcUrl: String,
+    username: String,
+    password: String,
 ) = HikariDataSource()
     .apply {
         this.jdbcUrl = jdbcUrl
