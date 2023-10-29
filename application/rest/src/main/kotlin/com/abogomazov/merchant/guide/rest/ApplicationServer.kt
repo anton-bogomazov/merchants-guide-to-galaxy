@@ -18,27 +18,54 @@ import java.io.File
 import java.io.InputStreamReader
 import kotlin.reflect.KClass
 
+// TODO WTF are these appBase, context and etc? RTFM!
+// TODO Add Swagger
+// TODO remove generating application.log by default
 class ApplicationServer(
     private val setTranslationUseCase: SetTranslationUseCase,
     private val getTranslationUseCase: GetTranslationUseCase,
     private val setResourcePriceUseCase: SetResourceMarketPriceUseCase,
     private val getResourcePriceUseCase: GetResourceMarketPriceUseCase,
 ) : Application {
+
+    private val server = Tomcat().apply {
+        this.getConnector()
+        this.getHost().appBase = "."
+    }
+
+    private val context = server
+        .addContext("", File(".").absolutePath)
+
     override fun run() {
-        val server = Tomcat().apply {
-            this.getConnector()
-            this.getHost().appBase = "."
-        }
-        val context = server.addContext("", File(".").absolutePath)
+        server.registerEndpoints().start()
+    }
 
-        server.registerEndpoint(context, ROOT, UIServlet(indexPage()))
-        server.registerEndpoint(context, ADD_TRANSLATION, SetTranslationServlet(setTranslationUseCase))
-        server.registerEndpoint(context, GET_TRANSLATION, GetTranslationServlet(getTranslationUseCase))
-        server.registerEndpoint(context, ADD_RESOURCE_PRICE, SetResourcePriceServlet(setResourcePriceUseCase))
-        server.registerEndpoint(context, GET_RESOURCE_PRICE, GetResourcePriceServlet(getResourcePriceUseCase))
+    fun stop() {
+        server.stop()
+        server.destroy()
+    }
 
-        server.start()
-        server.getServer().await()
+    private fun Tomcat.registerEndpoints(): Tomcat {
+        this.registerEndpoint(ROOT, UIServlet(indexPage()))
+        this.registerEndpoint(ADD_TRANSLATION, SetTranslationServlet(setTranslationUseCase))
+        this.registerEndpoint(GET_TRANSLATION, GetTranslationServlet(getTranslationUseCase))
+        this.registerEndpoint(ADD_RESOURCE_PRICE, SetResourcePriceServlet(setResourcePriceUseCase))
+        this.registerEndpoint(GET_RESOURCE_PRICE, GetResourcePriceServlet(getResourcePriceUseCase))
+
+        return this
+    }
+
+    private fun Tomcat.registerEndpoint(route: String, servlet: HttpServlet) {
+        this.registerServlet(servlet)
+        context.registerRoute(route, servlet::class)
+    }
+
+    private fun Tomcat.registerServlet(servlet: HttpServlet) {
+        this.addServlet(context.path, servlet::class.java.simpleName, servlet)
+    }
+
+    private fun Context.registerRoute(route: String, servlet: KClass<out HttpServlet>) {
+        this.addServletMappingDecoded(route, servlet.java.simpleName)
     }
 }
 
@@ -49,16 +76,3 @@ private fun indexPage() =
                 ?: error("Can't load index page")
         )
     ).readText()
-
-fun Tomcat.registerEndpoint(context: Context, route: String, servlet: HttpServlet) {
-    this.registerServlet(context, servlet)
-    context.registerRoute(route, servlet::class)
-}
-
-fun Tomcat.registerServlet(context: Context, servlet: HttpServlet) {
-    this.addServlet(context.path, servlet::class.java.simpleName, servlet)
-}
-
-fun Context.registerRoute(route: String, servlet: KClass<out HttpServlet>) {
-    this.addServletMappingDecoded(route, servlet.java.simpleName)
-}

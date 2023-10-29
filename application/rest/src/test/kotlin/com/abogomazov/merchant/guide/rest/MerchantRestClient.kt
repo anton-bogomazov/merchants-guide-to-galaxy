@@ -1,9 +1,5 @@
-package com.abogomazov.merchant.guide.rest.client
+package com.abogomazov.merchant.guide.rest
 
-import com.abogomazov.merchant.guide.rest.ADD_RESOURCE_PRICE
-import com.abogomazov.merchant.guide.rest.ADD_TRANSLATION
-import com.abogomazov.merchant.guide.rest.GET_RESOURCE_PRICE
-import com.abogomazov.merchant.guide.rest.GET_TRANSLATION
 import com.abogomazov.merchant.guide.rest.servlet.Response
 import com.abogomazov.merchant.guide.rest.servlet.SetResourcePriceDto
 import com.abogomazov.merchant.guide.rest.servlet.SetTranslationDto

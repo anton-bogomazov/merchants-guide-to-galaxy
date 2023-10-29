@@ -15,6 +15,11 @@ dependencies {
     testImplementation(Libs.kotest_runner)
     testImplementation(Libs.kotest_assertions)
     testImplementation(Libs.kotest_arrow)
+    // TODO share in common module
+    testFixturesImplementation(testFixtures(project(":application:cli")))
+    testFixturesImplementation(testFixtures(project(":application:core")))
+    testFixturesImplementation(Libs.arrow)
+    testFixturesImplementation(Libs.mockk)
 
     testImplementation(Libs.mockk)
     testImplementation(testFixtures(project(":application:core")))
