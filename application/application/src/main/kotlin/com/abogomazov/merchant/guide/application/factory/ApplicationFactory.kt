@@ -1,10 +1,11 @@
-package com.abogomazov.merchant.guide.application
+package com.abogomazov.merchant.guide.application.factory
 
-import com.abogomazov.merchant.guide.Storage
-import com.abogomazov.merchant.guide.UI
-import com.abogomazov.merchant.guide.application.io.ConsoleIO
+import com.abogomazov.merchant.guide.application.Application
+import com.abogomazov.merchant.guide.application.property.ApplicationProperties
+import com.abogomazov.merchant.guide.application.property.Storage
+import com.abogomazov.merchant.guide.application.property.UI
 import com.abogomazov.merchant.guide.cli.ApplicationShell
-import com.abogomazov.merchant.guide.properties
+import com.abogomazov.merchant.guide.cli.ConsoleIO
 import com.abogomazov.merchant.guide.rest.ApplicationServer
 import com.abogomazov.merchant.guide.storage.inmemory.MarketInMemoryRepository
 import com.abogomazov.merchant.guide.storage.inmemory.TranslationInMemoryRepository
@@ -20,13 +21,19 @@ import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 
 class ApplicationFactory(
-    private val ui: UI,
-    private val storage: Storage,
+    private val properties: ApplicationProperties
 ) {
+    private val postgresDatabase by lazy {
+        PostgresDatasource(
+            jdbcUrl = properties.db.jdbcUrl,
+            username = properties.db.username,
+            password = properties.db.password,
+        )
+    }
 
     fun build(): Application {
-        val marketStorage = marketStorage(storage)
-        val translationStorage = translationStorage(storage)
+        val marketStorage = marketStorage(properties.application.storage)
+        val translationStorage = translationStorage(properties.application.storage)
 
         val evaluator = GalaxyNumberEvaluator(translationStorage)
         val getTranslationUseCase = GetTranslationUseCase(evaluator)
@@ -34,17 +41,15 @@ class ApplicationFactory(
         val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketStorage)
         val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketStorage)
 
-        return when (ui) {
+        return when (properties.application.ui) {
             UI.CLI -> {
-                val io = ConsoleIO()
-
                 ApplicationShell(
                     getTranslationUseCase = getTranslationUseCase,
                     setTranslationUseCase = setTranslationUseCase,
                     getPriceUseCase = getPriceUseCase,
                     setPriceUseCase = setPriceUseCase,
-                    commandSource = io,
-                    resultCollector = io
+                    commandSource = ConsoleIO,
+                    resultCollector = ConsoleIO
                 )
             }
             UI.REST -> {
@@ -57,26 +62,18 @@ class ApplicationFactory(
             }
         }
     }
-}
 
-fun marketStorage(type: Storage): MarketRepository {
-    return when (type) {
-        Storage.INMEMORY -> MarketInMemoryRepository()
-        Storage.POSTGRES -> MarketPostgresRepository(postgresDatasource())
+    private fun marketStorage(type: Storage): MarketRepository {
+        return when (type) {
+            Storage.INMEMORY -> MarketInMemoryRepository()
+            Storage.POSTGRES -> MarketPostgresRepository(postgresDatabase)
+        }
     }
-}
 
-fun translationStorage(type: Storage): TranslationRepository {
-    return when (type) {
-        Storage.INMEMORY -> TranslationInMemoryRepository()
-        Storage.POSTGRES -> TranslationPostgresRepository(postgresDatasource())
+    private fun translationStorage(type: Storage): TranslationRepository {
+        return when (type) {
+            Storage.INMEMORY -> TranslationInMemoryRepository()
+            Storage.POSTGRES -> TranslationPostgresRepository(postgresDatabase)
+        }
     }
-}
-
-fun postgresDatasource() = properties("db").let {
-    PostgresDatasource(
-        jdbcUrl = it.getProperty("postgres.jdbcUrl"),
-        username = it.getProperty("postgres.username"),
-        password = it.getProperty("postgres.password"),
-    )
 }

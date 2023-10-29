@@ -17,6 +17,7 @@ sealed interface SetResourceMarketPriceError {
 
 class SetResourceMarketPriceUseCase(
     private val evaluator: GalaxyNumberEvaluator,
+    // TODO check if price already persisted for resource. If yes, remove old price and save new.
     private val marketPricePersister: MarketPricePersister,
 ) {
 
