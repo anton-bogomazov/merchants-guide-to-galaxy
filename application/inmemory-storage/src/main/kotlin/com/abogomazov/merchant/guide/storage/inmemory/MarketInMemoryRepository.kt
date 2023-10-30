@@ -10,6 +10,10 @@ class MarketInMemoryRepository : MarketRepository {
 
     override fun getUnitPrice(resource: Resource) = prices.get(resource)
 
+    override fun remove(resource: Resource) {
+        prices.delete(resource)
+    }
+
     override fun setPrice(resource: Resource, price: UnitPrice) {
         prices.set(resource, price)
     }

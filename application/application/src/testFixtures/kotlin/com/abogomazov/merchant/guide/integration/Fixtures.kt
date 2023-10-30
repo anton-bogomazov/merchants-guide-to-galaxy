@@ -23,7 +23,7 @@ private object ApplicationDriver {
         val setTranslationUseCase = SetTranslationUseCase(
             dictionary, dictionary, dictionary)
         val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, market)
-        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, market)
+        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, market, market, market)
 
         ApplicationShell(
             setTranslationUseCase,

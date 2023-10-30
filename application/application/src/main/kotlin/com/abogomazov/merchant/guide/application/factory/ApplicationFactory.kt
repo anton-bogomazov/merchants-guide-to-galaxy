@@ -39,7 +39,7 @@ class ApplicationFactory(
         val getTranslationUseCase = GetTranslationUseCase(evaluator)
         val setTranslationUseCase = SetTranslationUseCase(translationStorage, translationStorage, translationStorage)
         val getPriceUseCase = GetResourceMarketPriceUseCase(evaluator, marketStorage)
-        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketStorage)
+        val setPriceUseCase = SetResourceMarketPriceUseCase(evaluator, marketStorage, marketStorage, marketStorage)
 
         return when (properties.application.ui) {
             UI.CLI -> {

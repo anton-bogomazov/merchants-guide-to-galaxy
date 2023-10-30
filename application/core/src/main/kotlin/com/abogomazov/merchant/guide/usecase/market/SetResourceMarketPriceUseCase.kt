@@ -17,8 +17,9 @@ sealed interface SetResourceMarketPriceError {
 
 class SetResourceMarketPriceUseCase(
     private val evaluator: GalaxyNumberEvaluator,
-    // TODO check if price already persisted for resource. If yes, remove old price and save new.
     private val marketPricePersister: MarketPricePersister,
+    private val marketPriceProvider: MarketPriceProvider,
+    private val marketPriceRemover: MarketPriceRemover,
 ) {
 
     fun execute(
@@ -26,10 +27,14 @@ class SetResourceMarketPriceUseCase(
         resource: Resource,
         totalPrice: Credits
     ): Either<SetResourceMarketPriceError, Unit> {
-        logger.info("Saving price of $resource")
         return evaluator.evaluate(totalResourceAmount).map { quantity ->
+            marketPriceProvider.getUnitPrice(resource)?.let {
+                logger.info("Price already saved for $resource. Deleting.")
+                marketPriceRemover.remove(resource)
+            }
             val price = UnitPrice.calculate(totalPrice, quantity)
             logger.info("Calculated price is $price for quantity=$quantity and totalPrice=$totalPrice")
+            logger.info("Saving price of $resource")
             marketPricePersister.setPrice(
                 resource = resource,
                 price = price
@@ -41,6 +46,10 @@ class SetResourceMarketPriceUseCase(
     companion object {
         private val logger = LoggerFactory.getLogger(SetResourceMarketPriceUseCase::class.java)
     }
+}
+
+fun interface MarketPriceRemover {
+    fun remove(resource: Resource)
 }
 
 fun interface MarketPricePersister {

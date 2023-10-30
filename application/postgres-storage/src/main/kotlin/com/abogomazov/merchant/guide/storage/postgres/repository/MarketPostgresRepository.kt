@@ -27,6 +27,11 @@ class MarketPostgresRepository(
         )
     }
 
+    override fun remove(resource: Resource) {
+        val query = "DELETE FROM $TABLE WHERE $RESOURCE = '$resource';"
+        dataSource.update(query)
+    }
+
     override fun setPrice(resource: Resource, price: UnitPrice) {
         val query = "INSERT INTO $TABLE ($RESOURCE, $PRICE)\n" +
                 "VALUES ('$resource', '${price.toBigDecimal()}');"
