@@ -1,14 +1,11 @@
 package com.abogomazov.merchant.guide.storage.postgres.repository
 
-import com.abogomazov.merchant.guide.domain.galaxyNumeral
 import com.abogomazov.merchant.guide.domain.price
 import com.abogomazov.merchant.guide.domain.resource
-import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import com.abogomazov.merchant.guide.storage.postgres.PostgresContainer
 import com.abogomazov.merchant.guide.storage.postgres.marketRepository
 import com.abogomazov.merchant.guide.storage.postgres.postgresDatasource
 import com.abogomazov.merchant.guide.storage.postgres.runMigration
-import com.abogomazov.merchant.guide.storage.postgres.translationRepository
 import io.kotest.assertions.throwables.shouldThrow
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.matchers.shouldBe

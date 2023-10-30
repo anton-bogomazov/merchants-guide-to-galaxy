@@ -14,7 +14,7 @@ class SetTranslationUseCaseTest : FreeSpec({
         val dictionary = inMemoryTranslationStorage()
         val sut = SetTranslationUseCase(englishDictionary(), dictionary, dictionary)
 
-        sut.execute(one(), RomanNumeral.I)
+        sut.execute(RomanNumeral.I, one())
             .shouldBeRight()
     }
 
@@ -22,7 +22,7 @@ class SetTranslationUseCaseTest : FreeSpec({
         val dictionary = inMemoryTranslationStorage(one() to RomanNumeral.V)
         val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
-        sut.execute(one(), RomanNumeral.I)
+        sut.execute(RomanNumeral.I, one())
             .shouldBeLeft(SetTranslationError.GalaxyNumeralAlreadyAssociated(RomanNumeral.V))
     }
 
@@ -30,7 +30,7 @@ class SetTranslationUseCaseTest : FreeSpec({
         val dictionary = inMemoryTranslationStorage(one() to RomanNumeral.I)
         val sut = SetTranslationUseCase(dictionary, dictionary, dictionary)
 
-        sut.execute(one(), RomanNumeral.I)
+        sut.execute(RomanNumeral.I, one())
             .shouldBeRight()
     }
 })

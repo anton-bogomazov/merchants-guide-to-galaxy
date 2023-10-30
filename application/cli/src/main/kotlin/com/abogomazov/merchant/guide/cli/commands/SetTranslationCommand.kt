@@ -11,7 +11,7 @@ data class SetTranslationCommand(
 ) : BusinessCommand {
 
     fun execute(usecase: SetTranslationUseCase) =
-        usecase.execute(galaxyNumeral, romanNumeral)
+        usecase.execute(romanNumeral, galaxyNumeral)
             .fold({ it.toError() }, { "Set" })
 
     private fun SetTranslationError.toError() =

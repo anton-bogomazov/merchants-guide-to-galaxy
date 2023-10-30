@@ -34,7 +34,7 @@ class SetTranslationServlet(
     private fun execute(dto: SetTranslationDto): Response =
         either { dto.galaxy.toGalaxyNumeral().bind() to dto.roman.toRomanNumeral().bind() }
             .flatMap { (localDigit, romanDigit) ->
-                setTranslationUseCase.execute(localDigit, romanDigit)
+                setTranslationUseCase.execute(romanDigit, localDigit)
                     .map { "OK" }
             }.toResponse()
 }

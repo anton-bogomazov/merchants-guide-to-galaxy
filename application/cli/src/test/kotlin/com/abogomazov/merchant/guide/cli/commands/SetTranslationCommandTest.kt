@@ -15,7 +15,7 @@ class SetTranslationCommandTest : FreeSpec({
 
     "sucessfully executed usecase leads to result response" {
         val usecase = mockk<SetTranslationUseCase>()
-        every { usecase.execute(five(), RomanNumeral.V) } returns setTranslationResult()
+        every { usecase.execute(RomanNumeral.V, five()) } returns setTranslationResult()
         val sut = SetTranslationCommand(five(), RomanNumeral.V)
 
         sut.execute(usecase) shouldBe "Set"
@@ -23,7 +23,7 @@ class SetTranslationCommandTest : FreeSpec({
 
     "executed with error usecase leads to error response" {
         val usecase = mockk<SetTranslationUseCase>()
-        every { usecase.execute(five(), RomanNumeral.V) } returns
+        every { usecase.execute(RomanNumeral.V, five()) } returns
                 setTranslationError(SetTranslationError.GalaxyNumeralAlreadyAssociated(RomanNumeral.I))
         val sut = SetTranslationCommand(five(), RomanNumeral.V)
 
