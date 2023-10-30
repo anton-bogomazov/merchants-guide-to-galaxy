@@ -5,11 +5,13 @@ import com.abogomazov.merchant.guide.domain.galaxy.toGalaxyNumeral
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import com.abogomazov.merchant.guide.domain.roman.toRomanNumeral
 import com.abogomazov.merchant.guide.storage.postgres.PostgresDatasource
-import com.abogomazov.merchant.guide.usecase.contracts.TranslationRepository
+import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
+import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
+import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
 class TranslationPostgresRepository(
     private val dataSource: PostgresDatasource
-) : TranslationRepository {
+) : TranslationProvider, TranslationRemover, TranslationPersister {
 
     companion object {
         private const val TABLE = "translations"

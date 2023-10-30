@@ -26,9 +26,9 @@ class ApplicationPropertiesTest : FreeSpec({
         }.message shouldBe "postgres-lazy.properties is required"
     }
 
-    "application properties are always required, fail on construction" {
-        shouldThrow<IllegalStateException> {
-            ApplicationProperties("prod")
-        }.message shouldBe "application-prod.properties is required"
+    "application properties are always optional, construct default app" {
+        val sut = ApplicationProperties("prod").application
+        sut.ui shouldBe UI.CLI
+        sut.storage shouldBe Storage.INMEMORY
     }
 })

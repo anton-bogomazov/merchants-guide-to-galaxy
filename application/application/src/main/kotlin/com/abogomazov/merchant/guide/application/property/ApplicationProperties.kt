@@ -11,22 +11,22 @@ private const val POSTGRES_URL = "$DB_PROPERTIES.jdbcUrl"
 private const val POSTGRES_USER = "$DB_PROPERTIES.username"
 private const val POSTGRES_PASS = "$DB_PROPERTIES.password"
 
-private const val DEFAULT_UI_VALUE = "cli"
-private const val DEFAULT_STORAGE_VALUE = "inmemory"
+private val DEFAULT_UI_VALUE = UI.CLI
+private val DEFAULT_STORAGE_VALUE = Storage.INMEMORY
 
 class ApplicationProperties(
     private val profile: String
 ) {
 
     val application = properties(APPLICATION_PROPERTIES)?.let {
-        val uiProp = it.resolve(APPLICATION_UI, DEFAULT_UI_VALUE)
-        val storageProp = it.resolve(APPLICATION_STORAGE, DEFAULT_STORAGE_VALUE)
+        val uiProp = it.resolve(APPLICATION_UI, DEFAULT_UI_VALUE.toString())
+        val storageProp = it.resolve(APPLICATION_STORAGE, DEFAULT_STORAGE_VALUE.toString())
 
         ApplicationProperty(
             ui = UI.valueOf(uiProp.uppercase()),
             storage = Storage.valueOf(storageProp.uppercase()),
         )
-    } ?: propertiesRequiredError(APPLICATION_PROPERTIES)
+    } ?: defaultProperties()
 
     val db by lazy {
         properties(DB_PROPERTIES)?.let {
@@ -50,6 +50,12 @@ class ApplicationProperties(
 
     private fun propertiesRequiredError(propertiesName: String): Nothing =
         error("$propertiesName-$profile.properties is required")
+
+    private fun defaultProperties() =
+        ApplicationProperty(
+            ui = UI.CLI,
+            storage = Storage.INMEMORY,
+        )
 }
 
 private fun Properties.getOrThrow(propertyName: String) =

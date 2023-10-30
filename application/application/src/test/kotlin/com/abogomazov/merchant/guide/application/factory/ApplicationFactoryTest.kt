@@ -22,9 +22,8 @@ class ApplicationFactoryTest : FreeSpec({
     }
 
     "fails if application.storage = postgres and postgres.properties is not provided" {
-        val sut = ApplicationFactory(ApplicationProperties("lazy"))
         shouldThrow<IllegalStateException> {
-            sut.build()
+            ApplicationFactory(ApplicationProperties("lazy")).build()
         }
     }
 })

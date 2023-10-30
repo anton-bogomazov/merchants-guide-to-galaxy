@@ -2,9 +2,11 @@ package com.abogomazov.merchant.guide.storage.inmemory
 
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
-import com.abogomazov.merchant.guide.usecase.contracts.MarketRepository
+import com.abogomazov.merchant.guide.usecase.market.MarketPricePersister
+import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
+import com.abogomazov.merchant.guide.usecase.market.MarketPriceRemover
 
-class MarketInMemoryRepository : MarketRepository {
+class MarketInMemoryRepository : MarketPriceProvider, MarketPriceRemover, MarketPricePersister {
 
     private val prices = KeyValueInMemoryStorage<Resource, UnitPrice>()
 
