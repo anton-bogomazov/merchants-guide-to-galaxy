@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <configuration>
+    <property name="LOG_HOME" value="build/logs/" />
     <appender name="STDOUT"
               class="ch.qos.logback.core.ConsoleAppender">
         <layout class="ch.qos.logback.classic.PatternLayout">
@@ -9,9 +10,9 @@
         </layout>
     </appender>
 
-    <appender name="File"
+    <appender name="FILE"
               class="ch.qos.logback.core.FileAppender">
-        <file>application.log</file>
+        <file>${LOG_HOME}/application.log</file>
         <layout class="ch.qos.logback.classic.PatternLayout">
             <Pattern>
                 %-5level %logger{0} %d %message%n
@@ -24,7 +25,7 @@
     <logger name="ch.qos.logback" level="OFF"/>
 
     <logger name="com.abogomazov" level="INFO">
-        <appender-ref ref="File" />
+        <appender-ref ref="${LOG_APPENDER:-STDOUT}" />
     </logger>
 
 </configuration>
