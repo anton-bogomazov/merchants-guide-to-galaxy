@@ -27,7 +27,7 @@ class GalaxyNumberEvaluatorTest : FreeSpec({
         )
 
         GalaxyNumberEvaluator(englishDictionary())
-            .evaluate(galaxyNumber)
+            .amountOf(galaxyNumber)
             .shouldBeRight()
             .toInt() shouldBe 88
     }
@@ -36,7 +36,7 @@ class GalaxyNumberEvaluatorTest : FreeSpec({
         val galaxyNumber = galaxyNumber(one(), one(), five())
 
         GalaxyNumberEvaluator(englishDictionary())
-            .evaluate(galaxyNumber)
+            .amountOf(galaxyNumber)
             .shouldBeLeft(GalaxyNumberEvaluationError.RomanNotationRulesViolated)
     }
 
@@ -44,7 +44,7 @@ class GalaxyNumberEvaluatorTest : FreeSpec({
         val galaxyNumber = galaxyNumber(one(), one(), five())
 
         GalaxyNumberEvaluator(emptyDictionary())
-            .evaluate(galaxyNumber)
+            .amountOf(galaxyNumber)
             .shouldBeLeft(GalaxyNumberEvaluationError.TranslationNotFound(one()))
     }
 })

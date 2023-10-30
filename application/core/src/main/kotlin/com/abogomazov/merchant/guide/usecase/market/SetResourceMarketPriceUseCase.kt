@@ -24,7 +24,7 @@ class SetResourceMarketPriceUseCase(
 ) {
 
     fun execute(resource: Resource, resourceQuantity: GalaxyNumber, resourceCost: Credits) =
-        either { evaluator.evaluate(resourceQuantity).bind() }.mapLeft { it.toError() }
+        either { evaluator.amountOf(resourceQuantity).bind() }.mapLeft { it.toError() }
             .map { quantity ->
                 removePriceIfExists(resource)
                 val price = calculateResourcePrice(quantity, resourceCost)

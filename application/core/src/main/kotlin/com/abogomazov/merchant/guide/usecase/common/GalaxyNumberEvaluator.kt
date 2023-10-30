@@ -1,11 +1,13 @@
 package com.abogomazov.merchant.guide.usecase.common
 
-import arrow.core.Either
+import arrow.core.flatMap
 import arrow.core.left
-import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
+import arrow.core.raise.either
+import arrow.core.right
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
-import com.abogomazov.merchant.guide.domain.roman.Amount
+import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.roman.RomanNumber
+import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import org.slf4j.LoggerFactory
 
 sealed interface GalaxyNumberEvaluationError {
@@ -16,28 +18,28 @@ sealed interface GalaxyNumberEvaluationError {
 class GalaxyNumberEvaluator(
     private val translationProvider: TranslationProvider,
 ) {
-    fun evaluate(number: GalaxyNumber): Either<GalaxyNumberEvaluationError, Amount> {
-        logger.info("Evaluating $number")
-        return number.toGalaxyNumerals().map { galaxyNumeral ->
-            val romanNumber = translationProvider.getTranslation(galaxyNumeral)
-            if (romanNumber == null) {
-                logger.error("Translation not found for $galaxyNumeral")
-                return GalaxyNumberEvaluationError.TranslationNotFound(galaxyNumeral).left()
+    fun amountOf(number: GalaxyNumber) =
+        number.toGalaxyNumerals()
+            .toRomanNumerals()
+            .flatMap { it.toRomanNumber() }
+            .map { romanNumber ->
+                romanNumber.toAmount()
+                    .also { logger.info("$number successfully evaluated, result=$it") }
             }
-            romanNumber
-        }.let { romanNumeral ->
-            RomanNumber.from(romanNumeral)
-                .mapLeft {
-                    logger.error("$romanNumeral violates roman notation rules: $it")
-                    GalaxyNumberEvaluationError.RomanNotationRulesViolated
-                }
-                .map {
-                    val amount = it.toAmount()
-                    logger.info("$number successfully evaluated, result=$amount")
-                    amount
-                }
-        }
-    }
+
+    private fun List<GalaxyNumeral>.toRomanNumerals() =
+        this.map { galaxyNumeral ->
+            translationProvider.getTranslation(galaxyNumeral)?.right()
+                ?: GalaxyNumberEvaluationError.TranslationNotFound(galaxyNumeral).left()
+                    .also { logger.error("Translation not found for $galaxyNumeral") }
+        }.let { l -> either { l.bindAll() } }
+
+    private fun List<RomanNumeral>.toRomanNumber() =
+        RomanNumber.from(this)
+            .mapLeft {
+                logger.error("$this violates roman notation rules: $it")
+                GalaxyNumberEvaluationError.RomanNotationRulesViolated
+            }
 
     companion object {
         private val logger = LoggerFactory.getLogger(GalaxyNumberEvaluator::class.java)

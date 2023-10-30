@@ -1,6 +1,5 @@
 package com.abogomazov.merchant.guide.usecase.market
 
-import arrow.core.Either
 import arrow.core.left
 import arrow.core.raise.either
 import arrow.core.right
@@ -8,7 +7,6 @@ import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumber
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
-import com.abogomazov.merchant.guide.domain.market.UnitPrice
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluationError
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import org.slf4j.LoggerFactory
@@ -26,7 +24,7 @@ class GetResourceMarketPriceUseCase(
 
     fun execute(resource: Resource, resourceQuantity: GalaxyNumber) =
         either {
-            evaluator.evaluate(resourceQuantity).mapLeft { it.toError() }.bind() to
+            evaluator.amountOf(resourceQuantity).mapLeft { it.toError() }.bind() to
             getPriceOrError(resource).bind()
         }.map { (quantity, price) ->
             Credits.total(quantity, price)

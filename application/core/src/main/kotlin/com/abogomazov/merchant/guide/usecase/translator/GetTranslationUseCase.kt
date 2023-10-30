@@ -15,7 +15,7 @@ class GetTranslationUseCase(
     private val evaluator: GalaxyNumberEvaluator,
 ) {
     fun execute(number: GalaxyNumber) =
-        evaluator.evaluate(number)
+        evaluator.amountOf(number)
             .also { logger.info("Getting translation for GalaxyNumber=$number") }
             .mapLeft { it.toError() }
 
