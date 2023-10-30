@@ -1,9 +1,9 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-import com.abogomazov.merchant.guide.cli.getTranslationError
-import com.abogomazov.merchant.guide.cli.getTranslationResult
 import com.abogomazov.merchant.guide.domain.amount
 import com.abogomazov.merchant.guide.domain.galaxyFour
+import com.abogomazov.merchant.guide.domain.getTranslationError
+import com.abogomazov.merchant.guide.domain.getTranslationResult
 import com.abogomazov.merchant.guide.domain.one
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.GetTranslationUseCase

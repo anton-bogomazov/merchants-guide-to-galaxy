@@ -22,7 +22,10 @@ class TranslationPostgresRepository(
         val query = "SELECT * FROM $TABLE WHERE $GALAXY_NUMERAL = '$digit'"
         val result = dataSource.single(query) { it.getString(ROMAN_NUMERAL) }
 
-        return result?.toRomanNumeral()
+        return result?.toRomanNumeral()?.fold(
+            { error("Database in inconsistent state! Conversion error from $result") },
+            { it }
+        )
     }
 
     override fun getTranslation(digit: RomanNumeral): GalaxyNumeral? {

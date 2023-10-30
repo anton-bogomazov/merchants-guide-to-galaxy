@@ -56,4 +56,8 @@ class UnitPriceTest : FreeSpec({
                 .shouldBeLeft(UnitPriceValidationError.NegativeValue)
         }
     }
+
+    "convert nan string to unit price" {
+        "thousand".toUnitPrice().shouldBeLeft(UnitPriceValidationError.NanString)
+    }
 })

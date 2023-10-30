@@ -1,5 +1,8 @@
 package com.abogomazov.merchant.guide.domain.roman
 
+import arrow.core.left
+import arrow.core.right
+
 enum class RomanNumeral(val value: Int) {
     I(value = 1),
     V(value = 5),
@@ -10,5 +13,12 @@ enum class RomanNumeral(val value: Int) {
     M(value = 1000)
 }
 
-// TODO catch conversion from invalid string
-fun String.toRomanNumeral() = RomanNumeral.valueOf(this)
+@Suppress("SwallowedException")
+fun String.toRomanNumeral() =
+    try {
+        RomanNumeral.valueOf(this.uppercase()).right()
+    } catch (e: IllegalArgumentException) {
+        RomanNumeralConstructionError(this).left()
+    }
+
+data class RomanNumeralConstructionError(val invalidNumeral: String)

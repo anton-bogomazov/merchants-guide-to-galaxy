@@ -10,9 +10,7 @@ sealed interface GalaxyNumberValidationError {
     data object InvalidGalaxyNumeral : GalaxyNumberValidationError
 }
 
-data class GalaxyNumber internal constructor(
-    private val digits: List<GalaxyNumeral>
-) {
+data class GalaxyNumber internal constructor(private val digits: List<GalaxyNumeral>) {
 
     companion object {
         fun from(digits: List<GalaxyNumeral>) = either {

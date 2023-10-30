@@ -1,19 +1,19 @@
 package com.abogomazov.merchant.guide.rest
 
 import arrow.core.Either
-import com.abogomazov.merchant.guide.cli.getResourceError
-import com.abogomazov.merchant.guide.cli.getResourceResult
-import com.abogomazov.merchant.guide.cli.getTranslationError
-import com.abogomazov.merchant.guide.cli.getTranslationResult
-import com.abogomazov.merchant.guide.cli.setResourceError
-import com.abogomazov.merchant.guide.cli.setResourceResult
-import com.abogomazov.merchant.guide.cli.setTranslationError
-import com.abogomazov.merchant.guide.cli.setTranslationResult
 import com.abogomazov.merchant.guide.domain.amount
 import com.abogomazov.merchant.guide.domain.credits
+import com.abogomazov.merchant.guide.domain.getResourceError
+import com.abogomazov.merchant.guide.domain.getResourceResult
+import com.abogomazov.merchant.guide.domain.getTranslationError
+import com.abogomazov.merchant.guide.domain.getTranslationResult
 import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
+import com.abogomazov.merchant.guide.domain.setResourceError
+import com.abogomazov.merchant.guide.domain.setResourceResult
+import com.abogomazov.merchant.guide.domain.setTranslationError
+import com.abogomazov.merchant.guide.domain.setTranslationResult
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError

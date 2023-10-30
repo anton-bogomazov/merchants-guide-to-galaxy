@@ -13,5 +13,6 @@ dependencies {
     testImplementation(testFixtures(project(":application:core")))
 
     testFixturesImplementation(project(":application:core"))
+    testFixturesImplementation(testFixtures(project(":application:core")))
     testFixturesImplementation(Libs.arrow)
 }

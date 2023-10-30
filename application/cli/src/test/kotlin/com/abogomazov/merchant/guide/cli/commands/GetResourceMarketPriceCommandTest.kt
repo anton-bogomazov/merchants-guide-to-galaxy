@@ -1,10 +1,10 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-import com.abogomazov.merchant.guide.cli.getResourceError
-import com.abogomazov.merchant.guide.cli.getResourceResult
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.galaxyFour
+import com.abogomazov.merchant.guide.domain.getResourceError
+import com.abogomazov.merchant.guide.domain.getResourceResult
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceUseCase
 import io.kotest.core.spec.style.FreeSpec

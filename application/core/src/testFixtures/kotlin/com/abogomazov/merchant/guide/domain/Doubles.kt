@@ -1,12 +1,21 @@
 package com.abogomazov.merchant.guide.domain
 
+import arrow.core.left
+import arrow.core.raise.either
+import arrow.core.right
 import com.abogomazov.merchant.guide.domain.galaxy.GalaxyNumeral
+import com.abogomazov.merchant.guide.domain.market.Credits
 import com.abogomazov.merchant.guide.domain.market.Resource
 import com.abogomazov.merchant.guide.domain.market.UnitPrice
+import com.abogomazov.merchant.guide.domain.roman.Amount
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
 import com.abogomazov.merchant.guide.usecase.common.GalaxyNumberEvaluator
 import com.abogomazov.merchant.guide.usecase.common.TranslationProvider
+import com.abogomazov.merchant.guide.usecase.market.GetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.MarketPriceProvider
+import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
+import com.abogomazov.merchant.guide.usecase.translator.GetTranslationError
+import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.TranslationPersister
 import com.abogomazov.merchant.guide.usecase.translator.TranslationRemover
 
@@ -72,3 +81,23 @@ fun inMemoryTranslationStorage(vararg translations: Pair<GalaxyNumeral, RomanNum
 
 fun englishNumberEvaluator() = GalaxyNumberEvaluator(englishDictionary())
 fun waterDirtMarket() = WaterDirtMarketPriceProvider()
+
+fun getResourceResult(credits: Credits) =
+    either<GetResourceMarketPriceError, Credits> { return credits.right() }
+fun getResourceError(error: GetResourceMarketPriceError) =
+    either<GetResourceMarketPriceError, Credits> { return error.left() }
+
+fun getTranslationResult(amount: Amount) =
+    either<GetTranslationError, Amount> { return amount.right() }
+fun getTranslationError(error: GetTranslationError) =
+    either<GetTranslationError, Amount> { return error.left() }
+
+fun setResourceResult() =
+    either<SetResourceMarketPriceError, Unit> { return Unit.right() }
+fun setResourceError(error: SetResourceMarketPriceError) =
+    either<SetResourceMarketPriceError, Unit> { return error.left() }
+
+fun setTranslationResult() =
+    either<SetTranslationError, Unit> { return Unit.right() }
+fun setTranslationError(error: SetTranslationError) =
+    either<SetTranslationError, Unit> { return error.left() }

@@ -3,11 +3,13 @@ package com.abogomazov.merchant.guide.domain.galaxy
 import com.abogomazov.merchant.guide.domain.five
 import com.abogomazov.merchant.guide.domain.galaxyNumber
 import com.abogomazov.merchant.guide.domain.galaxyNumeral
+import com.abogomazov.merchant.guide.domain.galaxyThree
 import com.abogomazov.merchant.guide.domain.one
 import io.kotest.assertions.arrow.core.shouldBeLeft
 import io.kotest.assertions.arrow.core.shouldBeRight
 import io.kotest.core.spec.style.FreeSpec
 import io.kotest.datatest.withData
+import io.kotest.matchers.shouldBe
 
 class GalaxyNumberTest : FreeSpec({
     "galaxy number could be created with a sequence of galaxy numerals" - {
@@ -46,5 +48,9 @@ class GalaxyNumberTest : FreeSpec({
     "can't be constructed from empty String" {
         "".toGalaxyNumber()
             .shouldBeLeft(GalaxyNumberValidationError.InvalidGalaxyNumeral)
+    }
+
+    "galaxy numerals joined with whitespaces in string representation" {
+        galaxyThree().toString() shouldBe "one one one"
     }
 })

@@ -1,9 +1,9 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-import com.abogomazov.merchant.guide.cli.setTranslationError
-import com.abogomazov.merchant.guide.cli.setTranslationResult
 import com.abogomazov.merchant.guide.domain.five
 import com.abogomazov.merchant.guide.domain.roman.RomanNumeral
+import com.abogomazov.merchant.guide.domain.setTranslationError
+import com.abogomazov.merchant.guide.domain.setTranslationResult
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationError
 import com.abogomazov.merchant.guide.usecase.translator.SetTranslationUseCase
 import io.kotest.core.spec.style.FreeSpec

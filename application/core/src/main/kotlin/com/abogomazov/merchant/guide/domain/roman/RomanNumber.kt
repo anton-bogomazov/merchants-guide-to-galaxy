@@ -11,7 +11,7 @@ sealed interface RomanNumberValidationError {
     data object IncorrectSubtractiveNumeral : RomanNumberValidationError
 }
 
-data class RomanNumber private constructor(
+data class RomanNumber internal constructor(
     private val digits: List<RomanNumeral>
 ) {
 

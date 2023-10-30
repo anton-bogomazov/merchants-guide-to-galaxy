@@ -31,7 +31,7 @@ class SetTranslationCommandParser(
             either {
                 Pair(
                     galaxyNumeral.toGalaxyNumeral().bind(),
-                    romanNumeral.toRomanNumeral()
+                    romanNumeral.toRomanNumeral().bind()
                 )
             }.map { (galaxyNumeral, romanNumeral) ->
                 SetTranslationCommand(

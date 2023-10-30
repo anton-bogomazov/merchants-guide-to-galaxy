@@ -19,23 +19,3 @@ object NullParser : CommandParser {
     override fun parse(command: String): Either<ParserError, Command> =
         NullCommand.right()
 }
-
-fun getResourceResult(credits: Credits) =
-    either<GetResourceMarketPriceError, Credits> { return credits.right() }
-fun getResourceError(error: GetResourceMarketPriceError) =
-    either<GetResourceMarketPriceError, Credits> { return error.left() }
-
-fun getTranslationResult(amount: Amount) =
-    either<GetTranslationError, Amount> { return amount.right() }
-fun getTranslationError(error: GetTranslationError) =
-    either<GetTranslationError, Amount> { return error.left() }
-
-fun setResourceResult() =
-    either<SetResourceMarketPriceError, Unit> { return Unit.right() }
-fun setResourceError(error: SetResourceMarketPriceError) =
-    either<SetResourceMarketPriceError, Unit> { return error.left() }
-
-fun setTranslationResult() =
-    either<SetTranslationError, Unit> { return Unit.right() }
-fun setTranslationError(error: SetTranslationError) =
-    either<SetTranslationError, Unit> { return error.left() }

@@ -41,4 +41,7 @@ fun credits(bigInteger: BigInteger) =
 fun bigInt(value: Int): BigInteger =
     BigInteger.valueOf(value.toLong())
 
+fun romanNumeralStrings() =
+    listOf("I", "V", "X", "L", "C", "D", "M")
+
 fun BigDecimal.dropFractional() = this.toBigInteger().toBigDecimal()

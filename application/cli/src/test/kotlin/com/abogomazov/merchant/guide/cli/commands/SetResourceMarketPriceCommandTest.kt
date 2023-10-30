@@ -1,11 +1,11 @@
 package com.abogomazov.merchant.guide.cli.commands
 
-import com.abogomazov.merchant.guide.cli.setResourceError
-import com.abogomazov.merchant.guide.cli.setResourceResult
 import com.abogomazov.merchant.guide.domain.credits
 import com.abogomazov.merchant.guide.domain.dirt
 import com.abogomazov.merchant.guide.domain.galaxyFour
 import com.abogomazov.merchant.guide.domain.one
+import com.abogomazov.merchant.guide.domain.setResourceError
+import com.abogomazov.merchant.guide.domain.setResourceResult
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceError
 import com.abogomazov.merchant.guide.usecase.market.SetResourceMarketPriceUseCase
 import io.kotest.core.spec.style.FreeSpec
