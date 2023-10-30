@@ -12,7 +12,7 @@ data class GetResourceMarketPriceCommand(
 ) : BusinessCommand {
 
     fun execute(usecase: GetResourceMarketPriceUseCase) =
-        usecase.execute(galaxyNumber, resource)
+        usecase.execute(resource, galaxyNumber)
             .fold({ it.toError() }, { response(it) })
 
     private fun response(result: Credits) = "$galaxyNumber $resource is ${result.toBigInteger()} Credits"

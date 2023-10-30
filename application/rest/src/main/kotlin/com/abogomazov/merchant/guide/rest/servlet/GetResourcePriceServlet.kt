@@ -36,7 +36,7 @@ class GetResourcePriceServlet(
     private fun execute(amountOfResource: String, resource: String): Response =
         either { resource.toResource().bind() to amountOfResource.toGalaxyNumber().bind() }
             .flatMap { (resource, localNumber) ->
-                getResourcePriceUseCase.execute(localNumber, resource)
+                getResourcePriceUseCase.execute(resource, localNumber)
                     .map { it.toBigInteger().intValueExact().toString() }
             }.toResponse()
 }

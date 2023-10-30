@@ -15,14 +15,14 @@ class GetResourceMarketPriceTest : FreeSpec({
     "uses provided dictionary to translate to amount" {
         val sut = GetResourceMarketPriceUseCase(englishNumberEvaluator(), waterDirtMarket())
 
-        sut.execute(galaxyThree(), dirt())
+        sut.execute(dirt(), galaxyThree())
             .shouldBeRight(credits(4))
     }
 
     "impossible to get price if no price for the unit on market" {
         val sut = GetResourceMarketPriceUseCase(englishNumberEvaluator(), waterDirtMarket())
 
-        sut.execute(galaxyThree(), steamDeck())
+        sut.execute(steamDeck(), galaxyThree())
             .shouldBeLeft(GetResourceMarketPriceError.PriceNotFound)
     }
 })

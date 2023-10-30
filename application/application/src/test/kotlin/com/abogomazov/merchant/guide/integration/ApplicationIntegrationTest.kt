@@ -52,6 +52,9 @@ class ApplicationIntegrationTest : FreeSpec({
                     // Can't create resource 'Credits', the name is reserved
                     "pish pish Credits is 3910 Credits" to "[Error] Command cannot be parsed: InvalidArguments",
                     "how many Credits is glob prok Credits ?" to "[Error] Command cannot be parsed: InvalidArguments",
+                    // resource price can be overwritten
+                    "glob prok Gold is 123 Credits" to "Set",
+                    "how many Credits is glob prok Gold ?" to "glob prok Gold is 123 Credits",
                 )
 
         runTest(commands.unzip().first, commands.unzip().second)
