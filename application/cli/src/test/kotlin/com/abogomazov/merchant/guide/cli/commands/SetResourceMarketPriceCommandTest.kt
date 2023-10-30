@@ -17,7 +17,7 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
 
     "sucessfully executed usecase leads to result response" {
         val usecase = mockk<SetResourceMarketPriceUseCase>()
-        every { usecase.execute(galaxyFour(), dirt(), credits(43)) } returns setResourceResult()
+        every { usecase.execute(dirt(), galaxyFour(), credits(43)) } returns setResourceResult()
         val sut = SetResourceMarketPriceCommand(galaxyFour(), dirt(), credits(43))
 
         sut.execute(usecase) shouldBe "Set"
@@ -25,7 +25,7 @@ class SetResourceMarketPriceCommandTest : FreeSpec({
 
     "executed with error usecase leads to error response" {
         val usecase = mockk<SetResourceMarketPriceUseCase>()
-        every { usecase.execute(galaxyFour(), dirt(), credits(43)) } returns
+        every { usecase.execute(dirt(), galaxyFour(), credits(43)) } returns
                 setResourceError(SetResourceMarketPriceError.TranslationNotFound(one()))
         val sut = SetResourceMarketPriceCommand(galaxyFour(), dirt(), credits(43))
 

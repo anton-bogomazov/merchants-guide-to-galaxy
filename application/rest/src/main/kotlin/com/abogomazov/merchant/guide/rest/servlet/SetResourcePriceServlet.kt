@@ -43,9 +43,9 @@ class SetResourcePriceServlet(
             )
         }.flatMap { (resource, totalResourceAmount, credits) ->
             setResourcePriceUseCase.execute(
-                totalResourceAmount = totalResourceAmount,
                 resource = resource,
-                totalPrice = credits
+                resourceQuantity = totalResourceAmount,
+                resourceCost = credits
             ).map { "OK" }
         }.toResponse()
 }

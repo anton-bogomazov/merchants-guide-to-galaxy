@@ -13,7 +13,7 @@ data class SetResourceMarketPriceCommand(
 ) : BusinessCommand {
 
     fun execute(usecase: SetResourceMarketPriceUseCase) =
-        usecase.execute(resourceAmount, resource, total)
+        usecase.execute(resource, resourceAmount, total)
             .fold({ it.toError() }, { "Set" })
 
     private fun SetResourceMarketPriceError.toError() =

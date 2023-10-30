@@ -21,7 +21,7 @@ class SetResourceMarketPriceTest : FreeSpec({
         every { persister.setPrice(any(), any()) } answers { }
         every { provider.getUnitPrice(any()) } answers { null }
 
-        sut.execute(galaxyFour(), dirt(), credits(50)).shouldBeRight()
+        sut.execute(dirt(), galaxyFour(), credits(50)).shouldBeRight()
 
         verify { persister.setPrice(dirt(), price(12.5)) }
     }
@@ -35,7 +35,7 @@ class SetResourceMarketPriceTest : FreeSpec({
         every { remover.remove(any()) } answers { }
         every { provider.getUnitPrice(any()) } answers { price(34.9) }
 
-        sut.execute(galaxyFour(), dirt(), credits(50)).shouldBeRight()
+        sut.execute(dirt(), galaxyFour(), credits(50)).shouldBeRight()
 
         verify { persister.setPrice(dirt(), price(12.5)) }
         verify { remover.remove(dirt()) }
