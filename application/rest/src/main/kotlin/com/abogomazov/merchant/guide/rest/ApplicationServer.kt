@@ -18,23 +18,25 @@ import java.io.File
 import java.io.InputStreamReader
 import kotlin.reflect.KClass
 
-// TODO WTF are these appBase, context and etc? RTFM!
-// TODO Add Swagger
-// TODO remove generating application.log by default
 class ApplicationServer(
     private val setTranslationUseCase: SetTranslationUseCase,
     private val getTranslationUseCase: GetTranslationUseCase,
     private val setResourcePriceUseCase: SetResourceMarketPriceUseCase,
     private val getResourcePriceUseCase: GetResourceMarketPriceUseCase,
 ) : Application {
-
-    private val server = Tomcat().apply {
-        this.getConnector()
-        this.getHost().appBase = "."
+    companion object {
+        private const val PREFIX = "" // api/v1/
+        private const val APP_BASE = "."
+        private const val WORKING_DIRECTORY = "./build/tomcat"
     }
 
-    private val context = server
-        .addContext("", File(".").absolutePath)
+    private val server = Tomcat().apply {
+        this.setBaseDir(WORKING_DIRECTORY)
+        this.getHost().appBase = APP_BASE
+        this.getConnector()
+    }
+
+    private val context = server.addContext(PREFIX, File(APP_BASE).absolutePath)
 
     override fun run() {
         server.registerEndpoints().start()
