@@ -3,23 +3,35 @@
 ### Problem Definition:
 [Check problem definition in PROBLEM.MD](PROBLEM.MD)
 
+One of the requirements is not to use frameworks at all (DI, ORM, MVC, etc.)
+
 ### How to run:
 Use ./tools/scripts/run.sh to start the application.
 
-### How to set up:
-Run ./tools/scripts/install-hooks.sh
+For postgres storage:
+- Run ./tools/scripts/run-db.sh to start postgres with pgadmin and portainers.
+- Put postgres-<ENV>.properties with db configuration into resources.
 
-## Technical description:
-- Test runner and assertions library: Kotest
+## Todo:
+[ ] Architectural Tests
+[ ] Containerization
+[ ] API Documentation
+[ ] Monitoring
 
-- Static code analyzer: Detekt
-- Linter: Ktlint
-- Code coverage analyzer: Jacoco
+## Logging:
+FILE and STDOUT Appenders are available to use (default: STDOUT).
+File logs are stored inside build/logs directory.
+Set LOG_APPENDER env variable to select.
 
-## How I did it:
-### Before
-[Setup and configuration](./tools/adr/ADR-001.md)
+## Profiles:
+Create application-<ENV>.properties with ui and storage configuration.
+For example, 
+Configuration is optional; app will be created with CLI and InMemory storage by default.
+Set APP_PROFILE env variable to select.
 
-### Analysis
-Now it's time to understand the problem:
-[Analysis](./tools/adr/ADR-002.md)
+## Construction Logs:
+- [Setup and configuration](./tools/adr/ADR-001.md)
+- [Analysis](./tools/adr/ADR-002.md)
+- [CLI module](./tools/adr/ADR-003.md)
+- [Domain Factory Method convention](./tools/adr/ADR-004.md)
+- [Application construction and Dependency Injection](./tools/adr/ADR-005.md)
